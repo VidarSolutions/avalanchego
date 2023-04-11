@@ -6,14 +6,14 @@ set -o pipefail
 
 echo "Building docker image based off of most recent local commits of avalanchego and coreth"
 
-AVALANCHE_REMOTE="git@github.com:ava-labs/avalanchego.git"
+AVALANCHE_REMOTE="git@github.com:VidarSolutions/avalanchego.git"
 CORETH_REMOTE="git@github.com:ava-labs/coreth.git"
 DOCKERHUB_REPO="avaplatform/avalanchego"
 
 DOCKER="${DOCKER:-docker}"
 SCRIPT_DIRPATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
-AVA_LABS_RELATIVE_PATH="src/github.com/ava-labs"
+AVA_LABS_RELATIVE_PATH="src/github.com/VidarSolutions"
 EXISTING_GOPATH="$GOPATH"
 
 export GOPATH="$SCRIPT_DIRPATH/.build_image_gopath"
