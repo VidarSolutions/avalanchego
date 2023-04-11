@@ -7,7 +7,7 @@ set -o pipefail
 echo "Building docker image based off of most recent local commits of avalanchego and coreth"
 
 AVALANCHE_REMOTE="git@github.com:VidarSolutions/avalanchego.git"
-CORETH_REMOTE="git@github.com:ava-labs/coreth.git"
+CORETH_REMOTE="git@github.com:VidarSolutionscoreth.git"
 DOCKERHUB_REPO="avaplatform/avalanchego"
 
 DOCKER="${DOCKER:-docker}"
@@ -17,7 +17,7 @@ AVA_LABS_RELATIVE_PATH="src/github.com/VidarSolutions"
 EXISTING_GOPATH="$GOPATH"
 
 export GOPATH="$SCRIPT_DIRPATH/.build_image_gopath"
-WORKPREFIX="$GOPATH/src/github.com/ava-labs"
+WORKPREFIX="$GOPATH/src/github.com/VidarSolutions"
 
 # Clone the remotes and checkout the desired branch/commits
 AVALANCHE_CLONE="$WORKPREFIX/avalanchego"

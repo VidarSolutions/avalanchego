@@ -21,7 +21,7 @@ import (
 
 	"go.uber.org/zap"
 
-	coreth "github.com/ava-labs/coreth/plugin/evm"
+	coreth "github.com/VidarSolutions/coreth/plugin/evm"
 
 	"github.com/VidarSolutions/avalanchego/api/admin"
 	"github.com/VidarSolutions/avalanchego/api/auth"
