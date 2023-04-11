@@ -7,11 +7,11 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/ava-labs/avalanchego/vms/types"
+	"github.com/VidarSolutions/avalanchego/vms/types"
 
-	"github.com/ava-labs/avalanchego/utils/units"
-	"github.com/ava-labs/avalanchego/vms/components/verify"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/vms/components/verify"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
 const (

@@ -4,9 +4,9 @@
 package keystore
 
 import (
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/codec/linearcodec"
-	"github.com/ava-labs/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/codec/linearcodec"
+	"github.com/VidarSolutions/avalanchego/utils/units"
 )
 
 const (

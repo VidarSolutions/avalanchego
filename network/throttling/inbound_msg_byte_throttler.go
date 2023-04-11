@@ -11,13 +11,13 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/linkedhashmap"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/math"
-	"github.com/ava-labs/avalanchego/utils/metric"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/linkedhashmap"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/math"
+	"github.com/VidarSolutions/avalanchego/utils/metric"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 )
 
 // See inbound_msg_throttler.go

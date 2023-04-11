@@ -6,9 +6,9 @@ package tracker
 import (
 	"sync"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/crypto/bls"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
 )
 
 var _ Accepted = (*accepted)(nil)

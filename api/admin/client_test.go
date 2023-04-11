@@ -10,10 +10,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/api"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/rpc"
+	"github.com/VidarSolutions/avalanchego/api"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/rpc"
 )
 
 var errTest = errors.New("non-nil error")

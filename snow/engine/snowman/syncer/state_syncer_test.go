@@ -12,17 +12,17 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/snow/engine/common/tracker"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/getter"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common/tracker"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/getter"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/version"
 
-	safeMath "github.com/ava-labs/avalanchego/utils/math"
+	safeMath "github.com/VidarSolutions/avalanchego/utils/math"
 )
 
 var (

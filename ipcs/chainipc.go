@@ -11,10 +11,10 @@ import (
 
 	"golang.org/x/exp/maps"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 )
 
 const (

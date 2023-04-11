@@ -7,12 +7,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/math"
-	"github.com/ava-labs/avalanchego/utils/sampler"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/math"
+	"github.com/VidarSolutions/avalanchego/utils/sampler"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 )
 
 // Proposer list constants

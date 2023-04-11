@@ -7,7 +7,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 var (

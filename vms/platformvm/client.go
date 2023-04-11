@@ -7,17 +7,17 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/api"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/crypto/secp256k1"
-	"github.com/ava-labs/avalanchego/utils/formatting"
-	"github.com/ava-labs/avalanchego/utils/formatting/address"
-	"github.com/ava-labs/avalanchego/utils/json"
-	"github.com/ava-labs/avalanchego/utils/rpc"
-	"github.com/ava-labs/avalanchego/vms/platformvm/status"
+	"github.com/VidarSolutions/avalanchego/api"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
+	"github.com/VidarSolutions/avalanchego/utils/formatting"
+	"github.com/VidarSolutions/avalanchego/utils/formatting/address"
+	"github.com/VidarSolutions/avalanchego/utils/json"
+	"github.com/VidarSolutions/avalanchego/utils/rpc"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
 
-	platformapi "github.com/ava-labs/avalanchego/vms/platformvm/api"
+	platformapi "github.com/VidarSolutions/avalanchego/vms/platformvm/api"
 )
 
 var _ Client = (*client)(nil)

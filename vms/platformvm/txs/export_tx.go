@@ -7,11 +7,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
-	"github.com/ava-labs/avalanchego/vms/platformvm/stakeable"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
 var (

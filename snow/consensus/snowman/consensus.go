@@ -7,11 +7,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/api/health"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowball"
-	"github.com/ava-labs/avalanchego/utils/bag"
+	"github.com/VidarSolutions/avalanchego/api/health"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowball"
+	"github.com/VidarSolutions/avalanchego/utils/bag"
 )
 
 // Consensus represents a general snowman instance that can be used directly to

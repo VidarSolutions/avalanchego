@@ -9,12 +9,12 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/database/corruptabledb"
-	"github.com/ava-labs/avalanchego/database/memdb"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/grpcutils"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/database/corruptabledb"
+	"github.com/VidarSolutions/avalanchego/database/memdb"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/grpcutils"
 
-	rpcdbpb "github.com/ava-labs/avalanchego/proto/pb/rpcdb"
+	rpcdbpb "github.com/VidarSolutions/avalanchego/proto/pb/rpcdb"
 )
 
 type testDatabase struct {

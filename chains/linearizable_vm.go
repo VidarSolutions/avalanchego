@@ -6,14 +6,14 @@ package chains
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/api/metrics"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/engine/avalanche/vertex"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/api/metrics"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/engine/avalanche/vertex"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
 
-	dbManager "github.com/ava-labs/avalanchego/database/manager"
+	dbManager "github.com/VidarSolutions/avalanchego/database/manager"
 )
 
 var (

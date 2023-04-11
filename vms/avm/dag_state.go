@@ -6,11 +6,11 @@ package avm
 import (
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/vms/avm/states"
-	"github.com/ava-labs/avalanchego/vms/avm/txs"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/vms/avm/states"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
 )
 
 var _ states.Chain = (*dagState)(nil)

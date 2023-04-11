@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/formatting"
-	"github.com/ava-labs/avalanchego/utils/json"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/formatting"
+	"github.com/VidarSolutions/avalanchego/utils/json"
 )
 
 type service struct {

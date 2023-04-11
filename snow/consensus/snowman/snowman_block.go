@@ -4,9 +4,9 @@
 package snowman
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowball"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowball"
 )
 
 // Tracks the state of a snowman block

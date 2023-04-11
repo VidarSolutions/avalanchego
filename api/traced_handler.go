@@ -11,7 +11,7 @@ import (
 
 	oteltrace "go.opentelemetry.io/otel/trace"
 
-	"github.com/ava-labs/avalanchego/trace"
+	"github.com/VidarSolutions/avalanchego/trace"
 )
 
 var _ http.Handler = (*tracedHandler)(nil)

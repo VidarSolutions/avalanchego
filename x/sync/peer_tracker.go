@@ -11,11 +11,11 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/math"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/math"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 const (

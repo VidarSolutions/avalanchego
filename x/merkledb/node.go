@@ -6,8 +6,8 @@ package merkledb
 import (
 	"golang.org/x/exp/maps"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 const (

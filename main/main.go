@@ -12,9 +12,9 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/ava-labs/avalanchego/app"
-	"github.com/ava-labs/avalanchego/config"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/app"
+	"github.com/VidarSolutions/avalanchego/config"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 func main() {

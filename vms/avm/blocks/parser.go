@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/timer/mockable"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
-	"github.com/ava-labs/avalanchego/vms/avm/fxs"
-	"github.com/ava-labs/avalanchego/vms/avm/txs"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
 )
 
 // CodecVersion is the current default codec version

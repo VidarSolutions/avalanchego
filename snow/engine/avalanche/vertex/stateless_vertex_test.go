@@ -6,7 +6,7 @@ package vertex
 import (
 	"testing"
 
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 func TestVertexVerify(t *testing.T) {

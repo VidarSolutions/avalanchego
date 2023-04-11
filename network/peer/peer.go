@@ -17,16 +17,16 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/message"
-	"github.com/ava-labs/avalanchego/proto/pb/p2p"
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/ips"
-	"github.com/ava-labs/avalanchego/utils/json"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/message"
+	"github.com/VidarSolutions/avalanchego/proto/pb/p2p"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/ips"
+	"github.com/VidarSolutions/avalanchego/utils/json"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var (

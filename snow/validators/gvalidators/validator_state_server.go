@@ -8,11 +8,11 @@ import (
 
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/crypto/bls"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
 
-	pb "github.com/ava-labs/avalanchego/proto/pb/validatorstate"
+	pb "github.com/VidarSolutions/avalanchego/proto/pb/validatorstate"
 )
 
 var _ pb.ValidatorStateServer = (*Server)(nil)

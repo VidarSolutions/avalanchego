@@ -8,12 +8,12 @@ import (
 
 	stdcontext "context"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
 
 var _ Backend = (*backend)(nil)

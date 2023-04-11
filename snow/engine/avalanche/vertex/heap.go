@@ -6,9 +6,9 @@ package vertex
 import (
 	"container/heap"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/avalanche"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/avalanche"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 var (

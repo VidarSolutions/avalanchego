@@ -9,13 +9,13 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/getter"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/getter"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 const (

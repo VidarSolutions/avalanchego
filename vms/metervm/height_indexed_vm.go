@@ -6,8 +6,8 @@ package metervm
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
 )
 
 func (vm *blockVM) VerifyHeightIndex(ctx context.Context) error {

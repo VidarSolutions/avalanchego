@@ -4,9 +4,9 @@
 package common
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
 // MatchOwners attempts to match a list of addresses up to the provided

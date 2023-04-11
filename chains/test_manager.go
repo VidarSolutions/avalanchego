@@ -4,8 +4,8 @@
 package chains
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/networking/router"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/networking/router"
 )
 
 // TestManager implements Manager but does nothing. Always returns nil error.

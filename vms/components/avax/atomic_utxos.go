@@ -6,10 +6,10 @@ package avax
 import (
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/chains/atomic"
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/chains/atomic"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 var _ AtomicUTXOManager = (*atomicUTXOManager)(nil)

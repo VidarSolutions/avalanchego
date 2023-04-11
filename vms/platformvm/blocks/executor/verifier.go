@@ -7,14 +7,14 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/chains/atomic"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/vms/platformvm/blocks"
-	"github.com/ava-labs/avalanchego/vms/platformvm/state"
-	"github.com/ava-labs/avalanchego/vms/platformvm/status"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs/executor"
+	"github.com/VidarSolutions/avalanchego/chains/atomic"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs/executor"
 )
 
 var (

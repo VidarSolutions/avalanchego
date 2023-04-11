@@ -12,19 +12,19 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/api"
-	"github.com/ava-labs/avalanchego/api/server"
-	"github.com/ava-labs/avalanchego/chains"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/json"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/perms"
-	"github.com/ava-labs/avalanchego/utils/profiler"
-	"github.com/ava-labs/avalanchego/vms"
-	"github.com/ava-labs/avalanchego/vms/registry"
+	"github.com/VidarSolutions/avalanchego/api"
+	"github.com/VidarSolutions/avalanchego/api/server"
+	"github.com/VidarSolutions/avalanchego/chains"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/json"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/perms"
+	"github.com/VidarSolutions/avalanchego/utils/profiler"
+	"github.com/VidarSolutions/avalanchego/vms"
+	"github.com/VidarSolutions/avalanchego/vms/registry"
 )
 
 const (

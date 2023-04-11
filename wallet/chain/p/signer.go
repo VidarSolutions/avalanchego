@@ -6,10 +6,10 @@ package p
 import (
 	stdcontext "context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/crypto/keychain"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/keychain"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
 
 var _ Signer = (*txSigner)(nil)

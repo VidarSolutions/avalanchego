@@ -8,10 +8,10 @@ import (
 
 	ledger "github.com/ava-labs/ledger-avalanche/go"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/crypto/keychain"
-	"github.com/ava-labs/avalanchego/utils/hashing"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/keychain"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 const (

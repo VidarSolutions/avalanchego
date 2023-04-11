@@ -9,11 +9,11 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/message"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/networking/benchlist"
-	"github.com/ava-labs/avalanchego/utils/timer"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/message"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/networking/benchlist"
+	"github.com/VidarSolutions/avalanchego/utils/timer"
 )
 
 var _ Manager = (*manager)(nil)

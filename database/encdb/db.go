@@ -13,10 +13,10 @@ import (
 
 	"golang.org/x/exp/slices"
 
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/codec/linearcodec"
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/codec/linearcodec"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 const (

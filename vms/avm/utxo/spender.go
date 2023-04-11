@@ -7,15 +7,15 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/crypto/secp256k1"
-	"github.com/ava-labs/avalanchego/utils/math"
-	"github.com/ava-labs/avalanchego/utils/timer/mockable"
-	"github.com/ava-labs/avalanchego/vms/avm/txs"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
-	"github.com/ava-labs/avalanchego/vms/nftfx"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
+	"github.com/VidarSolutions/avalanchego/utils/math"
+	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/nftfx"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
 var (

@@ -9,18 +9,18 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/database/manager"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/crypto/secp256k1"
-	"github.com/ava-labs/avalanchego/version"
-	"github.com/ava-labs/avalanchego/vms/avm/txs"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
-	"github.com/ava-labs/avalanchego/vms/components/verify"
-	"github.com/ava-labs/avalanchego/vms/nftfx"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/database/manager"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
+	"github.com/VidarSolutions/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/verify"
+	"github.com/VidarSolutions/avalanchego/vms/nftfx"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
 func TestVerifyFxUsage(t *testing.T) {

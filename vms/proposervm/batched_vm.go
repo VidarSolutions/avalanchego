@@ -7,14 +7,14 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 
-	statelessblock "github.com/ava-labs/avalanchego/vms/proposervm/block"
+	statelessblock "github.com/VidarSolutions/avalanchego/vms/proposervm/block"
 )
 
 var _ block.BatchedChainVM = (*VM)(nil)

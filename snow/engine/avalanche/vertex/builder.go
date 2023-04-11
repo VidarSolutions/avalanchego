@@ -6,11 +6,11 @@ package vertex
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/avalanche"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowstorm"
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/avalanche"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowstorm"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 // Builder builds a vertex given a set of parentIDs and transactions.

@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ava-labs/avalanchego/utils/ips"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/utils/timer/mockable"
+	"github.com/VidarSolutions/avalanchego/utils/ips"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
 )
 
 var (

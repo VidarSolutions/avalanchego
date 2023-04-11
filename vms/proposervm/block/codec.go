@@ -6,9 +6,9 @@ package block
 import (
 	"math"
 
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/codec/linearcodec"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/codec/linearcodec"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 )
 
 const codecVersion = 0

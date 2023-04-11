@@ -15,8 +15,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
 )
 
 const (

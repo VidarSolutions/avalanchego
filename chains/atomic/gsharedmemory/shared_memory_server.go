@@ -6,11 +6,11 @@ package gsharedmemory
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/chains/atomic"
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/chains/atomic"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
 
-	sharedmemorypb "github.com/ava-labs/avalanchego/proto/pb/sharedmemory"
+	sharedmemorypb "github.com/VidarSolutions/avalanchego/proto/pb/sharedmemory"
 )
 
 var _ sharedmemorypb.SharedMemoryServer = (*Server)(nil)

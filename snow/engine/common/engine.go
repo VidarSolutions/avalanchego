@@ -7,10 +7,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/api/health"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/api/health"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
 )
 
 // Engine describes the standard interface of a consensus engine

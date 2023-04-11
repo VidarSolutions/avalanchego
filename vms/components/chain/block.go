@@ -8,8 +8,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
 )
 
 var (

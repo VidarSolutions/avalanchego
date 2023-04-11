@@ -6,9 +6,9 @@ package snowstorm
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 // Whitelister defines the interface for specifying whitelisted operations.

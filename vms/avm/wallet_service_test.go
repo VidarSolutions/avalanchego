@@ -7,12 +7,12 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ava-labs/avalanchego/api"
-	"github.com/ava-labs/avalanchego/chains/atomic"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/linkedhashmap"
-	"github.com/ava-labs/avalanchego/vms/avm/txs"
-	"github.com/ava-labs/avalanchego/vms/components/keystore"
+	"github.com/VidarSolutions/avalanchego/api"
+	"github.com/VidarSolutions/avalanchego/chains/atomic"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/linkedhashmap"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/components/keystore"
 )
 
 // Returns:

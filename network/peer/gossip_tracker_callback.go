@@ -6,10 +6,10 @@ package peer
 import (
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/crypto/bls"
-	"github.com/ava-labs/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
 )
 
 var _ validators.SetCallbackListener = (*GossipTrackerCallback)(nil)

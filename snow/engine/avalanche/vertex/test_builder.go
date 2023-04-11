@@ -8,9 +8,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/avalanche"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowstorm"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/avalanche"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowstorm"
 )
 
 var (

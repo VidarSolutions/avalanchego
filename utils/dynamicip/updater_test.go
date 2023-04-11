@@ -11,8 +11,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/utils/ips"
-	"github.com/ava-labs/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/ips"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
 )
 
 var _ Resolver = (*mockResolver)(nil)

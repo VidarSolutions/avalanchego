@@ -9,13 +9,13 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/crypto/secp256k1"
-	"github.com/ava-labs/avalanchego/vms/components/message"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
+	"github.com/VidarSolutions/avalanchego/vms/components/message"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 
-	txbuilder "github.com/ava-labs/avalanchego/vms/platformvm/txs/builder"
+	txbuilder "github.com/VidarSolutions/avalanchego/vms/platformvm/txs/builder"
 )
 
 func getValidTx(txBuilder txbuilder.Builder, t *testing.T) *txs.Tx {

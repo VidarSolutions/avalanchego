@@ -4,8 +4,8 @@
 package peer
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/sampler"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/sampler"
 )
 
 var _ Set = (*peerSet)(nil)

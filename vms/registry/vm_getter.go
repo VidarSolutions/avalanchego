@@ -8,12 +8,12 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/filesystem"
-	"github.com/ava-labs/avalanchego/utils/resource"
-	"github.com/ava-labs/avalanchego/vms"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/runtime"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/filesystem"
+	"github.com/VidarSolutions/avalanchego/utils/resource"
+	"github.com/VidarSolutions/avalanchego/vms"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/runtime"
 )
 
 var (

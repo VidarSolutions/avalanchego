@@ -14,11 +14,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/networking/tracker"
-	"github.com/ava-labs/avalanchego/utils/math/meter"
-	"github.com/ava-labs/avalanchego/utils/resource"
-	"github.com/ava-labs/avalanchego/utils/timer/mockable"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/networking/tracker"
+	"github.com/VidarSolutions/avalanchego/utils/math/meter"
+	"github.com/VidarSolutions/avalanchego/utils/resource"
+	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
 )
 
 func TestNewSystemThrottler(t *testing.T) {

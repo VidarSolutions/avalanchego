@@ -8,8 +8,8 @@ import (
 
 	"golang.org/x/exp/maps"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
 )
 
 type Tree interface {

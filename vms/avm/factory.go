@@ -4,9 +4,9 @@
 package avm
 
 import (
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/vms"
-	"github.com/ava-labs/avalanchego/vms/avm/config"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/vms"
+	"github.com/VidarSolutions/avalanchego/vms/avm/config"
 )
 
 var _ vms.Factory = (*Factory)(nil)

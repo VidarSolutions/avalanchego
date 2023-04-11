@@ -10,10 +10,10 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/vms/platformvm/blocks"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 )
 
 var (

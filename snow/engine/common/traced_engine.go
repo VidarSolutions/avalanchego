@@ -11,10 +11,10 @@ import (
 
 	oteltrace "go.opentelemetry.io/otel/trace"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/trace"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/trace"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var _ Engine = (*tracedEngine)(nil)

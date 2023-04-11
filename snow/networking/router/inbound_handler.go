@@ -6,9 +6,9 @@ package router
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/message"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/message"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var _ InboundHandler = InboundHandlerFunc(nil)

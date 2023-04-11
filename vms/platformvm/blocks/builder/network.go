@@ -12,12 +12,12 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/cache"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/vms/components/message"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/cache"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/vms/components/message"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
 
 const (

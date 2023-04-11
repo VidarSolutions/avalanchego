@@ -10,9 +10,9 @@ import (
 
 	secp256k1 "github.com/decred/dcrd/dcrec/secp256k1/v4"
 
-	"github.com/ava-labs/avalanchego/cache"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/cache"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 func TestRecover(t *testing.T) {

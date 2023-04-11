@@ -7,8 +7,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 var errNoNewRoot = errors.New("there was no updated root in change list")

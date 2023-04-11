@@ -7,9 +7,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/vms/proposervm/block"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/vms/proposervm/block"
 )
 
 var _ PostForkBlock = (*postForkOption)(nil)

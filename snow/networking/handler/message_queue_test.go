@@ -14,12 +14,12 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/message"
-	"github.com/ava-labs/avalanchego/proto/pb/p2p"
-	"github.com/ava-labs/avalanchego/snow/networking/tracker"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/message"
+	"github.com/VidarSolutions/avalanchego/proto/pb/p2p"
+	"github.com/VidarSolutions/avalanchego/snow/networking/tracker"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
 )
 
 const engineType = p2p.EngineType_ENGINE_TYPE_SNOWMAN

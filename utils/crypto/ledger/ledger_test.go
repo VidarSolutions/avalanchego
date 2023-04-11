@@ -8,9 +8,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/utils/crypto/secp256k1"
-	"github.com/ava-labs/avalanchego/utils/formatting/address"
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
+	"github.com/VidarSolutions/avalanchego/utils/formatting/address"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 const (

@@ -4,10 +4,10 @@
 package avm
 
 import (
-	"github.com/ava-labs/avalanchego/api"
-	"github.com/ava-labs/avalanchego/pubsub"
-	"github.com/ava-labs/avalanchego/vms/avm/txs"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/api"
+	"github.com/VidarSolutions/avalanchego/pubsub"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
 )
 
 var _ pubsub.Filterer = (*connector)(nil)

@@ -15,9 +15,9 @@ import (
 
 	"google.golang.org/protobuf/proto"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/proto/pb/p2p"
-	"github.com/ava-labs/avalanchego/staking"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/proto/pb/p2p"
+	"github.com/VidarSolutions/avalanchego/staking"
 )
 
 func TestMessage(t *testing.T) {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 // Tests heap.Interface methods Push, Pop, Swap, Len, Less.

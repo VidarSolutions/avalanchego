@@ -4,11 +4,11 @@
 package snowman
 
 import (
-	"github.com/ava-labs/avalanchego/snow/consensus/snowball"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
-	"github.com/ava-labs/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowball"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
 )
 
 func DefaultConfigs() Config {

@@ -7,9 +7,9 @@ import (
 	"context"
 	"sync"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/crypto/bls"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var _ Startup = (*startup)(nil)

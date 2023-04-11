@@ -8,15 +8,15 @@ import (
 	"crypto/tls"
 	"time"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/network/dialer"
-	"github.com/ava-labs/avalanchego/network/peer"
-	"github.com/ava-labs/avalanchego/network/throttling"
-	"github.com/ava-labs/avalanchego/snow/networking/tracker"
-	"github.com/ava-labs/avalanchego/snow/uptime"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/utils/ips"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/network/dialer"
+	"github.com/VidarSolutions/avalanchego/network/peer"
+	"github.com/VidarSolutions/avalanchego/network/throttling"
+	"github.com/VidarSolutions/avalanchego/snow/networking/tracker"
+	"github.com/VidarSolutions/avalanchego/snow/uptime"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/utils/ips"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 // HealthConfig describes parameters for network layer health checks.

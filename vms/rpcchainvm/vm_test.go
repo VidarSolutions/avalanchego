@@ -18,14 +18,14 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block/mocks"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/grpcutils"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/runtime"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/runtime/subprocess"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block/mocks"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/grpcutils"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/runtime"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/runtime/subprocess"
 
-	vmpb "github.com/ava-labs/avalanchego/proto/pb/vm"
+	vmpb "github.com/VidarSolutions/avalanchego/proto/pb/vm"
 )
 
 const (

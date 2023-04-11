@@ -7,7 +7,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/utils/rpc"
+	"github.com/VidarSolutions/avalanchego/utils/rpc"
 )
 
 var _ Client = (*client)(nil)

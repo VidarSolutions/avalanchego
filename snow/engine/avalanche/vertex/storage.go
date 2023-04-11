@@ -6,8 +6,8 @@ package vertex
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/avalanche"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/avalanche"
 )
 
 // Storage defines the persistent storage that is required by the consensus

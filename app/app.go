@@ -14,13 +14,13 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/ava-labs/avalanchego/nat"
-	"github.com/ava-labs/avalanchego/node"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/ips"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/perms"
-	"github.com/ava-labs/avalanchego/utils/ulimit"
+	"github.com/VidarSolutions/avalanchego/nat"
+	"github.com/VidarSolutions/avalanchego/node"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/ips"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/perms"
+	"github.com/VidarSolutions/avalanchego/utils/ulimit"
 )
 
 const (

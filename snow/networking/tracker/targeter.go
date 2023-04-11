@@ -6,8 +6,8 @@ package tracker
 import (
 	"math"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
 )
 
 var _ Targeter = (*targeter)(nil)

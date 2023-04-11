@@ -6,9 +6,9 @@ package avalanche
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/avalanche"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/avalanche"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
 )
 
 // Engine describes the events that can occur on a consensus instance

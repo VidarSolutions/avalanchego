@@ -8,8 +8,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/ava-labs/avalanchego/utils/wrappers"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
 
 var _ txs.Visitor = (*txMetrics)(nil)

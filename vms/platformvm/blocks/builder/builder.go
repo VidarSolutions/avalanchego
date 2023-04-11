@@ -11,20 +11,20 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/snow/engine/common"
-	"github.com/ava-labs/avalanchego/utils/timer"
-	"github.com/ava-labs/avalanchego/utils/timer/mockable"
-	"github.com/ava-labs/avalanchego/utils/units"
-	"github.com/ava-labs/avalanchego/vms/platformvm/blocks"
-	"github.com/ava-labs/avalanchego/vms/platformvm/state"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs/mempool"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common"
+	"github.com/VidarSolutions/avalanchego/utils/timer"
+	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
+	"github.com/VidarSolutions/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs/mempool"
 
-	blockexecutor "github.com/ava-labs/avalanchego/vms/platformvm/blocks/executor"
-	txbuilder "github.com/ava-labs/avalanchego/vms/platformvm/txs/builder"
-	txexecutor "github.com/ava-labs/avalanchego/vms/platformvm/txs/executor"
+	blockexecutor "github.com/VidarSolutions/avalanchego/vms/platformvm/blocks/executor"
+	txbuilder "github.com/VidarSolutions/avalanchego/vms/platformvm/txs/builder"
+	txexecutor "github.com/VidarSolutions/avalanchego/vms/platformvm/txs/executor"
 )
 
 // targetBlockSize is maximum number of transaction bytes to place into a

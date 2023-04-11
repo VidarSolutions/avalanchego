@@ -8,14 +8,14 @@ import (
 	"log"
 	"time"
 
-	"github.com/ava-labs/avalanchego/api/info"
-	"github.com/ava-labs/avalanchego/genesis"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/units"
-	"github.com/ava-labs/avalanchego/vms/platformvm/reward"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
-	"github.com/ava-labs/avalanchego/wallet/subnet/primary"
+	"github.com/VidarSolutions/avalanchego/api/info"
+	"github.com/VidarSolutions/avalanchego/genesis"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary"
 )
 
 func main() {

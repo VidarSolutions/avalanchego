@@ -6,7 +6,7 @@ package message
 import (
 	"errors"
 
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 var (

@@ -10,8 +10,8 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/utils/ips"
-	"github.com/ava-labs/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/ips"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
 )
 
 const (

@@ -11,16 +11,16 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"github.com/ava-labs/avalanchego/genesis"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/tests"
-	"github.com/ava-labs/avalanchego/tests/e2e"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/units"
-	"github.com/ava-labs/avalanchego/vms/components/avax"
-	"github.com/ava-labs/avalanchego/vms/components/verify"
-	"github.com/ava-labs/avalanchego/vms/secp256k1fx"
-	"github.com/ava-labs/avalanchego/wallet/subnet/primary"
+	"github.com/VidarSolutions/avalanchego/genesis"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/tests"
+	"github.com/VidarSolutions/avalanchego/tests/e2e"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/verify"
+	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
+	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary"
 )
 
 var _ = ginkgo.Describe("[Banff]", func() {

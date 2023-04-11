@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/formatting"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/formatting"
 )
 
 var _ utils.Sortable[*snowballNode] = (*snowballNode)(nil)

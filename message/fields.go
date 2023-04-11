@@ -7,9 +7,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/proto/pb/p2p"
-	"github.com/ava-labs/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/proto/pb/p2p"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
 )
 
 var (

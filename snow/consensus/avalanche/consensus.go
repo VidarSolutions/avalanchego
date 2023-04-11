@@ -6,12 +6,12 @@ package avalanche
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/api/health"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowstorm"
-	"github.com/ava-labs/avalanchego/utils/bag"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/api/health"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowstorm"
+	"github.com/VidarSolutions/avalanchego/utils/bag"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 // TODO: Implement pruning of accepted decisions.

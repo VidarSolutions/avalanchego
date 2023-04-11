@@ -6,9 +6,9 @@ package snowstorm
 import (
 	"testing"
 
-	"github.com/ava-labs/avalanchego/utils/sampler"
+	"github.com/VidarSolutions/avalanchego/utils/sampler"
 
-	sbcon "github.com/ava-labs/avalanchego/snow/consensus/snowball"
+	sbcon "github.com/VidarSolutions/avalanchego/snow/consensus/snowball"
 )
 
 func Simulate(

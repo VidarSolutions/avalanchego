@@ -7,9 +7,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowstorm"
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowstorm"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
 )
 
 var (

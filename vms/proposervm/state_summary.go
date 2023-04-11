@@ -6,8 +6,8 @@ package proposervm
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
-	"github.com/ava-labs/avalanchego/vms/proposervm/summary"
+	"github.com/VidarSolutions/avalanchego/snow/engine/snowman/block"
+	"github.com/VidarSolutions/avalanchego/vms/proposervm/summary"
 )
 
 var _ block.StateSummary = (*stateSummary)(nil)

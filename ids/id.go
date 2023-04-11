@@ -9,10 +9,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/utils/cb58"
-	"github.com/ava-labs/avalanchego/utils/hashing"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/utils/cb58"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 )
 
 const nullStr = "null"

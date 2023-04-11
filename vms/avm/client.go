@@ -8,16 +8,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ava-labs/avalanchego/api"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/crypto/secp256k1"
-	"github.com/ava-labs/avalanchego/utils/formatting"
-	"github.com/ava-labs/avalanchego/utils/formatting/address"
-	"github.com/ava-labs/avalanchego/utils/rpc"
+	"github.com/VidarSolutions/avalanchego/api"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
+	"github.com/VidarSolutions/avalanchego/utils/formatting"
+	"github.com/VidarSolutions/avalanchego/utils/formatting/address"
+	"github.com/VidarSolutions/avalanchego/utils/rpc"
 
-	cjson "github.com/ava-labs/avalanchego/utils/json"
+	cjson "github.com/VidarSolutions/avalanchego/utils/json"
 )
 
 var _ Client = (*client)(nil)

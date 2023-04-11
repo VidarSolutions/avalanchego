@@ -6,14 +6,14 @@ package gkeystore
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/api/keystore"
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/database/encdb"
-	"github.com/ava-labs/avalanchego/database/rpcdb"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/grpcutils"
+	"github.com/VidarSolutions/avalanchego/api/keystore"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/database/encdb"
+	"github.com/VidarSolutions/avalanchego/database/rpcdb"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/grpcutils"
 
-	keystorepb "github.com/ava-labs/avalanchego/proto/pb/keystore"
-	rpcdbpb "github.com/ava-labs/avalanchego/proto/pb/rpcdb"
+	keystorepb "github.com/VidarSolutions/avalanchego/proto/pb/keystore"
+	rpcdbpb "github.com/VidarSolutions/avalanchego/proto/pb/rpcdb"
 )
 
 var _ keystore.BlockchainKeystore = (*Client)(nil)

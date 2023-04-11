@@ -6,15 +6,15 @@ package primary
 import (
 	"context"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/crypto/keychain"
-	"github.com/ava-labs/avalanchego/vms/avm"
-	"github.com/ava-labs/avalanchego/vms/platformvm"
-	"github.com/ava-labs/avalanchego/vms/platformvm/txs"
-	"github.com/ava-labs/avalanchego/wallet/chain/p"
-	"github.com/ava-labs/avalanchego/wallet/chain/x"
-	"github.com/ava-labs/avalanchego/wallet/subnet/primary/common"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/keychain"
+	"github.com/VidarSolutions/avalanchego/vms/avm"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
+	"github.com/VidarSolutions/avalanchego/wallet/chain/p"
+	"github.com/VidarSolutions/avalanchego/wallet/chain/x"
+	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary/common"
 )
 
 var _ Wallet = (*wallet)(nil)

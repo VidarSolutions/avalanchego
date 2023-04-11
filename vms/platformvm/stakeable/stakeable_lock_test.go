@@ -11,7 +11,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/avax"
 )
 
 var errTest = errors.New("hi mom")

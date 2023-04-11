@@ -13,11 +13,11 @@ import (
 
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/ghttp/gresponsewriter"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/grpcutils"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/ghttp/gresponsewriter"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/grpcutils"
 
-	httppb "github.com/ava-labs/avalanchego/proto/pb/http"
-	responsewriterpb "github.com/ava-labs/avalanchego/proto/pb/http/responsewriter"
+	httppb "github.com/VidarSolutions/avalanchego/proto/pb/http"
+	responsewriterpb "github.com/VidarSolutions/avalanchego/proto/pb/http/responsewriter"
 )
 
 var (

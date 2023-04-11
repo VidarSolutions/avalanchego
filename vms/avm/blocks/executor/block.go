@@ -11,14 +11,14 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/chains/atomic"
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/vms/avm/blocks"
-	"github.com/ava-labs/avalanchego/vms/avm/states"
-	"github.com/ava-labs/avalanchego/vms/avm/txs/executor"
+	"github.com/VidarSolutions/avalanchego/chains/atomic"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/vms/avm/blocks"
+	"github.com/VidarSolutions/avalanchego/vms/avm/states"
+	"github.com/VidarSolutions/avalanchego/vms/avm/txs/executor"
 )
 
 const SyncBound = 10 * time.Second

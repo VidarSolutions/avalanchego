@@ -11,13 +11,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/choices"
-	"github.com/ava-labs/avalanchego/snow/consensus/snowman"
-	"github.com/ava-labs/avalanchego/snow/validators"
-	"github.com/ava-labs/avalanchego/vms/proposervm/block"
-	"github.com/ava-labs/avalanchego/vms/proposervm/proposer"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/choices"
+	"github.com/VidarSolutions/avalanchego/snow/consensus/snowman"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/vms/proposervm/block"
+	"github.com/VidarSolutions/avalanchego/vms/proposervm/proposer"
 )
 
 // Ensure that a byzantine node issuing an invalid PreForkBlock (Y) when the

@@ -8,12 +8,12 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/crypto/bls"
-	"github.com/ava-labs/avalanchego/vms/platformvm/warp"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/grpcutils"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/warp"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/grpcutils"
 
-	pb "github.com/ava-labs/avalanchego/proto/pb/warp"
+	pb "github.com/VidarSolutions/avalanchego/proto/pb/warp"
 )
 
 type testSigner struct {

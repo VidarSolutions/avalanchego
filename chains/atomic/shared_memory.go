@@ -4,10 +4,10 @@
 package atomic
 
 import (
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/database/versiondb"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/database/versiondb"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils"
 )
 
 var _ SharedMemory = (*sharedMemory)(nil)

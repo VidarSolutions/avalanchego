@@ -13,10 +13,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/filesystem"
-	"github.com/ava-labs/avalanchego/utils/resource"
-	"github.com/ava-labs/avalanchego/vms"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/filesystem"
+	"github.com/VidarSolutions/avalanchego/utils/resource"
+	"github.com/VidarSolutions/avalanchego/vms"
 )
 
 var (

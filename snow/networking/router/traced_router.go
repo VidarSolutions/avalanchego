@@ -13,15 +13,15 @@ import (
 
 	oteltrace "go.opentelemetry.io/otel/trace"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/message"
-	"github.com/ava-labs/avalanchego/proto/pb/p2p"
-	"github.com/ava-labs/avalanchego/snow/networking/handler"
-	"github.com/ava-labs/avalanchego/snow/networking/timeout"
-	"github.com/ava-labs/avalanchego/trace"
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/set"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/message"
+	"github.com/VidarSolutions/avalanchego/proto/pb/p2p"
+	"github.com/VidarSolutions/avalanchego/snow/networking/handler"
+	"github.com/VidarSolutions/avalanchego/snow/networking/timeout"
+	"github.com/VidarSolutions/avalanchego/trace"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var _ Router = (*tracedRouter)(nil)

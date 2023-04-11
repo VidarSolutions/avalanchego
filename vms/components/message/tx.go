@@ -4,7 +4,7 @@
 package message
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 var _ Message = (*Tx)(nil)

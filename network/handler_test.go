@@ -4,9 +4,9 @@
 package network
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow/networking/router"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow/networking/router"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var _ router.ExternalHandler = (*testHandler)(nil)

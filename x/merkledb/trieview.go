@@ -18,9 +18,9 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/set"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/set"
 )
 
 const defaultPreallocationSize = 100

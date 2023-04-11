@@ -4,9 +4,9 @@
 package manager
 
 import (
-	"github.com/ava-labs/avalanchego/database"
-	"github.com/ava-labs/avalanchego/utils"
-	"github.com/ava-labs/avalanchego/version"
+	"github.com/VidarSolutions/avalanchego/database"
+	"github.com/VidarSolutions/avalanchego/utils"
+	"github.com/VidarSolutions/avalanchego/version"
 )
 
 var _ utils.Sortable[*VersionedDatabase] = (*VersionedDatabase)(nil)

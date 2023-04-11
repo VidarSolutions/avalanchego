@@ -4,10 +4,10 @@
 package common
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/snow"
-	"github.com/ava-labs/avalanchego/snow/engine/common/tracker"
-	"github.com/ava-labs/avalanchego/snow/validators"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/snow"
+	"github.com/VidarSolutions/avalanchego/snow/engine/common/tracker"
+	"github.com/VidarSolutions/avalanchego/snow/validators"
 )
 
 // DefaultConfigTest returns a test configuration

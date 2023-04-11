@@ -6,7 +6,7 @@ package common
 import (
 	"testing"
 
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 // BootstrapTrackerTest is a test subnet

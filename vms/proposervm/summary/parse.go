@@ -6,7 +6,7 @@ package summary
 import (
 	"fmt"
 
-	"github.com/ava-labs/avalanchego/utils/hashing"
+	"github.com/VidarSolutions/avalanchego/utils/hashing"
 )
 
 func Parse(bytes []byte) (StateSummary, error) {

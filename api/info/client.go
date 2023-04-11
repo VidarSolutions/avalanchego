@@ -7,9 +7,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/ava-labs/avalanchego/ids"
-	"github.com/ava-labs/avalanchego/utils/rpc"
-	"github.com/ava-labs/avalanchego/vms/platformvm/signer"
+	"github.com/VidarSolutions/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/utils/rpc"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/signer"
 )
 
 var _ Client = (*client)(nil)

@@ -16,9 +16,9 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ava-labs/avalanchego/utils/logging"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
-	"github.com/ava-labs/avalanchego/vms/rpcchainvm/runtime"
+	"github.com/VidarSolutions/avalanchego/utils/logging"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/vms/rpcchainvm/runtime"
 )
 
 func NewCmd(path string, args ...string) *exec.Cmd {

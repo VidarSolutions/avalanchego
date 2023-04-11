@@ -8,8 +8,8 @@ import (
 
 	_ "embed"
 
-	"github.com/ava-labs/avalanchego/utils/units"
-	"github.com/ava-labs/avalanchego/vms/platformvm/reward"
+	"github.com/VidarSolutions/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
 )
 
 var (

@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/ava-labs/avalanchego/codec"
-	"github.com/ava-labs/avalanchego/codec/reflectcodec"
-	"github.com/ava-labs/avalanchego/utils/wrappers"
+	"github.com/VidarSolutions/avalanchego/codec"
+	"github.com/VidarSolutions/avalanchego/codec/reflectcodec"
+	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 )
 
 const (

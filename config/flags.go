@@ -13,13 +13,13 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/ava-labs/avalanchego/database/leveldb"
-	"github.com/ava-labs/avalanchego/database/memdb"
-	"github.com/ava-labs/avalanchego/genesis"
-	"github.com/ava-labs/avalanchego/trace"
-	"github.com/ava-labs/avalanchego/utils/constants"
-	"github.com/ava-labs/avalanchego/utils/ulimit"
-	"github.com/ava-labs/avalanchego/utils/units"
+	"github.com/VidarSolutions/avalanchego/database/leveldb"
+	"github.com/VidarSolutions/avalanchego/database/memdb"
+	"github.com/VidarSolutions/avalanchego/genesis"
+	"github.com/VidarSolutions/avalanchego/trace"
+	"github.com/VidarSolutions/avalanchego/utils/constants"
+	"github.com/VidarSolutions/avalanchego/utils/ulimit"
+	"github.com/VidarSolutions/avalanchego/utils/units"
 )
 
 const (

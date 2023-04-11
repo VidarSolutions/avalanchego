@@ -4,7 +4,7 @@
 package state
 
 import (
-	"github.com/ava-labs/avalanchego/ids"
+	"github.com/VidarSolutions/avalanchego/ids"
 )
 
 type Versions interface {
