@@ -33,7 +33,7 @@ If you plan to build AvalancheGo from source, you will also need the following s
 Clone the AvalancheGo repository:
 
 ```sh
-git clone git@github.com:ava-labs/avalanchego.git
+git clone git@github.com:VidarSolutions/avalanchego.git
 cd avalanchego
 ```
 
@@ -81,7 +81,7 @@ sudo apt install avalanchego
 
 ### Binary Install
 
-Download the [latest build](https://github.com/ava-labs/avalanchego/releases/latest) for your operating system and architecture.
+Download the [latest build](https://github.com/VidarSolutions/avalanchego/releases/latest) for your operating system and architecture.
 
 The Avalanche binary to be executed is named `avalanchego`.
 
