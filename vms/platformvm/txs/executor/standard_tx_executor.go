@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/chains/atomic"
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
@@ -65,7 +65,7 @@ func (e *StandardTxExecutor) CreateChainTx(tx *txs.CreateChainTx) error {
 		tx.Outs,
 		baseTxCreds,
 		map[ids.ID]uint64{
-			e.Ctx.AVAXAssetID: createBlockchainTxFee,
+			e.Ctx.VidarAssetID: createBlockchainTxFee,
 		},
 	); err != nil {
 		return err
@@ -74,9 +74,9 @@ func (e *StandardTxExecutor) CreateChainTx(tx *txs.CreateChainTx) error {
 	txID := e.Tx.ID()
 
 	// Consume the UTXOS
-	avax.Consume(e.State, tx.Ins)
+	Vidar.Consume(e.State, tx.Ins)
 	// Produce the UTXOS
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Produce(e.State, txID, tx.Outs)
 	// Add the new chain to the database
 	e.State.AddChain(e.Tx)
 
@@ -104,7 +104,7 @@ func (e *StandardTxExecutor) CreateSubnetTx(tx *txs.CreateSubnetTx) error {
 		tx.Outs,
 		e.Tx.Creds,
 		map[ids.ID]uint64{
-			e.Ctx.AVAXAssetID: createSubnetTxFee,
+			e.Ctx.VidarAssetID: createSubnetTxFee,
 		},
 	); err != nil {
 		return err
@@ -113,9 +113,9 @@ func (e *StandardTxExecutor) CreateSubnetTx(tx *txs.CreateSubnetTx) error {
 	txID := e.Tx.ID()
 
 	// Consume the UTXOS
-	avax.Consume(e.State, tx.Ins)
+	Vidar.Consume(e.State, tx.Ins)
 	// Produce the UTXOS
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Produce(e.State, txID, tx.Outs)
 	// Add the new subnet to the database
 	e.State.AddSubnet(e.Tx)
 	return nil
@@ -145,7 +145,7 @@ func (e *StandardTxExecutor) ImportTx(tx *txs.ImportTx) error {
 			return fmt.Errorf("failed to get shared memory: %w", err)
 		}
 
-		utxos := make([]*avax.UTXO, len(tx.Ins)+len(tx.ImportedInputs))
+		utxos := make([]*Vidar.UTXO, len(tx.Ins)+len(tx.ImportedInputs))
 		for index, input := range tx.Ins {
 			utxo, err := e.State.GetUTXO(input.InputID())
 			if err != nil {
@@ -154,14 +154,14 @@ func (e *StandardTxExecutor) ImportTx(tx *txs.ImportTx) error {
 			utxos[index] = utxo
 		}
 		for i, utxoBytes := range allUTXOBytes {
-			utxo := &avax.UTXO{}
+			utxo := &Vidar.UTXO{}
 			if _, err := txs.Codec.Unmarshal(utxoBytes, utxo); err != nil {
 				return fmt.Errorf("failed to unmarshal UTXO: %w", err)
 			}
 			utxos[i+len(tx.Ins)] = utxo
 		}
 
-		ins := make([]*avax.TransferableInput, len(tx.Ins)+len(tx.ImportedInputs))
+		ins := make([]*Vidar.TransferableInput, len(tx.Ins)+len(tx.ImportedInputs))
 		copy(ins, tx.Ins)
 		copy(ins[len(tx.Ins):], tx.ImportedInputs)
 
@@ -172,7 +172,7 @@ func (e *StandardTxExecutor) ImportTx(tx *txs.ImportTx) error {
 			tx.Outs,
 			e.Tx.Creds,
 			map[ids.ID]uint64{
-				e.Ctx.AVAXAssetID: e.Config.TxFee,
+				e.Ctx.VidarAssetID: e.Config.TxFee,
 			},
 		); err != nil {
 			return err
@@ -182,9 +182,9 @@ func (e *StandardTxExecutor) ImportTx(tx *txs.ImportTx) error {
 	txID := e.Tx.ID()
 
 	// Consume the UTXOS
-	avax.Consume(e.State, tx.Ins)
+	Vidar.Consume(e.State, tx.Ins)
 	// Produce the UTXOS
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	e.AtomicRequests = map[ids.ID]*atomic.Requests{
 		tx.SourceChain: {
@@ -199,7 +199,7 @@ func (e *StandardTxExecutor) ExportTx(tx *txs.ExportTx) error {
 		return err
 	}
 
-	outs := make([]*avax.TransferableOutput, len(tx.Outs)+len(tx.ExportedOutputs))
+	outs := make([]*Vidar.TransferableOutput, len(tx.Outs)+len(tx.ExportedOutputs))
 	copy(outs, tx.Outs)
 	copy(outs[len(tx.Outs):], tx.ExportedOutputs)
 
@@ -217,7 +217,7 @@ func (e *StandardTxExecutor) ExportTx(tx *txs.ExportTx) error {
 		outs,
 		e.Tx.Creds,
 		map[ids.ID]uint64{
-			e.Ctx.AVAXAssetID: e.Config.TxFee,
+			e.Ctx.VidarAssetID: e.Config.TxFee,
 		},
 	); err != nil {
 		return fmt.Errorf("failed verifySpend: %w", err)
@@ -226,18 +226,18 @@ func (e *StandardTxExecutor) ExportTx(tx *txs.ExportTx) error {
 	txID := e.Tx.ID()
 
 	// Consume the UTXOS
-	avax.Consume(e.State, tx.Ins)
+	Vidar.Consume(e.State, tx.Ins)
 	// Produce the UTXOS
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	elems := make([]*atomic.Element, len(tx.ExportedOutputs))
 	for i, out := range tx.ExportedOutputs {
-		utxo := &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxo := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID:        txID,
 				OutputIndex: uint32(len(tx.Outs) + i),
 			},
-			Asset: avax.Asset{ID: out.AssetID()},
+			Asset: Vidar.Asset{ID: out.AssetID()},
 			Out:   out.Out,
 		}
 
@@ -250,7 +250,7 @@ func (e *StandardTxExecutor) ExportTx(tx *txs.ExportTx) error {
 			Key:   utxoID[:],
 			Value: utxoBytes,
 		}
-		if out, ok := utxo.Out.(avax.Addressable); ok {
+		if out, ok := utxo.Out.(Vidar.Addressable); ok {
 			elem.Traits = out.Addresses()
 		}
 
@@ -285,8 +285,8 @@ func (e *StandardTxExecutor) AddValidatorTx(tx *txs.AddValidatorTx) error {
 	}
 
 	e.State.PutPendingValidator(newStaker)
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	return nil
 }
@@ -308,8 +308,8 @@ func (e *StandardTxExecutor) AddSubnetValidatorTx(tx *txs.AddSubnetValidatorTx) 
 	}
 
 	e.State.PutPendingValidator(newStaker)
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	return nil
 }
@@ -331,8 +331,8 @@ func (e *StandardTxExecutor) AddDelegatorTx(tx *txs.AddDelegatorTx) error {
 	}
 
 	e.State.PutPendingDelegator(newStaker)
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	return nil
 }
@@ -362,8 +362,8 @@ func (e *StandardTxExecutor) RemoveSubnetValidatorTx(tx *txs.RemoveSubnetValidat
 	// Invariant: There are no permissioned subnet delegators to remove.
 
 	txID := e.Tx.ID()
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	return nil
 }
@@ -391,11 +391,11 @@ func (e *StandardTxExecutor) TransformSubnetTx(tx *txs.TransformSubnetTx) error 
 		tx.Ins,
 		tx.Outs,
 		baseTxCreds,
-		// Invariant: [tx.AssetID != e.Ctx.AVAXAssetID]. This prevents the first
+		// Invariant: [tx.AssetID != e.Ctx.VidarAssetID]. This prevents the first
 		//            entry in this map literal from being overwritten by the
 		//            second entry.
 		map[ids.ID]uint64{
-			e.Ctx.AVAXAssetID: e.Config.TransformSubnetTxFee,
+			e.Ctx.VidarAssetID: e.Config.TransformSubnetTxFee,
 			tx.AssetID:        totalRewardAmount,
 		},
 	); err != nil {
@@ -405,9 +405,9 @@ func (e *StandardTxExecutor) TransformSubnetTx(tx *txs.TransformSubnetTx) error 
 	txID := e.Tx.ID()
 
 	// Consume the UTXOS
-	avax.Consume(e.State, tx.Ins)
+	Vidar.Consume(e.State, tx.Ins)
 	// Produce the UTXOS
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Produce(e.State, txID, tx.Outs)
 	// Transform the new subnet in the database
 	e.State.AddSubnetTransformation(e.Tx)
 	e.State.SetCurrentSupply(tx.Subnet, tx.InitialSupply)
@@ -431,8 +431,8 @@ func (e *StandardTxExecutor) AddPermissionlessValidatorTx(tx *txs.AddPermissionl
 	}
 
 	e.State.PutPendingValidator(newStaker)
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	return nil
 }
@@ -454,8 +454,8 @@ func (e *StandardTxExecutor) AddPermissionlessDelegatorTx(tx *txs.AddPermissionl
 	}
 
 	e.State.PutPendingDelegator(newStaker)
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 
 	return nil
 }

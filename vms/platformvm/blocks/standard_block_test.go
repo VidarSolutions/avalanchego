@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/VidarSolutions/avalanchego/ids"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -26,12 +26,12 @@ func TestNewBanffStandardBlock(t *testing.T) {
 	tx := &txs.Tx{
 		Unsigned: &txs.AddValidatorTx{
 			BaseTx: txs.BaseTx{
-				BaseTx: avax.BaseTx{
-					Ins:  []*avax.TransferableInput{},
-					Outs: []*avax.TransferableOutput{},
+				BaseTx: Vidar.BaseTx{
+					Ins:  []*Vidar.TransferableInput{},
+					Outs: []*Vidar.TransferableOutput{},
 				},
 			},
-			StakeOuts: []*avax.TransferableOutput{},
+			StakeOuts: []*Vidar.TransferableOutput{},
 			Validator: txs.Validator{},
 			RewardsOwner: &secp256k1fx.OutputOwners{
 				Addrs: []ids.ShortID{},
@@ -68,12 +68,12 @@ func TestNewApricotStandardBlock(t *testing.T) {
 	tx := &txs.Tx{
 		Unsigned: &txs.AddValidatorTx{
 			BaseTx: txs.BaseTx{
-				BaseTx: avax.BaseTx{
-					Ins:  []*avax.TransferableInput{},
-					Outs: []*avax.TransferableOutput{},
+				BaseTx: Vidar.BaseTx{
+					Ins:  []*Vidar.TransferableInput{},
+					Outs: []*Vidar.TransferableOutput{},
 				},
 			},
-			StakeOuts: []*avax.TransferableOutput{},
+			StakeOuts: []*Vidar.TransferableOutput{},
 			Validator: txs.Validator{},
 			RewardsOwner: &secp256k1fx.OutputOwners{
 				Addrs: []ids.ShortID{},

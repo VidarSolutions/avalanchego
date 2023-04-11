@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/formatting/address"
 	"github.com/VidarSolutions/avalanchego/utils/units"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary"
@@ -22,7 +22,7 @@ func main() {
 	key := genesis.EWOQKey
 	uri := primary.LocalAPIURI
 	kc := secp256k1fx.NewKeychain(key)
-	amount := 500 * units.MilliAvax
+	amount := 500 * units.MilliVidar
 	locktime := uint64(time.Date(2030, 1, 1, 0, 0, 0, 0, time.UTC).Unix())
 	destAddrStr := "P-local18jma8ppw3nhx5r4ap8clazz0dps7rv5u00z96u"
 
@@ -44,13 +44,13 @@ func main() {
 
 	// Get the P-chain wallet
 	pWallet := wallet.P()
-	avaxAssetID := pWallet.AVAXAssetID()
+	VidarAssetID := pWallet.VidarAssetID()
 
 	issueTxStartTime := time.Now()
-	txID, err := pWallet.IssueBaseTx([]*avax.TransferableOutput{
+	txID, err := pWallet.IssueBaseTx([]*Vidar.TransferableOutput{
 		{
-			Asset: avax.Asset{
-				ID: avaxAssetID,
+			Asset: Vidar.Asset{
+				ID: VidarAssetID,
 			},
 			Out: &stakeable.LockOut{
 				Locktime: locktime,

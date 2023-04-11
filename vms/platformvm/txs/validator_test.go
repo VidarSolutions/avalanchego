@@ -14,7 +14,7 @@ import (
 
 const defaultWeight = 10000
 
-// each key controls an address that has [defaultBalance] AVAX at genesis
+// each key controls an address that has [defaultBalance] Vidar at genesis
 var keys = secp256k1.TestKeys()
 
 func TestValidatorBoundedBy(t *testing.T) {

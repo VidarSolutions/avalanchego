@@ -11,7 +11,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
 	"github.com/VidarSolutions/avalanchego/utils/math"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -28,7 +28,7 @@ type AddPermissionlessDelegatorTx struct {
 	// ID of the subnet this validator is validating
 	Subnet ids.ID `serialize:"true" json:"subnetID"`
 	// Where to send staked tokens when done validating
-	StakeOuts []*avax.TransferableOutput `serialize:"true" json:"stake"`
+	StakeOuts []*Vidar.TransferableOutput `serialize:"true" json:"stake"`
 	// Where to send staking rewards when done validating
 	DelegationRewardsOwner fx.Owner `serialize:"true" json:"rewardsOwner"`
 }
@@ -71,7 +71,7 @@ func (tx *AddPermissionlessDelegatorTx) CurrentPriority() Priority {
 	return SubnetPermissionlessDelegatorCurrentPriority
 }
 
-func (tx *AddPermissionlessDelegatorTx) Stake() []*avax.TransferableOutput {
+func (tx *AddPermissionlessDelegatorTx) Stake() []*Vidar.TransferableOutput {
 	return tx.StakeOuts
 }
 
@@ -120,7 +120,7 @@ func (tx *AddPermissionlessDelegatorTx) SyntacticVerify(ctx *snow.Context) error
 	}
 
 	switch {
-	case !avax.IsSortedTransferableOutputs(tx.StakeOuts, Codec):
+	case !Vidar.IsSortedTransferableOutputs(tx.StakeOuts, Codec):
 		return errOutputsNotSorted
 	case totalStakeWeight != tx.Wght:
 		return fmt.Errorf("%w, delegator weight %d total stake weight %d",

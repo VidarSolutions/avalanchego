@@ -14,16 +14,19 @@ import (
 // Const variables to be exported
 const (
 	MainnetID uint32 = 1
+	VidarID	  uint32 = 43
 	CascadeID uint32 = 2
 	DenaliID  uint32 = 3
 	EverestID uint32 = 4
 	FujiID    uint32 = 5
+
 
 	TestnetID  uint32 = FujiID
 	UnitTestID uint32 = 10
 	LocalID    uint32 = 12345
 
 	MainnetName  = "mainnet"
+	VidarName	 = "Vidar"
 	CascadeName  = "cascade"
 	DenaliName   = "denali"
 	EverestName  = "everest"
@@ -32,7 +35,8 @@ const (
 	UnitTestName = "testing"
 	LocalName    = "local"
 
-	MainnetHRP  = "avax"
+	VidarHRP     = "Vidar"
+	MainnetHRP  = "vidar"
 	CascadeHRP  = "cascade"
 	DenaliHRP   = "denali"
 	EverestHRP  = "everest"
@@ -49,6 +53,7 @@ var (
 
 	NetworkIDToNetworkName = map[uint32]string{
 		MainnetID:  MainnetName,
+		VidarID:		VidarName,
 		CascadeID:  CascadeName,
 		DenaliID:   DenaliName,
 		EverestID:  EverestName,
@@ -58,6 +63,7 @@ var (
 	}
 	NetworkNameToNetworkID = map[string]uint32{
 		MainnetName:  MainnetID,
+		VidarName:	  VidarID,
 		CascadeName:  CascadeID,
 		DenaliName:   DenaliID,
 		EverestName:  EverestID,
@@ -69,6 +75,7 @@ var (
 
 	NetworkIDToHRP = map[uint32]string{
 		MainnetID:  MainnetHRP,
+		VidarID:		VidarHRP,
 		CascadeID:  CascadeHRP,
 		DenaliID:   DenaliHRP,
 		EverestID:  EverestHRP,
@@ -78,6 +85,7 @@ var (
 	}
 	NetworkHRPToNetworkID = map[string]uint32{
 		MainnetHRP:  MainnetID,
+		VidarHRP:	 VidarID,
 		CascadeHRP:  CascadeID,
 		DenaliHRP:   DenaliID,
 		EverestHRP:  EverestID,
@@ -86,7 +94,7 @@ var (
 		LocalHRP:    LocalID,
 	}
 
-	ValidNetworkPrefix = "network-"
+	ValidNetworkPrefix = "vidar-"
 )
 
 // GetHRP returns the Human-Readable-Part of bech32 addresses for a networkID

@@ -19,7 +19,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 	"github.com/VidarSolutions/avalanchego/vms/avm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 const (
@@ -45,10 +45,10 @@ var (
 )
 
 type ReadOnlyChain interface {
-	avax.UTXOGetter
+	Vidar.UTXOGetter
 
 	// TODO: Remove GetUTXOFromID after the DAG linearization
-	GetUTXOFromID(utxoID *avax.UTXOID) (*avax.UTXO, error)
+	GetUTXOFromID(utxoID *Vidar.UTXOID) (*Vidar.UTXO, error)
 
 	GetTx(txID ids.ID) (*txs.Tx, error)
 	GetBlockID(height uint64) (ids.ID, error)
@@ -59,8 +59,8 @@ type ReadOnlyChain interface {
 
 type Chain interface {
 	ReadOnlyChain
-	avax.UTXOAdder
-	avax.UTXODeleter
+	Vidar.UTXOAdder
+	Vidar.UTXODeleter
 
 	AddTx(tx *txs.Tx)
 	AddBlock(block blocks.Block)
@@ -72,7 +72,7 @@ type Chain interface {
 // singletons.
 type State interface {
 	Chain
-	avax.UTXOReader
+	Vidar.UTXOReader
 
 	IsInitialized() (bool, error)
 	SetInitialized() error
@@ -125,9 +125,9 @@ type state struct {
 	parser blocks.Parser
 	db     *versiondb.Database
 
-	modifiedUTXOs map[ids.ID]*avax.UTXO // map of modified UTXOID -> *UTXO if the UTXO is nil, it has been removed
+	modifiedUTXOs map[ids.ID]*Vidar.UTXO // map of modified UTXOID -> *UTXO if the UTXO is nil, it has been removed
 	utxoDB        database.Database
-	utxoState     avax.UTXOState
+	utxoState     Vidar.UTXOState
 
 	addedStatuses map[ids.ID]choices.Status
 	statusCache   cache.Cacher[ids.ID, *choices.Status] // cache of id -> choices.Status. If the entry is nil, it is not in the database
@@ -199,12 +199,12 @@ func New(
 		return nil, err
 	}
 
-	utxoState, err := avax.NewMeteredUTXOState(utxoDB, parser.Codec(), metrics)
+	utxoState, err := Vidar.NewMeteredUTXOState(utxoDB, parser.Codec(), metrics)
 	return &state{
 		parser: parser,
 		db:     db,
 
-		modifiedUTXOs: make(map[ids.ID]*avax.UTXO),
+		modifiedUTXOs: make(map[ids.ID]*Vidar.UTXO),
 		utxoDB:        utxoDB,
 		utxoState:     utxoState,
 
@@ -228,7 +228,7 @@ func New(
 	}, err
 }
 
-func (s *state) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
+func (s *state) GetUTXO(utxoID ids.ID) (*Vidar.UTXO, error) {
 	if utxo, exists := s.modifiedUTXOs[utxoID]; exists {
 		if utxo == nil {
 			return nil, database.ErrNotFound
@@ -238,7 +238,7 @@ func (s *state) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
 	return s.utxoState.GetUTXO(utxoID)
 }
 
-func (s *state) GetUTXOFromID(utxoID *avax.UTXOID) (*avax.UTXO, error) {
+func (s *state) GetUTXOFromID(utxoID *Vidar.UTXOID) (*Vidar.UTXO, error) {
 	return s.GetUTXO(utxoID.InputID())
 }
 
@@ -246,7 +246,7 @@ func (s *state) UTXOIDs(addr []byte, start ids.ID, limit int) ([]ids.ID, error) 
 	return s.utxoState.UTXOIDs(addr, start, limit)
 }
 
-func (s *state) AddUTXO(utxo *avax.UTXO) {
+func (s *state) AddUTXO(utxo *Vidar.UTXO) {
 	s.modifiedUTXOs[utxo.InputID()] = utxo
 }
 

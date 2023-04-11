@@ -55,7 +55,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 	"github.com/VidarSolutions/avalanchego/version"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/api"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
@@ -86,11 +86,11 @@ var (
 		MaxConsumptionRate: .12 * reward.PercentDenominator,
 		MinConsumptionRate: .10 * reward.PercentDenominator,
 		MintingPeriod:      365 * 24 * time.Hour,
-		SupplyCap:          720 * units.MegaAvax,
+		SupplyCap:          720 * units.MegaVidar,
 	}
 
-	// AVAX asset ID in tests
-	avaxAssetID = ids.ID{'y', 'e', 'e', 't'}
+	// Vidar asset ID in tests
+	VidarAssetID = ids.ID{'y', 'e', 'e', 't'}
 
 	defaultTxFee = uint64(100)
 
@@ -105,12 +105,12 @@ var (
 
 	banffForkTime = defaultValidateEndTime.Add(-5 * defaultMinStakingDuration)
 
-	// each key controls an address that has [defaultBalance] AVAX at genesis
+	// each key controls an address that has [defaultBalance] Vidar at genesis
 	keys = secp256k1.TestKeys()
 
-	defaultMinValidatorStake = 5 * units.MilliAvax
-	defaultMaxValidatorStake = 500 * units.MilliAvax
-	defaultMinDelegatorStake = 1 * units.MilliAvax
+	defaultMinValidatorStake = 5 * units.MilliVidar
+	defaultMaxValidatorStake = 500 * units.MilliVidar
+	defaultMinDelegatorStake = 1 * units.MilliVidar
 
 	// amount all genesis validators have in defaultVM
 	defaultBalance = 100 * defaultMinValidatorStake
@@ -139,7 +139,7 @@ func defaultContext() *snow.Context {
 	ctx.NetworkID = testNetworkID
 	ctx.XChainID = xChainID
 	ctx.CChainID = cChainID
-	ctx.AVAXAssetID = avaxAssetID
+	ctx.VidarAssetID = VidarAssetID
 	aliaser := ids.NewAliaser()
 
 	errs := wrappers.Errs{}
@@ -218,12 +218,12 @@ func defaultGenesis() (*api.BuildGenesisArgs, []byte) {
 	buildGenesisArgs := api.BuildGenesisArgs{
 		Encoding:      formatting.Hex,
 		NetworkID:     json.Uint32(testNetworkID),
-		AvaxAssetID:   avaxAssetID,
+		VidarAssetID:   VidarAssetID,
 		UTXOs:         genesisUTXOs,
 		Validators:    genesisValidators,
 		Chains:        nil,
 		Time:          json.Uint64(defaultGenesisTime.Unix()),
-		InitialSupply: json.Uint64(360 * units.MegaAvax),
+		InitialSupply: json.Uint64(360 * units.MegaVidar),
 	}
 
 	buildGenesisResponse := api.BuildGenesisReply{}
@@ -291,12 +291,12 @@ func BuildGenesisTestWithArgs(t *testing.T, args *api.BuildGenesisArgs) (*api.Bu
 
 	buildGenesisArgs := api.BuildGenesisArgs{
 		NetworkID:     json.Uint32(testNetworkID),
-		AvaxAssetID:   avaxAssetID,
+		VidarAssetID:   VidarAssetID,
 		UTXOs:         genesisUTXOs,
 		Validators:    genesisValidators,
 		Chains:        nil,
 		Time:          json.Uint64(defaultGenesisTime.Unix()),
-		InitialSupply: json.Uint64(360 * units.MegaAvax),
+		InitialSupply: json.Uint64(360 * units.MegaVidar),
 		Encoding:      formatting.Hex,
 	}
 
@@ -526,7 +526,7 @@ func TestGenesis(t *testing.T) {
 
 		addrs := set.Set[ids.ShortID]{}
 		addrs.Add(addr)
-		utxos, err := avax.GetAllUTXOs(vm.state, addrs)
+		utxos, err := Vidar.GetAllUTXOs(vm.state, addrs)
 		require.NoError(err)
 		require.Len(utxos, 1)
 
@@ -1314,7 +1314,7 @@ func TestAtomicImport(t *testing.T) {
 		vm.ctx.Lock.Unlock()
 	}()
 
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        ids.Empty.Prefix(1),
 		OutputIndex: 1,
 	}
@@ -1336,9 +1336,9 @@ func TestAtomicImport(t *testing.T) {
 
 	// Provide the avm UTXO
 
-	utxo := &avax.UTXO{
+	utxo := &Vidar.UTXO{
 		UTXOID: utxoID,
-		Asset:  avax.Asset{ID: avaxAssetID},
+		Asset:  Vidar.Asset{ID: VidarAssetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: amount,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -1408,17 +1408,17 @@ func TestOptimisticAtomicImport(t *testing.T) {
 	}()
 
 	tx := &txs.Tx{Unsigned: &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    vm.ctx.NetworkID,
 			BlockchainID: vm.ctx.ChainID,
 		}},
 		SourceChain: vm.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		ImportedInputs: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty.Prefix(1),
 				OutputIndex: 1,
 			},
-			Asset: avax.Asset{ID: vm.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: vm.ctx.VidarAssetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 50000,
 			},
@@ -1523,17 +1523,17 @@ func TestRestartFullyAccepted(t *testing.T) {
 
 	// include a tx to make the block be accepted
 	tx := &txs.Tx{Unsigned: &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    firstVM.ctx.NetworkID,
 			BlockchainID: firstVM.ctx.ChainID,
 		}},
 		SourceChain: firstVM.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		ImportedInputs: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty.Prefix(1),
 				OutputIndex: 1,
 			},
-			Asset: avax.Asset{ID: firstVM.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: firstVM.ctx.VidarAssetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 50000,
 			},
@@ -1662,17 +1662,17 @@ func TestBootstrapPartiallyAccepted(t *testing.T) {
 
 	// include a tx to make the block be accepted
 	tx := &txs.Tx{Unsigned: &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    vm.ctx.NetworkID,
 			BlockchainID: vm.ctx.ChainID,
 		}},
 		SourceChain: vm.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		ImportedInputs: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty.Prefix(1),
 				OutputIndex: 1,
 			},
-			Asset: avax.Asset{ID: vm.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: vm.ctx.VidarAssetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 50000,
 			},
@@ -1976,17 +1976,17 @@ func TestUnverifiedParent(t *testing.T) {
 
 	// include a tx1 to make the block be accepted
 	tx1 := &txs.Tx{Unsigned: &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    vm.ctx.NetworkID,
 			BlockchainID: vm.ctx.ChainID,
 		}},
 		SourceChain: vm.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		ImportedInputs: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty.Prefix(1),
 				OutputIndex: 1,
 			},
-			Asset: avax.Asset{ID: vm.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: vm.ctx.VidarAssetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 50000,
 			},
@@ -2013,17 +2013,17 @@ func TestUnverifiedParent(t *testing.T) {
 
 	// include a tx1 to make the block be accepted
 	tx2 := &txs.Tx{Unsigned: &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    vm.ctx.NetworkID,
 			BlockchainID: vm.ctx.ChainID,
 		}},
 		SourceChain: vm.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		ImportedInputs: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty.Prefix(2),
 				OutputIndex: 2,
 			},
-			Asset: avax.Asset{ID: vm.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: vm.ctx.VidarAssetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 50000,
 			},

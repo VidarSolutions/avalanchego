@@ -10,12 +10,12 @@ import (
 	"github.com/VidarSolutions/avalanchego/codec/linearcodec"
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 )
 
 type testOperable struct {
-	avax.TestTransferable `serialize:"true"`
+	Vidar.TestTransferable `serialize:"true"`
 
 	Outputs []verify.State `serialize:"true"`
 }
@@ -35,7 +35,7 @@ func TestOperationVerifyNil(t *testing.T) {
 
 func TestOperationVerifyEmpty(t *testing.T) {
 	op := &Operation{
-		Asset: avax.Asset{ID: ids.Empty},
+		Asset: Vidar.Asset{ID: ids.Empty},
 	}
 	if err := op.Verify(); err == nil {
 		t.Fatalf("Should have erred due to empty operation")
@@ -44,8 +44,8 @@ func TestOperationVerifyEmpty(t *testing.T) {
 
 func TestOperationVerifyUTXOIDsNotSorted(t *testing.T) {
 	op := &Operation{
-		Asset: avax.Asset{ID: ids.Empty},
-		UTXOIDs: []*avax.UTXOID{
+		Asset: Vidar.Asset{ID: ids.Empty},
+		UTXOIDs: []*Vidar.UTXOID{
 			{
 				TxID:        ids.Empty,
 				OutputIndex: 1,
@@ -65,8 +65,8 @@ func TestOperationVerifyUTXOIDsNotSorted(t *testing.T) {
 func TestOperationVerify(t *testing.T) {
 	assetID := ids.GenerateTestID()
 	op := &Operation{
-		Asset: avax.Asset{ID: assetID},
-		UTXOIDs: []*avax.UTXOID{
+		Asset: Vidar.Asset{ID: assetID},
+		UTXOIDs: []*Vidar.UTXOID{
 			{
 				TxID:        assetID,
 				OutputIndex: 1,
@@ -92,8 +92,8 @@ func TestOperationSorting(t *testing.T) {
 
 	ops := []*Operation{
 		{
-			Asset: avax.Asset{ID: ids.Empty},
-			UTXOIDs: []*avax.UTXOID{
+			Asset: Vidar.Asset{ID: ids.Empty},
+			UTXOIDs: []*Vidar.UTXOID{
 				{
 					TxID:        ids.Empty,
 					OutputIndex: 1,
@@ -102,8 +102,8 @@ func TestOperationSorting(t *testing.T) {
 			Op: &testOperable{},
 		},
 		{
-			Asset: avax.Asset{ID: ids.Empty},
-			UTXOIDs: []*avax.UTXOID{
+			Asset: Vidar.Asset{ID: ids.Empty},
+			UTXOIDs: []*Vidar.UTXOID{
 				{
 					TxID:        ids.Empty,
 					OutputIndex: 0,
@@ -120,8 +120,8 @@ func TestOperationSorting(t *testing.T) {
 		t.Fatalf("Should be sorted")
 	}
 	ops = append(ops, &Operation{
-		Asset: avax.Asset{ID: ids.Empty},
-		UTXOIDs: []*avax.UTXOID{
+		Asset: Vidar.Asset{ID: ids.Empty},
+		UTXOIDs: []*Vidar.UTXOID{
 			{
 				TxID:        ids.Empty,
 				OutputIndex: 1,

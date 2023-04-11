@@ -19,13 +19,13 @@ import (
 	"github.com/VidarSolutions/avalanchego/vms/avm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
 var (
 	parser             blocks.Parser
-	populatedUTXO      *avax.UTXO
+	populatedUTXO      *Vidar.UTXO
 	populatedUTXOID    ids.ID
 	populatedTx        *txs.Tx
 	populatedTxID      ids.ID
@@ -43,11 +43,11 @@ func init() {
 		panic(err)
 	}
 
-	populatedUTXO = &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	populatedUTXO = &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		},
-		Asset: avax.Asset{
+		Asset: Vidar.Asset{
 			ID: ids.GenerateTestID(),
 		},
 		Out: &secp256k1fx.TransferOutput{
@@ -56,7 +56,7 @@ func init() {
 	}
 	populatedUTXOID = populatedUTXO.InputID()
 
-	populatedTx = &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+	populatedTx = &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 		BlockchainID: ids.GenerateTestID(),
 	}}}
 	err = parser.InitializeTx(populatedTx)
@@ -71,7 +71,7 @@ func init() {
 		time.Now(),
 		[]*txs.Tx{
 			{
-				Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+				Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 					BlockchainID: ids.GenerateTestID(),
 				}},
 			},
@@ -146,11 +146,11 @@ func ChainUTXOTest(t *testing.T, c Chain) {
 	// Compare IDs because [fetchedUTXO] isn't initialized
 	require.Equal(populatedUTXO.InputID(), fetchedUTXO.InputID())
 
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		},
-		Asset: avax.Asset{
+		Asset: Vidar.Asset{
 			ID: ids.GenerateTestID(),
 		},
 		Out: &secp256k1fx.TransferOutput{
@@ -188,7 +188,7 @@ func ChainTxTest(t *testing.T, c Chain) {
 	require.NoError(err)
 	require.Equal(populatedTx.ID(), fetchedTx.ID())
 
-	tx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+	tx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 		BlockchainID: ids.GenerateTestID(),
 	}}}
 	require.NoError(parser.InitializeTx(tx))
@@ -234,7 +234,7 @@ func ChainBlockTest(t *testing.T, c Chain) {
 		time.Now(),
 		[]*txs.Tx{
 			{
-				Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+				Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 					BlockchainID: ids.GenerateTestID(),
 				}},
 			},

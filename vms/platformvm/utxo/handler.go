@@ -16,7 +16,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/math"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
@@ -39,7 +39,7 @@ type Spender interface {
 	// Arguments:
 	// - [keys] are the owners of the funds
 	// - [amount] is the amount of funds that are trying to be staked
-	// - [fee] is the amount of AVAX that should be burned
+	// - [fee] is the amount of Vidar that should be burned
 	// - [changeAddr] is the address that change, if there is any, is sent to
 	// Returns:
 	// - [inputs] the inputs that should be consumed to fund the outputs
@@ -49,15 +49,15 @@ type Spender interface {
 	//                   the staking period
 	// - [signers] the proof of ownership of the funds being moved
 	Spend(
-		utxoReader avax.UTXOReader,
+		utxoReader Vidar.UTXOReader,
 		keys []*secp256k1.PrivateKey,
 		amount uint64,
 		fee uint64,
 		changeAddr ids.ShortID,
 	) (
-		[]*avax.TransferableInput, // inputs
-		[]*avax.TransferableOutput, // returnedOutputs
-		[]*avax.TransferableOutput, // stakedOutputs
+		[]*Vidar.TransferableInput, // inputs
+		[]*Vidar.TransferableOutput, // returnedOutputs
+		[]*Vidar.TransferableOutput, // stakedOutputs
 		[][]*secp256k1.PrivateKey, // signers
 		error,
 	)
@@ -88,9 +88,9 @@ type Verifier interface {
 	// Note: [unlockedProduced] is modified by this method.
 	VerifySpend(
 		tx txs.UnsignedTx,
-		utxoDB avax.UTXOGetter,
-		ins []*avax.TransferableInput,
-		outs []*avax.TransferableOutput,
+		utxoDB Vidar.UTXOGetter,
+		ins []*Vidar.TransferableInput,
+		outs []*Vidar.TransferableOutput,
 		creds []verify.Verifiable,
 		unlockedProduced map[ids.ID]uint64,
 	) error
@@ -108,9 +108,9 @@ type Verifier interface {
 	// Note: [unlockedProduced] is modified by this method.
 	VerifySpendUTXOs(
 		tx txs.UnsignedTx,
-		utxos []*avax.UTXO,
-		ins []*avax.TransferableInput,
-		outs []*avax.TransferableOutput,
+		utxos []*Vidar.UTXO,
+		ins []*Vidar.TransferableInput,
+		outs []*Vidar.TransferableOutput,
 		creds []verify.Verifiable,
 		unlockedProduced map[ids.ID]uint64,
 	) error
@@ -140,15 +140,15 @@ type handler struct {
 }
 
 func (h *handler) Spend(
-	utxoReader avax.UTXOReader,
+	utxoReader Vidar.UTXOReader,
 	keys []*secp256k1.PrivateKey,
 	amount uint64,
 	fee uint64,
 	changeAddr ids.ShortID,
 ) (
-	[]*avax.TransferableInput, // inputs
-	[]*avax.TransferableOutput, // returnedOutputs
-	[]*avax.TransferableOutput, // stakedOutputs
+	[]*Vidar.TransferableInput, // inputs
+	[]*Vidar.TransferableOutput, // returnedOutputs
+	[]*Vidar.TransferableOutput, // stakedOutputs
 	[][]*secp256k1.PrivateKey, // signers
 	error,
 ) {
@@ -156,7 +156,7 @@ func (h *handler) Spend(
 	for _, key := range keys {
 		addrs.Add(key.PublicKey().Address())
 	}
-	utxos, err := avax.GetAllUTXOs(utxoReader, addrs) // The UTXOs controlled by [keys]
+	utxos, err := Vidar.GetAllUTXOs(utxoReader, addrs) // The UTXOs controlled by [keys]
 	if err != nil {
 		return nil, nil, nil, nil, fmt.Errorf("couldn't get UTXOs: %w", err)
 	}
@@ -166,24 +166,24 @@ func (h *handler) Spend(
 	// Minimum time this transaction will be issued at
 	now := uint64(h.clk.Time().Unix())
 
-	ins := []*avax.TransferableInput{}
-	returnedOuts := []*avax.TransferableOutput{}
-	stakedOuts := []*avax.TransferableOutput{}
+	ins := []*Vidar.TransferableInput{}
+	returnedOuts := []*Vidar.TransferableOutput{}
+	stakedOuts := []*Vidar.TransferableOutput{}
 	signers := [][]*secp256k1.PrivateKey{}
 
-	// Amount of AVAX that has been staked
+	// Amount of Vidar that has been staked
 	amountStaked := uint64(0)
 
 	// Consume locked UTXOs
 	for _, utxo := range utxos {
-		// If we have consumed more AVAX than we are trying to stake, then we
-		// have no need to consume more locked AVAX
+		// If we have consumed more Vidar than we are trying to stake, then we
+		// have no need to consume more locked Vidar
 		if amountStaked >= amount {
 			break
 		}
 
-		if assetID := utxo.AssetID(); assetID != h.ctx.AVAXAssetID {
-			continue // We only care about staking AVAX, so ignore other assets
+		if assetID := utxo.AssetID(); assetID != h.ctx.VidarAssetID {
+			continue // We only care about staking Vidar, so ignore other assets
 		}
 
 		out, ok := utxo.Out.(*stakeable.LockOut)
@@ -209,10 +209,10 @@ func (h *handler) Spend(
 			// We couldn't spend the output, so move on to the next one
 			continue
 		}
-		in, ok := inIntf.(avax.TransferableIn)
+		in, ok := inIntf.(Vidar.TransferableIn)
 		if !ok { // should never happen
 			h.ctx.Log.Warn("wrong input type",
-				zap.String("expectedType", "avax.TransferableIn"),
+				zap.String("expectedType", "Vidar.TransferableIn"),
 				zap.String("actualType", fmt.Sprintf("%T", inIntf)),
 			)
 			continue
@@ -230,9 +230,9 @@ func (h *handler) Spend(
 		remainingValue -= amountToStake
 
 		// Add the input to the consumed inputs
-		ins = append(ins, &avax.TransferableInput{
+		ins = append(ins, &Vidar.TransferableInput{
 			UTXOID: utxo.UTXOID,
-			Asset:  avax.Asset{ID: h.ctx.AVAXAssetID},
+			Asset:  Vidar.Asset{ID: h.ctx.VidarAssetID},
 			In: &stakeable.LockIn{
 				Locktime:       out.Locktime,
 				TransferableIn: in,
@@ -240,8 +240,8 @@ func (h *handler) Spend(
 		})
 
 		// Add the output to the staked outputs
-		stakedOuts = append(stakedOuts, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: h.ctx.AVAXAssetID},
+		stakedOuts = append(stakedOuts, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: h.ctx.VidarAssetID},
 			Out: &stakeable.LockOut{
 				Locktime: out.Locktime,
 				TransferableOut: &secp256k1fx.TransferOutput{
@@ -254,8 +254,8 @@ func (h *handler) Spend(
 		if remainingValue > 0 {
 			// This input provided more value than was needed to be locked.
 			// Some of it must be returned
-			returnedOuts = append(returnedOuts, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: h.ctx.AVAXAssetID},
+			returnedOuts = append(returnedOuts, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: h.ctx.VidarAssetID},
 				Out: &stakeable.LockOut{
 					Locktime: out.Locktime,
 					TransferableOut: &secp256k1fx.TransferOutput{
@@ -270,19 +270,19 @@ func (h *handler) Spend(
 		signers = append(signers, inSigners)
 	}
 
-	// Amount of AVAX that has been burned
+	// Amount of Vidar that has been burned
 	amountBurned := uint64(0)
 
 	for _, utxo := range utxos {
-		// If we have consumed more AVAX than we are trying to stake,
-		// and we have burned more AVAX than we need to,
-		// then we have no need to consume more AVAX
+		// If we have consumed more Vidar than we are trying to stake,
+		// and we have burned more Vidar than we need to,
+		// then we have no need to consume more Vidar
 		if amountBurned >= fee && amountStaked >= amount {
 			break
 		}
 
-		if assetID := utxo.AssetID(); assetID != h.ctx.AVAXAssetID {
-			continue // We only care about burning AVAX, so ignore other assets
+		if assetID := utxo.AssetID(); assetID != h.ctx.VidarAssetID {
+			continue // We only care about burning Vidar, so ignore other assets
 		}
 
 		out := utxo.Out
@@ -302,7 +302,7 @@ func (h *handler) Spend(
 			// We couldn't spend this UTXO, so we skip to the next one
 			continue
 		}
-		in, ok := inIntf.(avax.TransferableIn)
+		in, ok := inIntf.(Vidar.TransferableIn)
 		if !ok {
 			// Because we only use the secp Fx right now, this should never
 			// happen
@@ -329,16 +329,16 @@ func (h *handler) Spend(
 		remainingValue -= amountToStake
 
 		// Add the input to the consumed inputs
-		ins = append(ins, &avax.TransferableInput{
+		ins = append(ins, &Vidar.TransferableInput{
 			UTXOID: utxo.UTXOID,
-			Asset:  avax.Asset{ID: h.ctx.AVAXAssetID},
+			Asset:  Vidar.Asset{ID: h.ctx.VidarAssetID},
 			In:     in,
 		})
 
 		if amountToStake > 0 {
 			// Some of this input was put for staking
-			stakedOuts = append(stakedOuts, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: h.ctx.AVAXAssetID},
+			stakedOuts = append(stakedOuts, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: h.ctx.VidarAssetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: amountToStake,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -352,8 +352,8 @@ func (h *handler) Spend(
 
 		if remainingValue > 0 {
 			// This input had extra value, so some of it must be returned
-			returnedOuts = append(returnedOuts, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: h.ctx.AVAXAssetID},
+			returnedOuts = append(returnedOuts, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: h.ctx.VidarAssetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: remainingValue,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -375,9 +375,9 @@ func (h *handler) Spend(
 			amountBurned, amountStaked, fee, amount)
 	}
 
-	avax.SortTransferableInputsWithSigners(ins, signers)  // sort inputs and keys
-	avax.SortTransferableOutputs(returnedOuts, txs.Codec) // sort outputs
-	avax.SortTransferableOutputs(stakedOuts, txs.Codec)   // sort outputs
+	Vidar.SortTransferableInputsWithSigners(ins, signers)  // sort inputs and keys
+	Vidar.SortTransferableOutputs(returnedOuts, txs.Codec) // sort outputs
+	Vidar.SortTransferableOutputs(stakedOuts, txs.Codec)   // sort outputs
 
 	return ins, returnedOuts, stakedOuts, signers, nil
 }
@@ -427,13 +427,13 @@ func (h *handler) Authorize(
 
 func (h *handler) VerifySpend(
 	tx txs.UnsignedTx,
-	utxoDB avax.UTXOGetter,
-	ins []*avax.TransferableInput,
-	outs []*avax.TransferableOutput,
+	utxoDB Vidar.UTXOGetter,
+	ins []*Vidar.TransferableInput,
+	outs []*Vidar.TransferableOutput,
 	creds []verify.Verifiable,
 	unlockedProduced map[ids.ID]uint64,
 ) error {
-	utxos := make([]*avax.UTXO, len(ins))
+	utxos := make([]*Vidar.UTXO, len(ins))
 	for index, input := range ins {
 		utxo, err := utxoDB.GetUTXO(input.InputID())
 		if err != nil {
@@ -451,9 +451,9 @@ func (h *handler) VerifySpend(
 
 func (h *handler) VerifySpendUTXOs(
 	tx txs.UnsignedTx,
-	utxos []*avax.UTXO,
-	ins []*avax.TransferableInput,
-	outs []*avax.TransferableOutput,
+	utxos []*Vidar.UTXO,
+	ins []*Vidar.TransferableInput,
+	outs []*Vidar.TransferableOutput,
 	creds []verify.Verifiable,
 	unlockedProduced map[ids.ID]uint64,
 ) error {

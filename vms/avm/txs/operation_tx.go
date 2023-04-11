@@ -7,7 +7,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -36,7 +36,7 @@ func (t *OperationTx) Operations() []*Operation {
 	return t.Ops
 }
 
-func (t *OperationTx) InputUTXOs() []*avax.UTXOID {
+func (t *OperationTx) InputUTXOs() []*Vidar.UTXOID {
 	utxos := t.BaseTx.InputUTXOs()
 	for _, op := range t.Ops {
 		utxos = append(utxos, op.UTXOIDs...)

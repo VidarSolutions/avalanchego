@@ -20,7 +20,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/vms/avm"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
@@ -105,7 +105,7 @@ var _ = e2e.DescribePChain("[Permissionless Subnets]", func() {
 					map[uint32][]verify.State{
 						0: {
 							&secp256k1fx.TransferOutput{
-								Amt:          100 * units.MegaAvax,
+								Amt:          100 * units.MegaVidar,
 								OutputOwners: *owner,
 							},
 						},
@@ -121,17 +121,17 @@ var _ = e2e.DescribePChain("[Permissionless Subnets]", func() {
 				gomega.Expect(txStatus, err).To(gomega.Equal(choices.Accepted))
 			})
 
-			ginkgo.By(fmt.Sprintf("Send 100 MegaAvax of asset %s to the P-chain", subnetAssetID), func() {
+			ginkgo.By(fmt.Sprintf("Send 100 MegaVidar of asset %s to the P-chain", subnetAssetID), func() {
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultWalletCreationTimeout)
 				exportTxID, err := xWallet.IssueExportTx(
 					constants.PlatformChainID,
-					[]*avax.TransferableOutput{
+					[]*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: subnetAssetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
-								Amt:          100 * units.MegaAvax,
+								Amt:          100 * units.MegaVidar,
 								OutputOwners: *owner,
 							},
 						},
@@ -147,7 +147,7 @@ var _ = e2e.DescribePChain("[Permissionless Subnets]", func() {
 				gomega.Expect(txStatus, err).To(gomega.Equal(choices.Accepted))
 			})
 
-			ginkgo.By(fmt.Sprintf("Import the 100 MegaAvax of asset %s from the X-chain into the P-chain", subnetAssetID), func() {
+			ginkgo.By(fmt.Sprintf("Import the 100 MegaVidar of asset %s from the X-chain into the P-chain", subnetAssetID), func() {
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultWalletCreationTimeout)
 				importTxID, err := pWallet.IssueImportTx(
 					xChainID,
@@ -168,12 +168,12 @@ var _ = e2e.DescribePChain("[Permissionless Subnets]", func() {
 				transformSubnetTxID, err := pWallet.IssueTransformSubnetTx(
 					subnetID,
 					subnetAssetID,
-					50*units.MegaAvax,
-					100*units.MegaAvax,
+					50*units.MegaVidar,
+					100*units.MegaVidar,
 					reward.PercentDenominator,
 					reward.PercentDenominator,
 					1,
-					100*units.MegaAvax,
+					100*units.MegaVidar,
 					time.Second,
 					365*24*time.Hour,
 					0,
@@ -200,7 +200,7 @@ var _ = e2e.DescribePChain("[Permissionless Subnets]", func() {
 							NodeID: genesis.LocalConfig.InitialStakers[0].NodeID,
 							Start:  uint64(validatorStartTime.Unix()),
 							End:    uint64(validatorStartTime.Add(5 * time.Second).Unix()),
-							Wght:   25 * units.MegaAvax,
+							Wght:   25 * units.MegaVidar,
 						},
 						Subnet: subnetID,
 					},
@@ -229,7 +229,7 @@ var _ = e2e.DescribePChain("[Permissionless Subnets]", func() {
 							NodeID: genesis.LocalConfig.InitialStakers[0].NodeID,
 							Start:  uint64(delegatorStartTime.Unix()),
 							End:    uint64(delegatorStartTime.Add(5 * time.Second).Unix()),
-							Wght:   25 * units.MegaAvax,
+							Wght:   25 * units.MegaVidar,
 						},
 						Subnet: subnetID,
 					},

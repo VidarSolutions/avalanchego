@@ -10,17 +10,17 @@ import (
 
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var _ Backend = (*backend)(nil)
 
 type ChainUTXOs interface {
-	AddUTXO(ctx stdcontext.Context, destinationChainID ids.ID, utxo *avax.UTXO) error
+	AddUTXO(ctx stdcontext.Context, destinationChainID ids.ID, utxo *Vidar.UTXO) error
 	RemoveUTXO(ctx stdcontext.Context, sourceChainID, utxoID ids.ID) error
 
-	UTXOs(ctx stdcontext.Context, sourceChainID ids.ID) ([]*avax.UTXO, error)
-	GetUTXO(ctx stdcontext.Context, sourceChainID, utxoID ids.ID) (*avax.UTXO, error)
+	UTXOs(ctx stdcontext.Context, sourceChainID ids.ID) ([]*Vidar.UTXO, error)
+	GetUTXO(ctx stdcontext.Context, sourceChainID, utxoID ids.ID) (*Vidar.UTXO, error)
 }
 
 // Backend defines the full interface required to support an X-chain wallet.
@@ -65,12 +65,12 @@ func (b *backend) AcceptTx(ctx stdcontext.Context, tx *txs.Tx) error {
 			err := b.AddUTXO(
 				ctx,
 				utx.DestinationChain,
-				&avax.UTXO{
-					UTXOID: avax.UTXOID{
+				&Vidar.UTXO{
+					UTXOID: Vidar.UTXOID{
 						TxID:        txID,
 						OutputIndex: uint32(len(utx.Outs) + i),
 					},
-					Asset: avax.Asset{ID: out.AssetID()},
+					Asset: Vidar.Asset{ID: out.AssetID()},
 					Out:   out.Out,
 				},
 			)

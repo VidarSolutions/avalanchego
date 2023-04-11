@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/VidarSolutions/avalanchego/ids"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
@@ -22,12 +22,12 @@ func TestNewApricotAtomicBlock(t *testing.T) {
 	tx := &txs.Tx{
 		Unsigned: &txs.ImportTx{
 			BaseTx: txs.BaseTx{
-				BaseTx: avax.BaseTx{
-					Ins:  []*avax.TransferableInput{},
-					Outs: []*avax.TransferableOutput{},
+				BaseTx: Vidar.BaseTx{
+					Ins:  []*Vidar.TransferableInput{},
+					Outs: []*Vidar.TransferableOutput{},
 				},
 			},
-			ImportedInputs: []*avax.TransferableInput{},
+			ImportedInputs: []*Vidar.TransferableInput{},
 		},
 		Creds: []verify.Verifiable{},
 	}

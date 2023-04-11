@@ -15,7 +15,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/keychain"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/hashing"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
@@ -164,7 +164,7 @@ func (s *signerVisitor) AddPermissionlessDelegatorTx(tx *txs.AddPermissionlessDe
 	return sign(s.tx, true, txSigners)
 }
 
-func (s *signerVisitor) getSigners(sourceChainID ids.ID, ins []*avax.TransferableInput) ([][]keychain.Signer, error) {
+func (s *signerVisitor) getSigners(sourceChainID ids.ID, ins []*Vidar.TransferableInput) ([][]keychain.Signer, error) {
 	txSigners := make([][]keychain.Signer, len(ins))
 	for credIndex, transferInput := range ins {
 		inIntf := transferInput.In

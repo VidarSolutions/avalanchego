@@ -20,7 +20,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow/validators"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
@@ -66,10 +66,10 @@ func TestApricotProposalBlockTimeVerification(t *testing.T) {
 	utx := &txs.AddValidatorTx{
 		BaseTx:    txs.BaseTx{},
 		Validator: txs.Validator{End: uint64(chainTime.Unix())},
-		StakeOuts: []*avax.TransferableOutput{
+		StakeOuts: []*Vidar.TransferableOutput{
 			{
-				Asset: avax.Asset{
-					ID: env.ctx.AVAXAssetID,
+				Asset: Vidar.Asset{
+					ID: env.ctx.VidarAssetID,
 				},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: 1,
@@ -192,10 +192,10 @@ func TestBanffProposalBlockTimeVerification(t *testing.T) {
 	unsignedNextStakerTx := &txs.AddValidatorTx{
 		BaseTx:    txs.BaseTx{},
 		Validator: txs.Validator{End: uint64(nextStakerTime.Unix())},
-		StakeOuts: []*avax.TransferableOutput{
+		StakeOuts: []*Vidar.TransferableOutput{
 			{
-				Asset: avax.Asset{
-					ID: env.ctx.AVAXAssetID,
+				Asset: Vidar.Asset{
+					ID: env.ctx.VidarAssetID,
 				},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: 1,

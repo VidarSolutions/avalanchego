@@ -13,7 +13,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
 )
@@ -33,7 +33,7 @@ func TestTransformSubnetTxSyntacticVerify(t *testing.T) {
 	ctx := &snow.Context{
 		ChainID:     chainID,
 		NetworkID:   networkID,
-		AVAXAssetID: ids.GenerateTestID(),
+		VidarAssetID: ids.GenerateTestID(),
 	}
 
 	// A BaseTx that already passed syntactic verification.
@@ -43,7 +43,7 @@ func TestTransformSubnetTxSyntacticVerify(t *testing.T) {
 
 	// A BaseTx that passes syntactic verification.
 	validBaseTx := BaseTx{
-		BaseTx: avax.BaseTx{
+		BaseTx: Vidar.BaseTx{
 			NetworkID:    networkID,
 			BlockchainID: chainID,
 		},
@@ -91,15 +91,15 @@ func TestTransformSubnetTxSyntacticVerify(t *testing.T) {
 			err: errEmptyAssetID,
 		},
 		{
-			name: "AVAX assetID",
+			name: "Vidar assetID",
 			txFunc: func(*gomock.Controller) *TransformSubnetTx {
 				return &TransformSubnetTx{
 					BaseTx:  validBaseTx,
 					Subnet:  ids.GenerateTestID(),
-					AssetID: ctx.AVAXAssetID,
+					AssetID: ctx.VidarAssetID,
 				}
 			},
-			err: errAssetIDCantBeAVAX,
+			err: errAssetIDCantBeVidar,
 		},
 		{
 			name: "initialSupply == 0",

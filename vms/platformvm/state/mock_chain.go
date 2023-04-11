@@ -12,7 +12,7 @@ import (
 	time "time"
 
 	ids "github.com/VidarSolutions/avalanchego/ids"
-	avax "github.com/VidarSolutions/avalanchego/vms/components/avax"
+	Vidar "github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	status "github.com/VidarSolutions/avalanchego/vms/platformvm/status"
 	txs "github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	gomock "github.com/golang/mock/gomock"
@@ -54,7 +54,7 @@ func (mr *MockChainMockRecorder) AddChain(arg0 interface{}) *gomock.Call {
 }
 
 // AddRewardUTXO mocks base method.
-func (m *MockChain) AddRewardUTXO(arg0 ids.ID, arg1 *avax.UTXO) {
+func (m *MockChain) AddRewardUTXO(arg0 ids.ID, arg1 *Vidar.UTXO) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "AddRewardUTXO", arg0, arg1)
 }
@@ -102,7 +102,7 @@ func (mr *MockChainMockRecorder) AddTx(arg0, arg1 interface{}) *gomock.Call {
 }
 
 // AddUTXO mocks base method.
-func (m *MockChain) AddUTXO(arg0 *avax.UTXO) {
+func (m *MockChain) AddUTXO(arg0 *Vidar.UTXO) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "AddUTXO", arg0)
 }
@@ -294,10 +294,10 @@ func (mr *MockChainMockRecorder) GetPendingValidator(arg0, arg1 interface{}) *go
 }
 
 // GetRewardUTXOs mocks base method.
-func (m *MockChain) GetRewardUTXOs(arg0 ids.ID) ([]*avax.UTXO, error) {
+func (m *MockChain) GetRewardUTXOs(arg0 ids.ID) ([]*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRewardUTXOs", arg0)
-	ret0, _ := ret[0].([]*avax.UTXO)
+	ret0, _ := ret[0].([]*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -369,10 +369,10 @@ func (mr *MockChainMockRecorder) GetTx(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXO mocks base method.
-func (m *MockChain) GetUTXO(arg0 ids.ID) (*avax.UTXO, error) {
+func (m *MockChain) GetUTXO(arg0 ids.ID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXO", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

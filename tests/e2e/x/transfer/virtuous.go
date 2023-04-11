@@ -16,7 +16,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/tests/e2e"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary/common"
@@ -33,14 +33,14 @@ const (
 
 const totalRounds = 50
 
-var _ = e2e.DescribeXChain("[Virtuous Transfer Tx AVAX]", func() {
-	ginkgo.It("can issue a virtuous transfer tx for AVAX asset",
+var _ = e2e.DescribeXChain("[Virtuous Transfer Tx Vidar]", func() {
+	ginkgo.It("can issue a virtuous transfer tx for Vidar asset",
 		// use this for filtering tests by labels
 		// ref. https://onsi.github.io/ginkgo/#spec-labels
 		ginkgo.Label(
 			"require-network-runner",
 			"x",
-			"virtuous-transfer-tx-avax",
+			"virtuous-transfer-tx-Vidar",
 		),
 		func() {
 			rpcEps := e2e.Env.GetURIs()
@@ -77,7 +77,7 @@ var _ = e2e.DescribeXChain("[Virtuous Transfer Tx AVAX]", func() {
 					cancel()
 					gomega.Expect(err).Should(gomega.BeNil())
 				})
-				avaxAssetID := baseWallet.X().AVAXAssetID()
+				VidarAssetID := baseWallet.X().VidarAssetID()
 
 				wallets := make([]primary.Wallet, len(testKeys))
 				shortAddrs := make([]ids.ShortID, len(testKeys))
@@ -114,10 +114,10 @@ var _ = e2e.DescribeXChain("[Virtuous Transfer Tx AVAX]", func() {
 					balances, err := w.X().Builder().GetFTBalance()
 					gomega.Expect(err).Should(gomega.BeNil())
 
-					bal := balances[avaxAssetID]
+					bal := balances[VidarAssetID]
 					testBalances = append(testBalances, bal)
 
-					fmt.Printf(`CURRENT BALANCE %21d AVAX (SHORT ADDRESS %q)
+					fmt.Printf(`CURRENT BALANCE %21d Vidar (SHORT ADDRESS %q)
 `,
 						bal,
 						testKeys[i].PublicKey().Address(),
@@ -158,9 +158,9 @@ var _ = e2e.DescribeXChain("[Virtuous Transfer Tx AVAX]", func() {
 				ginkgo.By("X-Chain transfer with wrong amount must fail", func() {
 					ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultConfirmTxTimeout)
 					_, err = wallets[fromIdx].X().IssueBaseTx(
-						[]*avax.TransferableOutput{{
-							Asset: avax.Asset{
-								ID: avaxAssetID,
+						[]*Vidar.TransferableOutput{{
+							Asset: Vidar.Asset{
+								ID: VidarAssetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
 								Amt: senderOrigBal + 1,
@@ -180,14 +180,14 @@ var _ = e2e.DescribeXChain("[Virtuous Transfer Tx AVAX]", func() {
 TRANSFERRING
 
 FROM [%q]
-SENDER    CURRENT BALANCE     : %21d AVAX
-SENDER    NEW BALANCE (AFTER) : %21d AVAX
+SENDER    CURRENT BALANCE     : %21d Vidar
+SENDER    NEW BALANCE (AFTER) : %21d Vidar
 
-TRANSFER AMOUNT FROM SENDER   : %21d AVAX
+TRANSFER AMOUNT FROM SENDER   : %21d Vidar
 
 TO [%q]
-RECEIVER  CURRENT BALANCE     : %21d AVAX
-RECEIVER  NEW BALANCE (AFTER) : %21d AVAX
+RECEIVER  CURRENT BALANCE     : %21d Vidar
+RECEIVER  NEW BALANCE (AFTER) : %21d Vidar
 ===
 `,
 					shortAddrs[fromIdx],
@@ -201,9 +201,9 @@ RECEIVER  NEW BALANCE (AFTER) : %21d AVAX
 
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultConfirmTxTimeout)
 				txID, err := wallets[fromIdx].X().IssueBaseTx(
-					[]*avax.TransferableOutput{{
-						Asset: avax.Asset{
-							ID: avaxAssetID,
+					[]*Vidar.TransferableOutput{{
+						Asset: Vidar.Asset{
+							ID: VidarAssetID,
 						},
 						Out: &secp256k1fx.TransferOutput{
 							Amt: amountToTransfer,
@@ -220,12 +220,12 @@ RECEIVER  NEW BALANCE (AFTER) : %21d AVAX
 
 				balances, err := wallets[fromIdx].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
-				senderCurBalX := balances[avaxAssetID]
+				senderCurBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}first wallet balance:{{/}}  %d\n", senderCurBalX)
 
 				balances, err = wallets[toIdx].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
-				receiverCurBalX := balances[avaxAssetID]
+				receiverCurBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}second wallet balance:{{/}} %d\n", receiverCurBalX)
 
 				gomega.Expect(senderCurBalX).Should(gomega.Equal(senderNewBal))

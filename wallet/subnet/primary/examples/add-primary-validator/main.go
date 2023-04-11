@@ -24,7 +24,7 @@ func main() {
 	kc := secp256k1fx.NewKeychain(key)
 	startTime := time.Now().Add(time.Minute)
 	duration := 3 * 7 * 24 * time.Hour // 3 weeks
-	weight := 2_000 * units.Avax
+	weight := 2_000 * units.Vidar
 	validatorRewardAddr := key.Address()
 	delegatorRewardAddr := key.Address()
 	delegationFee := uint32(reward.PercentDenominator / 2) // 50%
@@ -50,7 +50,7 @@ func main() {
 
 	// Get the P-chain wallet
 	pWallet := wallet.P()
-	avaxAssetID := pWallet.AVAXAssetID()
+	VidarAssetID := pWallet.VidarAssetID()
 
 	addValidatorStartTime := time.Now()
 	addValidatorTxID, err := pWallet.IssueAddPermissionlessValidatorTx(
@@ -61,7 +61,7 @@ func main() {
 			Wght:   weight,
 		}},
 		nodePOP,
-		avaxAssetID,
+		VidarAssetID,
 		&secp256k1fx.OutputOwners{
 			Threshold: 1,
 			Addrs:     []ids.ShortID{validatorRewardAddr},

@@ -8,7 +8,7 @@ import (
 
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
 )
 
@@ -38,8 +38,8 @@ type StakerTx interface {
 type PermissionlessStaker interface {
 	Staker
 
-	Outputs() []*avax.TransferableOutput
-	Stake() []*avax.TransferableOutput
+	Outputs() []*Vidar.TransferableOutput
+	Stake() []*Vidar.TransferableOutput
 }
 
 type Staker interface {

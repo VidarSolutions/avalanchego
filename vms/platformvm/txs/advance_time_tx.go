@@ -9,7 +9,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var _ UnsignedTx = (*AdvanceTimeTx)(nil)
@@ -46,7 +46,7 @@ func (*AdvanceTimeTx) InputIDs() set.Set[ids.ID] {
 	return nil
 }
 
-func (*AdvanceTimeTx) Outputs() []*avax.TransferableOutput {
+func (*AdvanceTimeTx) Outputs() []*Vidar.TransferableOutput {
 	return nil
 }
 

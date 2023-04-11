@@ -40,7 +40,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/vms/avm/blocks/executor"
 	"github.com/VidarSolutions/avalanchego/vms/avm/states"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/index"
 	"github.com/VidarSolutions/avalanchego/vms/components/keystore"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
@@ -53,9 +53,9 @@ var testChangeAddr = ids.GenerateTestShortID()
 
 var testCases = []struct {
 	name      string
-	avaxAsset bool
+	VidarAsset bool
 }{
-	{"genesis asset is AVAX", true},
+	{"genesis asset is Vidar", true},
 	{"genesis asset is TEST", false},
 }
 
@@ -64,14 +64,14 @@ var testCases = []struct {
 // 2) the VM
 // 3) The service that wraps the VM
 // 4) atomic memory to use in tests
-func setup(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *Service, *atomic.Memory, *txs.Tx) {
+func setup(t *testing.T, isVidarAsset bool) ([]byte, *VM, *Service, *atomic.Memory, *txs.Tx) {
 	var genesisBytes []byte
 	var vm *VM
 	var m *atomic.Memory
 	var genesisTx *txs.Tx
-	if isAVAXAsset {
+	if isVidarAsset {
 		genesisBytes, _, vm, m = GenesisVM(t)
-		genesisTx = GetAVAXTxFromGenesisTest(genesisBytes, t)
+		genesisTx = GetVidarTxFromGenesisTest(genesisBytes, t)
 	} else {
 		genesisBytes, _, vm, m = setupTxFeeAssets(t)
 		genesisTx = GetCreateTxFromGenesisTest(t, genesisBytes, feeAssetName)
@@ -86,11 +86,11 @@ func setup(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *Service, *atomic.Memor
 // 3) The service that wraps the VM
 // 4) Issuer channel
 // 5) atomic memory to use in tests
-func setupWithIssuer(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *Service, chan common.Message) {
+func setupWithIssuer(t *testing.T, isVidarAsset bool) ([]byte, *VM, *Service, chan common.Message) {
 	var genesisBytes []byte
 	var vm *VM
 	var issuer chan common.Message
-	if isAVAXAsset {
+	if isVidarAsset {
 		genesisBytes, issuer, vm, _ = GenesisVM(t)
 	} else {
 		genesisBytes, issuer, vm, _ = setupTxFeeAssets(t)
@@ -104,8 +104,8 @@ func setupWithIssuer(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *Service, cha
 // 2) the VM
 // 3) The service that wraps the VM
 // 4) atomic memory to use in tests
-func setupWithKeys(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *Service, *atomic.Memory, *txs.Tx) {
-	genesisBytes, vm, s, m, tx := setup(t, isAVAXAsset)
+func setupWithKeys(t *testing.T, isVidarAsset bool) ([]byte, *VM, *Service, *atomic.Memory, *txs.Tx) {
+	genesisBytes, vm, s, m, tx := setup(t, isVidarAsset)
 
 	// Import the initially funded private keys
 	user, err := keystore.NewUserFromKeystore(s.vm.ctx.Keystore, username, password)
@@ -160,7 +160,7 @@ func verifyTxFeeDeducted(t *testing.T, s *Service, fromAddrs []ids.ShortID, numT
 	fromAddrsStartBalance := startBalance * uint64(len(fromAddrs))
 
 	// Key: Address
-	// Value: AVAX balance
+	// Value: Vidar balance
 	balances := map[ids.ShortID]uint64{}
 
 	for _, addr := range addrs { // get balances for all addresses
@@ -241,7 +241,7 @@ func TestServiceGetTxStatus(t *testing.T) {
 	err := s.GetTxStatus(nil, statusArgs, statusReply)
 	require.ErrorIs(err, errNilTxID)
 
-	newTx := newAvaxBaseTxWithOutputs(t, genesisBytes, vm)
+	newTx := newVidarBaseTxWithOutputs(t, genesisBytes, vm)
 	txID := newTx.ID()
 
 	statusArgs = &api.JSONTxID{
@@ -287,12 +287,12 @@ func TestServiceGetBalanceStrict(t *testing.T) {
 
 	// A UTXO with a 2 out of 2 multisig
 	// where one of the addresses is [addr]
-	twoOfTwoUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	twoOfTwoUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -332,12 +332,12 @@ func TestServiceGetBalanceStrict(t *testing.T) {
 
 	// A UTXO with a 1 out of 2 multisig
 	// where one of the addresses is [addr]
-	oneOfTwoUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	oneOfTwoUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -378,12 +378,12 @@ func TestServiceGetBalanceStrict(t *testing.T) {
 	// A UTXO with a 1 out of 1 multisig
 	// but with a locktime in the future
 	now := vm.clock.Time()
-	futureUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	futureUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -483,12 +483,12 @@ func TestServiceGetAllBalances(t *testing.T) {
 	}
 	// A UTXO with a 2 out of 2 multisig
 	// where one of the addresses is [addr]
-	twoOfTwoUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	twoOfTwoUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -525,12 +525,12 @@ func TestServiceGetAllBalances(t *testing.T) {
 
 	// A UTXO with a 1 out of 2 multisig
 	// where one of the addresses is [addr]
-	oneOfTwoUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	oneOfTwoUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -569,12 +569,12 @@ func TestServiceGetAllBalances(t *testing.T) {
 	// A UTXO with a 1 out of 1 multisig
 	// but with a locktime in the future
 	now := vm.clock.Time()
-	futureUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	futureUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -613,12 +613,12 @@ func TestServiceGetAllBalances(t *testing.T) {
 
 	// A UTXO for a different asset
 	otherAssetID := ids.GenerateTestID()
-	otherAssetUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	otherAssetUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: 0,
 		},
-		Asset: avax.Asset{ID: otherAssetID},
+		Asset: Vidar.Asset{ID: otherAssetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1337,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -695,7 +695,7 @@ func TestServiceGetTxJSON_BaseTx(t *testing.T) {
 		ctx.Lock.Unlock()
 	}()
 
-	newTx := newAvaxBaseTxWithOutputs(t, genesisBytes, vm)
+	newTx := newVidarBaseTxWithOutputs(t, genesisBytes, vm)
 
 	txID, err := vm.IssueTx(newTx.Bytes())
 	require.NoError(err)
@@ -737,7 +737,7 @@ func TestServiceGetTxJSON_ExportTx(t *testing.T) {
 		ctx.Lock.Unlock()
 	}()
 
-	newTx := newAvaxExportTxWithOutputs(t, genesisBytes, vm)
+	newTx := newVidarExportTxWithOutputs(t, genesisBytes, vm)
 
 	txID, err := vm.IssueTx(newTx.Bytes())
 	require.NoError(err)
@@ -815,7 +815,7 @@ func TestServiceGetTxJSON_CreateAssetTx(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.Bootstrapping))
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	txID, err := vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 	require.Equal(createAssetTx.ID(), txID)
@@ -895,7 +895,7 @@ func TestServiceGetTxJSON_OperationTxWithNftxMintOp(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	key := keys[0]
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	_, err = vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 
@@ -987,7 +987,7 @@ func TestServiceGetTxJSON_OperationTxWithMultipleNftxMintOp(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	key := keys[0]
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	_, err = vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 
@@ -1081,7 +1081,7 @@ func TestServiceGetTxJSON_OperationTxWithSecpMintOp(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	key := keys[0]
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	_, err = vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 
@@ -1175,7 +1175,7 @@ func TestServiceGetTxJSON_OperationTxWithMultipleSecpMintOp(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	key := keys[0]
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	_, err = vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 
@@ -1270,7 +1270,7 @@ func TestServiceGetTxJSON_OperationTxWithPropertyFxMintOp(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	key := keys[0]
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	_, err = vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 
@@ -1363,7 +1363,7 @@ func TestServiceGetTxJSON_OperationTxWithPropertyFxMintOpMultiple(t *testing.T) 
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	key := keys[0]
-	createAssetTx := newAvaxCreateAssetTxWithOutputs(t, vm)
+	createAssetTx := newVidarCreateAssetTxWithOutputs(t, vm)
 	_, err = vm.IssueTx(createAssetTx.Bytes())
 	require.NoError(err)
 
@@ -1409,27 +1409,27 @@ func TestServiceGetTxJSON_OperationTxWithPropertyFxMintOpMultiple(t *testing.T) 
 	require.Contains(jsonString, "\"credentials\":[{\"fxID\":\"2mcwQKiD8VEspmMJpL1dc7okQQ5dDVAWeCBZ7FWBFAbxpv3t7w\",\"credential\":{\"signatures\":[\"0x25b7ca14df108d4a32877bda4f10d84eda6d653c620f4c8d124265bdcf0ac91f45712b58b33f4b62a19698325a3c89adff214b77f772d9f311742860039abb5601\"]}},{\"fxID\":\"2mcwQKiD8VEspmMJpL1dc7okQQ5dDVAWeCBZ7FWBFAbxpv3t7w\",\"credential\":{\"signatures\":[\"0x25b7ca14df108d4a32877bda4f10d84eda6d653c620f4c8d124265bdcf0ac91f45712b58b33f4b62a19698325a3c89adff214b77f772d9f311742860039abb5601\"]}}]")
 }
 
-func newAvaxBaseTxWithOutputs(t *testing.T, genesisBytes []byte, vm *VM) *txs.Tx {
-	avaxTx := GetAVAXTxFromGenesisTest(genesisBytes, t)
+func newVidarBaseTxWithOutputs(t *testing.T, genesisBytes []byte, vm *VM) *txs.Tx {
+	VidarTx := GetVidarTxFromGenesisTest(genesisBytes, t)
 	key := keys[0]
-	tx := buildBaseTx(avaxTx, vm, key)
+	tx := buildBaseTx(VidarTx, vm, key)
 	if err := tx.SignSECP256K1Fx(vm.parser.Codec(), [][]*secp256k1.PrivateKey{{key}}); err != nil {
 		t.Fatal(err)
 	}
 	return tx
 }
 
-func newAvaxExportTxWithOutputs(t *testing.T, genesisBytes []byte, vm *VM) *txs.Tx {
-	avaxTx := GetAVAXTxFromGenesisTest(genesisBytes, t)
+func newVidarExportTxWithOutputs(t *testing.T, genesisBytes []byte, vm *VM) *txs.Tx {
+	VidarTx := GetVidarTxFromGenesisTest(genesisBytes, t)
 	key := keys[0]
-	tx := buildExportTx(avaxTx, vm, key)
+	tx := buildExportTx(VidarTx, vm, key)
 	if err := tx.SignSECP256K1Fx(vm.parser.Codec(), [][]*secp256k1.PrivateKey{{key}}); err != nil {
 		t.Fatal(err)
 	}
 	return tx
 }
 
-func newAvaxCreateAssetTxWithOutputs(t *testing.T, vm *VM) *txs.Tx {
+func newVidarCreateAssetTxWithOutputs(t *testing.T, vm *VM) *txs.Tx {
 	key := keys[0]
 	tx := buildCreateAssetTx(key)
 	if err := vm.parser.InitializeTx(tx); err != nil {
@@ -1438,18 +1438,18 @@ func newAvaxCreateAssetTxWithOutputs(t *testing.T, vm *VM) *txs.Tx {
 	return tx
 }
 
-func buildBaseTx(avaxTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
+func buildBaseTx(VidarTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
 	return &txs.Tx{Unsigned: &txs.BaseTx{
-		BaseTx: avax.BaseTx{
+		BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
 			Memo:         []byte{1, 2, 3, 4, 5, 6, 7, 8},
-			Ins: []*avax.TransferableInput{{
-				UTXOID: avax.UTXOID{
-					TxID:        avaxTx.ID(),
+			Ins: []*Vidar.TransferableInput{{
+				UTXOID: Vidar.UTXOID{
+					TxID:        VidarTx.ID(),
 					OutputIndex: 2,
 				},
-				Asset: avax.Asset{ID: avaxTx.ID()},
+				Asset: Vidar.Asset{ID: VidarTx.ID()},
 				In: &secp256k1fx.TransferInput{
 					Amt: startBalance,
 					Input: secp256k1fx.Input{
@@ -1459,8 +1459,8 @@ func buildBaseTx(avaxTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
 					},
 				},
 			}},
-			Outs: []*avax.TransferableOutput{{
-				Asset: avax.Asset{ID: avaxTx.ID()},
+			Outs: []*Vidar.TransferableOutput{{
+				Asset: Vidar.Asset{ID: VidarTx.ID()},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: startBalance - vm.TxFee,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -1473,18 +1473,18 @@ func buildBaseTx(avaxTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
 	}}
 }
 
-func buildExportTx(avaxTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
+func buildExportTx(VidarTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
 	return &txs.Tx{Unsigned: &txs.ExportTx{
 		BaseTx: txs.BaseTx{
-			BaseTx: avax.BaseTx{
+			BaseTx: Vidar.BaseTx{
 				NetworkID:    constants.UnitTestID,
 				BlockchainID: chainID,
-				Ins: []*avax.TransferableInput{{
-					UTXOID: avax.UTXOID{
-						TxID:        avaxTx.ID(),
+				Ins: []*Vidar.TransferableInput{{
+					UTXOID: Vidar.UTXOID{
+						TxID:        VidarTx.ID(),
 						OutputIndex: 2,
 					},
-					Asset: avax.Asset{ID: avaxTx.ID()},
+					Asset: Vidar.Asset{ID: VidarTx.ID()},
 					In: &secp256k1fx.TransferInput{
 						Amt:   startBalance,
 						Input: secp256k1fx.Input{SigIndices: []uint32{0}},
@@ -1493,8 +1493,8 @@ func buildExportTx(avaxTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
 			},
 		},
 		DestinationChain: constants.PlatformChainID,
-		ExportedOuts: []*avax.TransferableOutput{{
-			Asset: avax.Asset{ID: avaxTx.ID()},
+		ExportedOuts: []*Vidar.TransferableOutput{{
+			Asset: Vidar.Asset{ID: VidarTx.ID()},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: startBalance - vm.TxFee,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1508,7 +1508,7 @@ func buildExportTx(avaxTx *txs.Tx, vm *VM, key *secp256k1.PrivateKey) *txs.Tx {
 
 func buildCreateAssetTx(key *secp256k1.PrivateKey) *txs.Tx {
 	return &txs.Tx{Unsigned: &txs.CreateAssetTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
 		}},
@@ -1574,8 +1574,8 @@ func buildCreateAssetTx(key *secp256k1.PrivateKey) *txs.Tx {
 
 func buildNFTxMintOp(createAssetTx *txs.Tx, key *secp256k1.PrivateKey, outputIndex, groupID uint32) *txs.Operation {
 	return &txs.Operation{
-		Asset: avax.Asset{ID: createAssetTx.ID()},
-		UTXOIDs: []*avax.UTXOID{{
+		Asset: Vidar.Asset{ID: createAssetTx.ID()},
+		UTXOIDs: []*Vidar.UTXOID{{
 			TxID:        createAssetTx.ID(),
 			OutputIndex: outputIndex,
 		}},
@@ -1595,8 +1595,8 @@ func buildNFTxMintOp(createAssetTx *txs.Tx, key *secp256k1.PrivateKey, outputInd
 
 func buildPropertyFxMintOp(createAssetTx *txs.Tx, key *secp256k1.PrivateKey, outputIndex uint32) *txs.Operation {
 	return &txs.Operation{
-		Asset: avax.Asset{ID: createAssetTx.ID()},
-		UTXOIDs: []*avax.UTXOID{{
+		Asset: Vidar.Asset{ID: createAssetTx.ID()},
+		UTXOIDs: []*Vidar.UTXOID{{
 			TxID:        createAssetTx.ID(),
 			OutputIndex: outputIndex,
 		}},
@@ -1616,8 +1616,8 @@ func buildPropertyFxMintOp(createAssetTx *txs.Tx, key *secp256k1.PrivateKey, out
 
 func buildSecpMintOp(createAssetTx *txs.Tx, key *secp256k1.PrivateKey, outputIndex uint32) *txs.Operation {
 	return &txs.Operation{
-		Asset: avax.Asset{ID: createAssetTx.ID()},
-		UTXOIDs: []*avax.UTXOID{{
+		Asset: Vidar.Asset{ID: createAssetTx.ID()},
+		UTXOIDs: []*Vidar.UTXOID{{
 			TxID:        createAssetTx.ID(),
 			OutputIndex: outputIndex,
 		}},
@@ -1647,7 +1647,7 @@ func buildSecpMintOp(createAssetTx *txs.Tx, key *secp256k1.PrivateKey, outputInd
 
 func buildOperationTxWithOp(op ...*txs.Operation) *txs.Tx {
 	return &txs.Tx{Unsigned: &txs.OperationTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
 		}},
@@ -1698,11 +1698,11 @@ func TestServiceGetUTXOs(t *testing.T) {
 	numUTXOs := 10
 	// Put a bunch of UTXOs
 	for i := 0; i < numUTXOs; i++ {
-		utxo := &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxo := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID: ids.GenerateTestID(),
 			},
-			Asset: avax.Asset{ID: vm.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: vm.ctx.VidarAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: 1,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1720,11 +1720,11 @@ func TestServiceGetUTXOs(t *testing.T) {
 	elems := make([]*atomic.Element, numUTXOs)
 	codec := vm.parser.Codec()
 	for i := range elems {
-		utxo := &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxo := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID: ids.GenerateTestID(),
 			},
-			Asset: avax.Asset{ID: vm.ctx.AVAXAssetID},
+			Asset: Vidar.Asset{ID: vm.ctx.VidarAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: 1,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1958,17 +1958,17 @@ func TestGetAssetDescription(t *testing.T) {
 		vm.ctx.Lock.Unlock()
 	}()
 
-	avaxAssetID := genesisTx.ID()
+	VidarAssetID := genesisTx.ID()
 
 	reply := GetAssetDescriptionReply{}
 	err := s.GetAssetDescription(nil, &GetAssetDescriptionArgs{
-		AssetID: avaxAssetID.String(),
+		AssetID: VidarAssetID.String(),
 	}, &reply)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if reply.Name != "AVAX" {
+	if reply.Name != "Vidar" {
 		t.Fatalf("Wrong name returned from GetAssetDescription %s", reply.Name)
 	}
 	if reply.Symbol != "SYMB" {
@@ -1985,7 +1985,7 @@ func TestGetBalance(t *testing.T) {
 		vm.ctx.Lock.Unlock()
 	}()
 
-	avaxAssetID := genesisTx.ID()
+	VidarAssetID := genesisTx.ID()
 
 	reply := GetBalanceReply{}
 	addrStr, err := vm.FormatLocalAddress(keys[0].PublicKey().Address())
@@ -1994,7 +1994,7 @@ func TestGetBalance(t *testing.T) {
 	}
 	err = s.GetBalance(nil, &GetBalanceArgs{
 		Address: addrStr,
-		AssetID: avaxAssetID.String(),
+		AssetID: VidarAssetID.String(),
 	}, &reply)
 	if err != nil {
 		t.Fatal(err)
@@ -2008,7 +2008,7 @@ func TestGetBalance(t *testing.T) {
 func TestCreateFixedCapAsset(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, vm, s, _, _ := setupWithKeys(t, tc.avaxAsset)
+			_, vm, s, _, _ := setupWithKeys(t, tc.VidarAsset)
 			defer func() {
 				if err := vm.Shutdown(context.Background()); err != nil {
 					t.Fatal(err)
@@ -2057,7 +2057,7 @@ func TestCreateFixedCapAsset(t *testing.T) {
 func TestCreateVariableCapAsset(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, vm, s, _, _ := setupWithKeys(t, tc.avaxAsset)
+			_, vm, s, _, _ := setupWithKeys(t, tc.VidarAsset)
 			defer func() {
 				if err := vm.Shutdown(context.Background()); err != nil {
 					t.Fatal(err)
@@ -2174,7 +2174,7 @@ func TestCreateVariableCapAsset(t *testing.T) {
 func TestNFTWorkflow(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, vm, s, _, _ := setupWithKeys(t, tc.avaxAsset)
+			_, vm, s, _, _ := setupWithKeys(t, tc.VidarAsset)
 			defer func() {
 				if err := vm.Shutdown(context.Background()); err != nil {
 					t.Fatal(err)
@@ -2463,7 +2463,7 @@ func TestSend(t *testing.T) {
 func TestSendMultiple(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, vm, s, _, genesisTx := setupWithKeys(t, tc.avaxAsset)
+			_, vm, s, _, genesisTx := setupWithKeys(t, tc.VidarAsset)
 			defer func() {
 				if err := vm.Shutdown(context.Background()); err != nil {
 					t.Fatal(err)
@@ -2572,7 +2572,7 @@ func TestCreateAndListAddresses(t *testing.T) {
 func TestImport(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, vm, s, m, genesisTx := setupWithKeys(t, tc.avaxAsset)
+			_, vm, s, m, genesisTx := setupWithKeys(t, tc.VidarAsset)
 			defer func() {
 				if err := vm.Shutdown(context.Background()); err != nil {
 					t.Fatal(err)
@@ -2582,9 +2582,9 @@ func TestImport(t *testing.T) {
 			assetID := genesisTx.ID()
 			addr0 := keys[0].PublicKey().Address()
 
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{TxID: ids.Empty},
-				Asset:  avax.Asset{ID: assetID},
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{TxID: ids.Empty},
+				Asset:  Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: 7,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -2624,7 +2624,7 @@ func TestImport(t *testing.T) {
 			}
 			reply := &api.JSONTxID{}
 			if err := s.Import(nil, args, reply); err != nil {
-				t.Fatalf("Failed to import AVAX due to %s", err)
+				t.Fatalf("Failed to import Vidar due to %s", err)
 			}
 		})
 	}

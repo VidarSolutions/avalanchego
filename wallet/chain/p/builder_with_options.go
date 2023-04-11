@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/VidarSolutions/avalanchego/ids"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/signer"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -143,7 +143,7 @@ func (b *builderWithOptions) NewImportTx(
 
 func (b *builderWithOptions) NewExportTx(
 	chainID ids.ID,
-	outputs []*avax.TransferableOutput,
+	outputs []*Vidar.TransferableOutput,
 	options ...common.Option,
 ) (*txs.ExportTx, error) {
 	return b.Builder.NewExportTx(

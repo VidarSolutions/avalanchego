@@ -20,7 +20,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs/mempool"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/message"
 	"github.com/VidarSolutions/avalanchego/vms/nftfx"
 	"github.com/VidarSolutions/avalanchego/vms/propertyfx"
@@ -32,11 +32,11 @@ var errTest = errors.New("test error")
 func TestNetworkAppGossip(t *testing.T) {
 	testTx := &txs.Tx{
 		Unsigned: &txs.BaseTx{
-			BaseTx: avax.BaseTx{
+			BaseTx: Vidar.BaseTx{
 				NetworkID:    1,
 				BlockchainID: ids.GenerateTestID(),
-				Ins:          []*avax.TransferableInput{},
-				Outs:         []*avax.TransferableOutput{},
+				Ins:          []*Vidar.TransferableInput{},
+				Outs:         []*Vidar.TransferableOutput{},
 			},
 		},
 	}

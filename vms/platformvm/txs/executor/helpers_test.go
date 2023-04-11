@@ -35,7 +35,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 	"github.com/VidarSolutions/avalanchego/version"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/api"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
@@ -60,10 +60,10 @@ var (
 	defaultGenesisTime        = time.Date(1997, 1, 1, 0, 0, 0, 0, time.UTC)
 	defaultValidateStartTime  = defaultGenesisTime
 	defaultValidateEndTime    = defaultValidateStartTime.Add(10 * defaultMinStakingDuration)
-	defaultMinValidatorStake  = 5 * units.MilliAvax
+	defaultMinValidatorStake  = 5 * units.MilliVidar
 	defaultBalance            = 100 * defaultMinValidatorStake
 	preFundedKeys             = secp256k1.TestKeys()
-	avaxAssetID               = ids.ID{'y', 'e', 'e', 't'}
+	VidarAssetID               = ids.ID{'y', 'e', 'e', 't'}
 	defaultTxFee              = uint64(100)
 	xChainID                  = ids.Empty.Prefix(0)
 	cChainID                  = ids.Empty.Prefix(1)
@@ -93,7 +93,7 @@ type environment struct {
 	fx             fx.Fx
 	state          state.State
 	states         map[ids.ID]state.Chain
-	atomicUTXOs    avax.AtomicUTXOManager
+	atomicUTXOs    Vidar.AtomicUTXOManager
 	uptimes        uptime.Manager
 	utxosHandler   utxo.Handler
 	txBuilder      builder.Builder
@@ -128,7 +128,7 @@ func newEnvironment(postBanff bool) *environment {
 	rewards := reward.NewCalculator(config.RewardConfig)
 	baseState := defaultState(&config, ctx, baseDB, rewards)
 
-	atomicUTXOs := avax.NewAtomicUTXOManager(ctx.SharedMemory, txs.Codec)
+	atomicUTXOs := Vidar.NewAtomicUTXOManager(ctx.SharedMemory, txs.Codec)
 	uptimes := uptime.NewManager(baseState)
 	utxoHandler := utxo.NewHandler(ctx, &clk, fx)
 
@@ -254,7 +254,7 @@ func defaultCtx(db database.Database) (*snow.Context, *mutableSharedMemory) {
 	ctx.NetworkID = 10
 	ctx.XChainID = xChainID
 	ctx.CChainID = cChainID
-	ctx.AVAXAssetID = avaxAssetID
+	ctx.VidarAssetID = VidarAssetID
 
 	atomicDB := prefixdb.New([]byte{1}, db)
 	m := atomic.NewMemory(atomicDB)
@@ -297,16 +297,16 @@ func defaultConfig(postBanff bool) config.Config {
 		TxFee:                  defaultTxFee,
 		CreateSubnetTxFee:      100 * defaultTxFee,
 		CreateBlockchainTxFee:  100 * defaultTxFee,
-		MinValidatorStake:      5 * units.MilliAvax,
-		MaxValidatorStake:      500 * units.MilliAvax,
-		MinDelegatorStake:      1 * units.MilliAvax,
+		MinValidatorStake:      5 * units.MilliVidar,
+		MaxValidatorStake:      500 * units.MilliVidar,
+		MinDelegatorStake:      1 * units.MilliVidar,
 		MinStakeDuration:       defaultMinStakingDuration,
 		MaxStakeDuration:       defaultMaxStakingDuration,
 		RewardConfig: reward.Config{
 			MaxConsumptionRate: .12 * reward.PercentDenominator,
 			MinConsumptionRate: .10 * reward.PercentDenominator,
 			MintingPeriod:      365 * 24 * time.Hour,
-			SupplyCap:          720 * units.MegaAvax,
+			SupplyCap:          720 * units.MegaVidar,
 		},
 		ApricotPhase3Time: defaultValidateEndTime,
 		ApricotPhase5Time: defaultValidateEndTime,
@@ -403,12 +403,12 @@ func buildGenesisTest(ctx *snow.Context) []byte {
 
 	buildGenesisArgs := api.BuildGenesisArgs{
 		NetworkID:     json.Uint32(testNetworkID),
-		AvaxAssetID:   ctx.AVAXAssetID,
+		VidarAssetID:   ctx.VidarAssetID,
 		UTXOs:         genesisUTXOs,
 		Validators:    genesisValidators,
 		Chains:        nil,
 		Time:          json.Uint64(defaultGenesisTime.Unix()),
-		InitialSupply: json.Uint64(360 * units.MegaAvax),
+		InitialSupply: json.Uint64(360 * units.MegaVidar),
 		Encoding:      formatting.Hex,
 	}
 

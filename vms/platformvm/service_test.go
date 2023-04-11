@@ -29,7 +29,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/json"
 	"github.com/VidarSolutions/avalanchego/utils/logging"
 	"github.com/VidarSolutions/avalanchego/version"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
@@ -77,7 +77,7 @@ func defaultService(t *testing.T) (*Service, *mutableSharedMemory) {
 	vm.ctx.Keystore = ks.NewBlockchainKeyStore(vm.ctx.ChainID)
 	return &Service{
 		vm:          vm,
-		addrManager: avax.NewAddressManager(vm.ctx),
+		addrManager: Vidar.NewAddressManager(vm.ctx),
 		stakerAttributesCache: &cache.LRU[ids.ID, *stakerAttributes]{
 			Size: stakerAttributesCacheSize,
 		},
@@ -182,12 +182,12 @@ func TestGetTxStatus(t *testing.T) {
 	peerSharedMemory := m.NewSharedMemory(xChainID)
 
 	// #nosec G404
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.GenerateTestID(),
 			OutputIndex: rand.Uint32(),
 		},
-		Asset: avax.Asset{ID: avaxAssetID},
+		Asset: Vidar.Asset{ID: VidarAssetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: 1234567,
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -447,7 +447,7 @@ func TestGetStake(t *testing.T) {
 		outputBytes, err := formatting.Decode(args.Encoding, response.Outputs[0])
 		require.NoError(err)
 
-		var output avax.TransferableOutput
+		var output Vidar.TransferableOutput
 		_, err = txs.Codec.Unmarshal(outputBytes, &output)
 		require.NoError(err)
 
@@ -475,7 +475,7 @@ func TestGetStake(t *testing.T) {
 		outputBytes, err := formatting.Decode(args.Encoding, outputStr)
 		require.NoError(err)
 
-		var output avax.TransferableOutput
+		var output Vidar.TransferableOutput
 		_, err = txs.Codec.Unmarshal(outputBytes, &output)
 		require.NoError(err)
 
@@ -522,7 +522,7 @@ func TestGetStake(t *testing.T) {
 	require.Len(response.Outputs, 2)
 
 	// Unmarshal into transferable outputs
-	outputs := make([]avax.TransferableOutput, 2)
+	outputs := make([]Vidar.TransferableOutput, 2)
 	for i := range outputs {
 		outputBytes, err := formatting.Decode(args.Encoding, response.Outputs[i])
 		require.NoError(err)
@@ -568,7 +568,7 @@ func TestGetStake(t *testing.T) {
 	require.Len(response.Outputs, 3)
 
 	// Unmarshal
-	outputs = make([]avax.TransferableOutput, 3)
+	outputs = make([]Vidar.TransferableOutput, 3)
 	for i := range outputs {
 		outputBytes, err := formatting.Decode(args.Encoding, response.Outputs[i])
 		require.NoError(err)

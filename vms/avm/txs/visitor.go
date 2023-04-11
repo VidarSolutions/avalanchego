@@ -3,7 +3,7 @@
 
 package txs
 
-import "github.com/VidarSolutions/avalanchego/vms/components/avax"
+import "github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 
 var _ Visitor = (*utxoGetter)(nil)
 
@@ -19,19 +19,19 @@ type Visitor interface {
 // utxoGetter returns the UTXOs transaction is producing.
 type utxoGetter struct {
 	tx    *Tx
-	utxos []*avax.UTXO
+	utxos []*Vidar.UTXO
 }
 
 func (u *utxoGetter) BaseTx(tx *BaseTx) error {
 	txID := u.tx.ID()
-	u.utxos = make([]*avax.UTXO, len(tx.Outs))
+	u.utxos = make([]*Vidar.UTXO, len(tx.Outs))
 	for i, out := range tx.Outs {
-		u.utxos[i] = &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		u.utxos[i] = &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID:        txID,
 				OutputIndex: uint32(i),
 			},
-			Asset: avax.Asset{ID: out.AssetID()},
+			Asset: Vidar.Asset{ID: out.AssetID()},
 			Out:   out.Out,
 		}
 	}
@@ -54,12 +54,12 @@ func (u *utxoGetter) CreateAssetTx(t *CreateAssetTx) error {
 	txID := u.tx.ID()
 	for _, state := range t.States {
 		for _, out := range state.Outs {
-			u.utxos = append(u.utxos, &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			u.utxos = append(u.utxos, &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        txID,
 					OutputIndex: uint32(len(u.utxos)),
 				},
-				Asset: avax.Asset{
+				Asset: Vidar.Asset{
 					ID: txID,
 				},
 				Out: out,
@@ -78,12 +78,12 @@ func (u *utxoGetter) OperationTx(t *OperationTx) error {
 	for _, op := range t.Ops {
 		asset := op.AssetID()
 		for _, out := range op.Op.Outs() {
-			u.utxos = append(u.utxos, &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			u.utxos = append(u.utxos, &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        txID,
 					OutputIndex: uint32(len(u.utxos)),
 				},
-				Asset: avax.Asset{ID: asset},
+				Asset: Vidar.Asset{ID: asset},
 				Out:   out,
 			})
 		}

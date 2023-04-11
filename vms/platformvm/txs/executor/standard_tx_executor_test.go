@@ -21,7 +21,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/hashing"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
@@ -985,12 +985,12 @@ func newRemoveSubnetValidatorTx(t *testing.T) (*txs.RemoveSubnetValidatorTx, *tx
 	}
 	unsignedTx := &txs.RemoveSubnetValidatorTx{
 		BaseTx: txs.BaseTx{
-			BaseTx: avax.BaseTx{
-				Ins: []*avax.TransferableInput{{
-					UTXOID: avax.UTXOID{
+			BaseTx: Vidar.BaseTx{
+				Ins: []*Vidar.TransferableInput{{
+					UTXOID: Vidar.UTXOID{
 						TxID: ids.GenerateTestID(),
 					},
-					Asset: avax.Asset{
+					Asset: Vidar.Asset{
 						ID: ids.GenerateTestID(),
 					},
 					In: &secp256k1fx.TransferInput{
@@ -1000,9 +1000,9 @@ func newRemoveSubnetValidatorTx(t *testing.T) (*txs.RemoveSubnetValidatorTx, *tx
 						},
 					},
 				}},
-				Outs: []*avax.TransferableOutput{
+				Outs: []*Vidar.TransferableOutput{
 					{
-						Asset: avax.Asset{
+						Asset: Vidar.Asset{
 							ID: ids.GenerateTestID(),
 						},
 						Out: &secp256k1fx.TransferOutput{
@@ -1354,12 +1354,12 @@ func newTransformSubnetTx(t *testing.T) (*txs.TransformSubnetTx, *txs.Tx) {
 	}
 	unsignedTx := &txs.TransformSubnetTx{
 		BaseTx: txs.BaseTx{
-			BaseTx: avax.BaseTx{
-				Ins: []*avax.TransferableInput{{
-					UTXOID: avax.UTXOID{
+			BaseTx: Vidar.BaseTx{
+				Ins: []*Vidar.TransferableInput{{
+					UTXOID: Vidar.UTXOID{
 						TxID: ids.GenerateTestID(),
 					},
-					Asset: avax.Asset{
+					Asset: Vidar.Asset{
 						ID: ids.GenerateTestID(),
 					},
 					In: &secp256k1fx.TransferInput{
@@ -1369,9 +1369,9 @@ func newTransformSubnetTx(t *testing.T) (*txs.TransformSubnetTx, *txs.Tx) {
 						},
 					},
 				}},
-				Outs: []*avax.TransferableOutput{
+				Outs: []*Vidar.TransferableOutput{
 					{
-						Asset: avax.Asset{
+						Asset: Vidar.Asset{
 							ID: ids.GenerateTestID(),
 						},
 						Out: &secp256k1fx.TransferOutput{

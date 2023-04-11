@@ -14,7 +14,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/database/prefixdb"
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -53,12 +53,12 @@ func TestNewImportTx(t *testing.T) {
 
 		for assetID, amt := range assets {
 			// #nosec G404
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        ids.GenerateTestID(),
 					OutputIndex: rand.Uint32(),
 				},
-				Asset: avax.Asset{ID: assetID},
+				Asset: Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: amt,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -101,7 +101,7 @@ func TestNewImportTx(t *testing.T) {
 			sharedMemory: fundedSharedMemory(
 				env.ctx.XChainID,
 				map[ids.ID]uint64{
-					env.ctx.AVAXAssetID: env.config.TxFee - 1,
+					env.ctx.VidarAssetID: env.config.TxFee - 1,
 				},
 			),
 			sourceKeys: []*secp256k1.PrivateKey{sourceKey},
@@ -113,7 +113,7 @@ func TestNewImportTx(t *testing.T) {
 			sharedMemory: fundedSharedMemory(
 				env.ctx.XChainID,
 				map[ids.ID]uint64{
-					env.ctx.AVAXAssetID: env.config.TxFee,
+					env.ctx.VidarAssetID: env.config.TxFee,
 				},
 			),
 			sourceKeys:   []*secp256k1.PrivateKey{sourceKey},
@@ -126,7 +126,7 @@ func TestNewImportTx(t *testing.T) {
 			sharedMemory: fundedSharedMemory(
 				cChainID,
 				map[ids.ID]uint64{
-					env.ctx.AVAXAssetID: env.config.TxFee,
+					env.ctx.VidarAssetID: env.config.TxFee,
 				},
 			),
 			sourceKeys:   []*secp256k1.PrivateKey{sourceKey},
@@ -135,12 +135,12 @@ func TestNewImportTx(t *testing.T) {
 			shouldVerify: true,
 		},
 		{
-			description:   "attempting to import non-avax from X-chain",
+			description:   "attempting to import non-Vidar from X-chain",
 			sourceChainID: env.ctx.XChainID,
 			sharedMemory: fundedSharedMemory(
 				env.ctx.XChainID,
 				map[ids.ID]uint64{
-					env.ctx.AVAXAssetID: env.config.TxFee,
+					env.ctx.VidarAssetID: env.config.TxFee,
 					customAssetID:       1,
 				},
 			),

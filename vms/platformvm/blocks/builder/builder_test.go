@@ -18,7 +18,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/logging"
 	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
@@ -304,8 +304,8 @@ func TestBuildBlock(t *testing.T) {
 	var (
 		parentID = ids.GenerateTestID()
 		height   = uint64(1337)
-		output   = &avax.TransferableOutput{
-			Asset: avax.Asset{ID: ids.GenerateTestID()},
+		output   = &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: ids.GenerateTestID()},
 			Out: &secp256k1fx.TransferOutput{
 				OutputOwners: secp256k1fx.OutputOwners{
 					Addrs: []ids.ShortID{ids.GenerateTestShortID()},
@@ -316,22 +316,22 @@ func TestBuildBlock(t *testing.T) {
 		parentTimestamp = now.Add(-2 * time.Second)
 		transactions    = []*txs.Tx{{
 			Unsigned: &txs.AddValidatorTx{
-				BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
-					Ins: []*avax.TransferableInput{{
-						Asset: avax.Asset{ID: ids.GenerateTestID()},
+				BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
+					Ins: []*Vidar.TransferableInput{{
+						Asset: Vidar.Asset{ID: ids.GenerateTestID()},
 						In: &secp256k1fx.TransferInput{
 							Input: secp256k1fx.Input{
 								SigIndices: []uint32{0},
 							},
 						},
 					}},
-					Outs: []*avax.TransferableOutput{output},
+					Outs: []*Vidar.TransferableOutput{output},
 				}},
 				Validator: txs.Validator{
 					// Shouldn't be dropped
 					Start: uint64(now.Add(2 * txexecutor.SyncBound).Unix()),
 				},
-				StakeOuts: []*avax.TransferableOutput{output},
+				StakeOuts: []*Vidar.TransferableOutput{output},
 				RewardsOwner: &secp256k1fx.OutputOwners{
 					Addrs: []ids.ShortID{ids.GenerateTestShortID()},
 				},

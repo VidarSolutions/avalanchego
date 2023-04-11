@@ -14,7 +14,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -39,19 +39,19 @@ func TestAddSubnetValidatorTxSyntacticVerify(t *testing.T) {
 
 	validatorWeight := uint64(2022)
 	subnetID := ids.ID{'s', 'u', 'b', 'n', 'e', 't', 'I', 'D'}
-	inputs := []*avax.TransferableInput{{
-		UTXOID: avax.UTXOID{
+	inputs := []*Vidar.TransferableInput{{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.ID{'t', 'x', 'I', 'D'},
 			OutputIndex: 2,
 		},
-		Asset: avax.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
+		Asset: Vidar.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
 		In: &secp256k1fx.TransferInput{
 			Amt:   uint64(5678),
 			Input: secp256k1fx.Input{SigIndices: []uint32{0}},
 		},
 	}}
-	outputs := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
+	outputs := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: uint64(1234),
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -64,7 +64,7 @@ func TestAddSubnetValidatorTxSyntacticVerify(t *testing.T) {
 		SigIndices: []uint32{0, 1},
 	}
 	addSubnetValidatorTx = &AddSubnetValidatorTx{
-		BaseTx: BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    ctx.NetworkID,
 			BlockchainID: ctx.ChainID,
 			Ins:          inputs,
@@ -150,19 +150,19 @@ func TestAddSubnetValidatorMarshal(t *testing.T) {
 	// create a valid tx
 	validatorWeight := uint64(2022)
 	subnetID := ids.ID{'s', 'u', 'b', 'n', 'e', 't', 'I', 'D'}
-	inputs := []*avax.TransferableInput{{
-		UTXOID: avax.UTXOID{
+	inputs := []*Vidar.TransferableInput{{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.ID{'t', 'x', 'I', 'D'},
 			OutputIndex: 2,
 		},
-		Asset: avax.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
+		Asset: Vidar.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
 		In: &secp256k1fx.TransferInput{
 			Amt:   uint64(5678),
 			Input: secp256k1fx.Input{SigIndices: []uint32{0}},
 		},
 	}}
-	outputs := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
+	outputs := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: ids.ID{'a', 's', 's', 'e', 't'}},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: uint64(1234),
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -175,7 +175,7 @@ func TestAddSubnetValidatorMarshal(t *testing.T) {
 		SigIndices: []uint32{0, 1},
 	}
 	addSubnetValidatorTx = &AddSubnetValidatorTx{
-		BaseTx: BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    ctx.NetworkID,
 			BlockchainID: ctx.ChainID,
 			Ins:          inputs,

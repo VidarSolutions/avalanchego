@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -91,11 +91,11 @@ func TestBaseTxSerialization(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00,
 	}
 
-	tx := &Tx{Unsigned: &BaseTx{BaseTx: avax.BaseTx{
+	tx := &Tx{Unsigned: &BaseTx{BaseTx: Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: chainID,
-		Outs: []*avax.TransferableOutput{{
-			Asset: avax.Asset{ID: assetID},
+		Outs: []*Vidar.TransferableOutput{{
+			Asset: Vidar.Asset{ID: assetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: 12345,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -104,8 +104,8 @@ func TestBaseTxSerialization(t *testing.T) {
 				},
 			},
 		}},
-		Ins: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		Ins: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID: ids.ID{
 					0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
 					0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1, 0xf0,
@@ -114,7 +114,7 @@ func TestBaseTxSerialization(t *testing.T) {
 				},
 				OutputIndex: 1,
 			},
-			Asset: avax.Asset{ID: assetID},
+			Asset: Vidar.Asset{ID: assetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 54321,
 				Input: secp256k1fx.Input{
@@ -207,11 +207,11 @@ func TestBaseTxSerialization(t *testing.T) {
 func TestBaseTxGetters(t *testing.T) {
 	require := require.New(t)
 
-	tx := &BaseTx{BaseTx: avax.BaseTx{
+	tx := &BaseTx{BaseTx: Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: chainID,
-		Outs: []*avax.TransferableOutput{{
-			Asset: avax.Asset{ID: assetID},
+		Outs: []*Vidar.TransferableOutput{{
+			Asset: Vidar.Asset{ID: assetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: 12345,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -220,12 +220,12 @@ func TestBaseTxGetters(t *testing.T) {
 				},
 			},
 		}},
-		Ins: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		Ins: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.GenerateTestID(),
 				OutputIndex: 1,
 			},
-			Asset: avax.Asset{ID: assetID},
+			Asset: Vidar.Asset{ID: assetID},
 			In: &secp256k1fx.TransferInput{
 				Amt: 54321,
 				Input: secp256k1fx.Input{

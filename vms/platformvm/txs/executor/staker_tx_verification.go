@@ -14,7 +14,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/math"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
@@ -48,7 +48,7 @@ func verifyAddValidatorTx(
 	sTx *txs.Tx,
 	tx *txs.AddValidatorTx,
 ) (
-	[]*avax.TransferableOutput,
+	[]*Vidar.TransferableOutput,
 	error,
 ) {
 	// Verify the tx is well-formed
@@ -80,7 +80,7 @@ func verifyAddValidatorTx(
 		return nil, errStakeTooLong
 	}
 
-	outs := make([]*avax.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
+	outs := make([]*Vidar.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
 	copy(outs, tx.Outs)
 	copy(outs[len(tx.Outs):], tx.StakeOuts)
 
@@ -123,7 +123,7 @@ func verifyAddValidatorTx(
 		outs,
 		sTx.Creds,
 		map[ids.ID]uint64{
-			backend.Ctx.AVAXAssetID: backend.Config.AddPrimaryNetworkValidatorFee,
+			backend.Ctx.VidarAssetID: backend.Config.AddPrimaryNetworkValidatorFee,
 		},
 	); err != nil {
 		return nil, fmt.Errorf("%w: %v", errFlowCheckFailed, err)
@@ -222,7 +222,7 @@ func verifyAddSubnetValidatorTx(
 		tx.Outs,
 		baseTxCreds,
 		map[ids.ID]uint64{
-			backend.Ctx.AVAXAssetID: backend.Config.AddSubnetValidatorFee,
+			backend.Ctx.VidarAssetID: backend.Config.AddSubnetValidatorFee,
 		},
 	); err != nil {
 		return fmt.Errorf("%w: %v", errFlowCheckFailed, err)
@@ -297,7 +297,7 @@ func removeSubnetValidatorValidation(
 		tx.Outs,
 		baseTxCreds,
 		map[ids.ID]uint64{
-			backend.Ctx.AVAXAssetID: backend.Config.TxFee,
+			backend.Ctx.VidarAssetID: backend.Config.TxFee,
 		},
 	); err != nil {
 		return nil, false, fmt.Errorf("%w: %v", errFlowCheckFailed, err)
@@ -315,7 +315,7 @@ func verifyAddDelegatorTx(
 	sTx *txs.Tx,
 	tx *txs.AddDelegatorTx,
 ) (
-	[]*avax.TransferableOutput,
+	[]*Vidar.TransferableOutput,
 	error,
 ) {
 	// Verify the tx is well-formed
@@ -338,7 +338,7 @@ func verifyAddDelegatorTx(
 		return nil, errWeightTooSmall
 	}
 
-	outs := make([]*avax.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
+	outs := make([]*Vidar.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
 	copy(outs, tx.Outs)
 	copy(outs[len(tx.Outs):], tx.StakeOuts)
 
@@ -398,7 +398,7 @@ func verifyAddDelegatorTx(
 		outs,
 		sTx.Creds,
 		map[ids.ID]uint64{
-			backend.Ctx.AVAXAssetID: backend.Config.AddPrimaryNetworkDelegatorFee,
+			backend.Ctx.VidarAssetID: backend.Config.AddPrimaryNetworkDelegatorFee,
 		},
 	); err != nil {
 		return nil, fmt.Errorf("%w: %v", errFlowCheckFailed, err)
@@ -521,7 +521,7 @@ func verifyAddPermissionlessValidatorTx(
 		txFee = backend.Config.AddPrimaryNetworkValidatorFee
 	}
 
-	outs := make([]*avax.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
+	outs := make([]*Vidar.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
 	copy(outs, tx.Outs)
 	copy(outs[len(tx.Outs):], tx.StakeOuts)
 
@@ -533,7 +533,7 @@ func verifyAddPermissionlessValidatorTx(
 		outs,
 		sTx.Creds,
 		map[ids.ID]uint64{
-			backend.Ctx.AVAXAssetID: txFee,
+			backend.Ctx.VidarAssetID: txFee,
 		},
 	); err != nil {
 		return fmt.Errorf("%w: %v", errFlowCheckFailed, err)
@@ -565,7 +565,7 @@ func getValidatorRules(
 ) (*addValidatorRules, error) {
 	if subnetID == constants.PrimaryNetworkID {
 		return &addValidatorRules{
-			assetID:           backend.Ctx.AVAXAssetID,
+			assetID:           backend.Ctx.VidarAssetID,
 			minValidatorStake: backend.Config.MinValidatorStake,
 			maxValidatorStake: backend.Config.MaxValidatorStake,
 			minStakeDuration:  backend.Config.MinStakeDuration,
@@ -684,7 +684,7 @@ func verifyAddPermissionlessDelegatorTx(
 		return errOverDelegated
 	}
 
-	outs := make([]*avax.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
+	outs := make([]*Vidar.TransferableOutput, len(tx.Outs)+len(tx.StakeOuts))
 	copy(outs, tx.Outs)
 	copy(outs[len(tx.Outs):], tx.StakeOuts)
 
@@ -714,7 +714,7 @@ func verifyAddPermissionlessDelegatorTx(
 		outs,
 		sTx.Creds,
 		map[ids.ID]uint64{
-			backend.Ctx.AVAXAssetID: txFee,
+			backend.Ctx.VidarAssetID: txFee,
 		},
 	); err != nil {
 		return fmt.Errorf("%w: %v", errFlowCheckFailed, err)
@@ -746,7 +746,7 @@ func getDelegatorRules(
 ) (*addDelegatorRules, error) {
 	if subnetID == constants.PrimaryNetworkID {
 		return &addDelegatorRules{
-			assetID:                  backend.Ctx.AVAXAssetID,
+			assetID:                  backend.Ctx.VidarAssetID,
 			minDelegatorStake:        backend.Config.MinDelegatorStake,
 			maxValidatorStake:        backend.Config.MaxValidatorStake,
 			minStakeDuration:         backend.Config.MinStakeDuration,

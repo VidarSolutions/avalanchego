@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/hashing"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -94,16 +94,16 @@ func (tx *Tx) ID() ids.ID {
 }
 
 // UTXOs returns the UTXOs transaction is producing.
-func (tx *Tx) UTXOs() []*avax.UTXO {
+func (tx *Tx) UTXOs() []*Vidar.UTXO {
 	outs := tx.Unsigned.Outputs()
-	utxos := make([]*avax.UTXO, len(outs))
+	utxos := make([]*Vidar.UTXO, len(outs))
 	for i, out := range outs {
-		utxos[i] = &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxos[i] = &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID:        tx.id,
 				OutputIndex: uint32(i),
 			},
-			Asset: avax.Asset{ID: out.AssetID()},
+			Asset: Vidar.Asset{ID: out.AssetID()},
 			Out:   out.Out,
 		}
 	}

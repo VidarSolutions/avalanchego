@@ -13,7 +13,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/hashing"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/nftfx"
 	"github.com/VidarSolutions/avalanchego/vms/propertyfx"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -32,7 +32,7 @@ type UnsignedTx interface {
 
 	NumCredentials() int
 	// TODO: deprecate after x-chain linearization
-	InputUTXOs() []*avax.UTXOID
+	InputUTXOs() []*Vidar.UTXOID
 
 	// Visit calls [visitor] with this transaction's concrete type
 	Visit(visitor Visitor) error
@@ -84,7 +84,7 @@ func (t *Tx) Bytes() []byte {
 }
 
 // UTXOs returns the UTXOs transaction is producing.
-func (t *Tx) UTXOs() []*avax.UTXO {
+func (t *Tx) UTXOs() []*Vidar.UTXO {
 	u := utxoGetter{tx: t}
 	// The visit error is explicitly dropped here because no error is ever
 	// returned from the utxoGetter.

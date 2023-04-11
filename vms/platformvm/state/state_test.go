@@ -22,7 +22,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/genesis"
@@ -429,13 +429,13 @@ func newInitializedState(require *require.Assertions) (State, database.Database)
 			NodeID: initialNodeID,
 			Start:  uint64(initialTime.Unix()),
 			End:    uint64(initialValidatorEndTime.Unix()),
-			Wght:   units.Avax,
+			Wght:   units.Vidar,
 		},
-		StakeOuts: []*avax.TransferableOutput{
+		StakeOuts: []*Vidar.TransferableOutput{
 			{
-				Asset: avax.Asset{ID: initialTxID},
+				Asset: Vidar.Asset{ID: initialTxID},
 				Out: &secp256k1fx.TransferOutput{
-					Amt: units.Avax,
+					Amt: units.Vidar,
 				},
 			},
 		},
@@ -456,13 +456,13 @@ func newInitializedState(require *require.Assertions) (State, database.Database)
 
 	genesisBlkID := ids.GenerateTestID()
 	genesisState := &genesis.State{
-		UTXOs: []*avax.UTXO{
+		UTXOs: []*Vidar.UTXO{
 			{
-				UTXOID: avax.UTXOID{
+				UTXOID: Vidar.UTXOID{
 					TxID:        initialTxID,
 					OutputIndex: 0,
 				},
-				Asset: avax.Asset{ID: initialTxID},
+				Asset: Vidar.Asset{ID: initialTxID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: units.Schmeckle,
 				},
@@ -475,7 +475,7 @@ func newInitializedState(require *require.Assertions) (State, database.Database)
 			initialChainTx,
 		},
 		Timestamp:     uint64(initialTime.Unix()),
-		InitialSupply: units.Schmeckle + units.Avax,
+		InitialSupply: units.Schmeckle + units.Vidar,
 	}
 
 	genesisBlk, err := blocks.NewApricotCommitBlock(genesisBlkID, 0)
@@ -506,7 +506,7 @@ func newStateFromDB(require *require.Assertions, db database.Database) State {
 			MaxConsumptionRate: .12 * reward.PercentDenominator,
 			MinConsumptionRate: .1 * reward.PercentDenominator,
 			MintingPeriod:      365 * 24 * time.Hour,
-			SupplyCap:          720 * units.MegaAvax,
+			SupplyCap:          720 * units.MegaVidar,
 		}),
 		&utils.Atomic[bool]{},
 	)

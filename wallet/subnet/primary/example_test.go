@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/units"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/signer"
@@ -56,7 +56,7 @@ func ExampleWallet() {
 		map[uint32][]verify.State{
 			0: {
 				&secp256k1fx.TransferOutput{
-					Amt:          100 * units.MegaAvax,
+					Amt:          100 * units.MegaVidar,
 					OutputOwners: *owner,
 				},
 			},
@@ -68,17 +68,17 @@ func ExampleWallet() {
 	}
 	log.Printf("created X-chain asset %s in %s\n", createAssetTxID, time.Since(createAssetStartTime))
 
-	// Send 100 MegaAvax to the P-chain.
+	// Send 100 MegaVidar to the P-chain.
 	exportStartTime := time.Now()
 	exportTxID, err := xWallet.IssueExportTx(
 		constants.PlatformChainID,
-		[]*avax.TransferableOutput{
+		[]*Vidar.TransferableOutput{
 			{
-				Asset: avax.Asset{
+				Asset: Vidar.Asset{
 					ID: createAssetTxID,
 				},
 				Out: &secp256k1fx.TransferOutput{
-					Amt:          100 * units.MegaAvax,
+					Amt:          100 * units.MegaVidar,
 					OutputOwners: *owner,
 				},
 			},
@@ -90,7 +90,7 @@ func ExampleWallet() {
 	}
 	log.Printf("issued X->P export %s in %s\n", exportTxID, time.Since(exportStartTime))
 
-	// Import the 100 MegaAvax from the X-chain into the P-chain.
+	// Import the 100 MegaVidar from the X-chain into the P-chain.
 	importStartTime := time.Now()
 	importTxID, err := pWallet.IssueImportTx(xChainID, owner)
 	if err != nil {
@@ -111,12 +111,12 @@ func ExampleWallet() {
 	transformSubnetTxID, err := pWallet.IssueTransformSubnetTx(
 		createSubnetTxID,
 		createAssetTxID,
-		50*units.MegaAvax,
-		100*units.MegaAvax,
+		50*units.MegaVidar,
+		100*units.MegaVidar,
 		reward.PercentDenominator,
 		reward.PercentDenominator,
 		1,
-		100*units.MegaAvax,
+		100*units.MegaVidar,
 		time.Second,
 		365*24*time.Hour,
 		0,
@@ -138,7 +138,7 @@ func ExampleWallet() {
 				NodeID: genesis.LocalConfig.InitialStakers[0].NodeID,
 				Start:  uint64(startTime.Unix()),
 				End:    uint64(startTime.Add(5 * time.Second).Unix()),
-				Wght:   25 * units.MegaAvax,
+				Wght:   25 * units.MegaVidar,
 			},
 			Subnet: createSubnetTxID,
 		},
@@ -161,7 +161,7 @@ func ExampleWallet() {
 				NodeID: genesis.LocalConfig.InitialStakers[0].NodeID,
 				Start:  uint64(startTime.Unix()),
 				End:    uint64(startTime.Add(5 * time.Second).Unix()),
-				Wght:   25 * units.MegaAvax,
+				Wght:   25 * units.MegaVidar,
 			},
 			Subnet: createSubnetTxID,
 		},

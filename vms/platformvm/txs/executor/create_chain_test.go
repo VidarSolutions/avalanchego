@@ -14,7 +14,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/hashing"
 	"github.com/VidarSolutions/avalanchego/utils/units"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -181,7 +181,7 @@ func TestCreateChainTxAP3FeeChange(t *testing.T) {
 		{
 			name:         "post-fork - incorrectly priced",
 			time:         ap3Time,
-			fee:          100*defaultTxFee - 1*units.NanoAvax,
+			fee:          100*defaultTxFee - 1*units.NanoVidar,
 			expectsError: true,
 		},
 		{
@@ -212,7 +212,7 @@ func TestCreateChainTxAP3FeeChange(t *testing.T) {
 			// Create the tx
 
 			utx := &txs.CreateChainTx{
-				BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+				BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 					NetworkID:    env.ctx.NetworkID,
 					BlockchainID: env.ctx.ChainID,
 					Ins:          ins,

@@ -14,7 +14,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary/common"
@@ -62,7 +62,7 @@ var _ = e2e.DescribeXChain("[WhitelistTx]", func() {
 					ginkgo.Skip("skipping tests (mainnet)")
 				}
 			})
-			avaxAssetID := baseWallet.X().AVAXAssetID()
+			VidarAssetID := baseWallet.X().VidarAssetID()
 			wallets := make([]primary.Wallet, len(testKeys))
 			for i := range wallets {
 				wallets[i] = primary.NewWalletWithOptions(
@@ -105,13 +105,13 @@ var _ = e2e.DescribeXChain("[WhitelistTx]", func() {
 			ginkgo.By("issue regular, virtuous X-Chain tx, before whitelist vtx, should succeed", func() {
 				balances, err := wallets[0].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
-				key1PrevBalX := balances[avaxAssetID]
+				key1PrevBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}first wallet balance:{{/}} %d\n", key1PrevBalX)
 
 				balances, err = wallets[1].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
 
-				key2PrevBalX := balances[avaxAssetID]
+				key2PrevBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}second wallet balance:{{/}} %d\n", key2PrevBalX)
 
 				transferAmount := key1PrevBalX / 10
@@ -121,9 +121,9 @@ var _ = e2e.DescribeXChain("[WhitelistTx]", func() {
 				tests.Outf("{{blue}}issuing regular, virtuous transaction at %q{{/}}\n", uris[0])
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultConfirmTxTimeout)
 				_, err = wallets[0].X().IssueBaseTx(
-					[]*avax.TransferableOutput{{
-						Asset: avax.Asset{
-							ID: avaxAssetID,
+					[]*Vidar.TransferableOutput{{
+						Asset: Vidar.Asset{
+							ID: VidarAssetID,
 						},
 						Out: &secp256k1fx.TransferOutput{
 							Amt: transferAmount,
@@ -142,12 +142,12 @@ var _ = e2e.DescribeXChain("[WhitelistTx]", func() {
 
 				balances, err = wallets[0].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
-				key1CurBalX := balances[avaxAssetID]
+				key1CurBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}first wallet balance:{{/}} %d\n", key1CurBalX)
 
 				balances, err = wallets[1].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
-				key2CurBalX := balances[avaxAssetID]
+				key2CurBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}second wallet balance:{{/}} %d\n", key2CurBalX)
 
 				gomega.Expect(key1CurBalX).Should(gomega.Equal(key1PrevBalX - transferAmount - baseWallet.X().BaseTxFee()))
@@ -246,8 +246,8 @@ var _ = e2e.DescribeXChain("[WhitelistTx]", func() {
 				balances, err := wallets[0].X().Builder().GetFTBalance()
 				gomega.Expect(err).Should(gomega.BeNil())
 
-				avaxAssetID := baseWallet.X().AVAXAssetID()
-				key1PrevBalX := balances[avaxAssetID]
+				VidarAssetID := baseWallet.X().VidarAssetID()
+				key1PrevBalX := balances[VidarAssetID]
 				tests.Outf("{{green}}first wallet balance:{{/}} %d\n", key1PrevBalX)
 
 				transferAmount := key1PrevBalX / 10
@@ -255,9 +255,9 @@ var _ = e2e.DescribeXChain("[WhitelistTx]", func() {
 				tests.Outf("{{blue}}issuing regular, virtuous transaction at %q{{/}}\n", uris[0])
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultConfirmTxTimeout)
 				_, err = wallets[0].X().IssueBaseTx(
-					[]*avax.TransferableOutput{{
-						Asset: avax.Asset{
-							ID: avaxAssetID,
+					[]*Vidar.TransferableOutput{{
+						Asset: Vidar.Asset{
+							ID: VidarAssetID,
 						},
 						Out: &secp256k1fx.TransferOutput{
 							Amt: transferAmount,

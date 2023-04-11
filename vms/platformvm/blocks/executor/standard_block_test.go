@@ -18,7 +18,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow/validators"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
@@ -146,12 +146,12 @@ func TestBanffStandardBlockTimeVerification(t *testing.T) {
 	onParentAccept.EXPECT().GetTimestamp().Return(chainTime).AnyTimes()
 
 	txID := ids.GenerateTestID()
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID: txID,
 		},
-		Asset: avax.Asset{
-			ID: avaxAssetID,
+		Asset: Vidar.Asset{
+			ID: VidarAssetID,
 		},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: env.config.CreateSubnetTxFee,
@@ -162,10 +162,10 @@ func TestBanffStandardBlockTimeVerification(t *testing.T) {
 
 	// Create the tx
 	utx := &txs.CreateSubnetTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    env.ctx.NetworkID,
 			BlockchainID: env.ctx.ChainID,
-			Ins: []*avax.TransferableInput{{
+			Ins: []*Vidar.TransferableInput{{
 				UTXOID: utxo.UTXOID,
 				Asset:  utxo.Asset,
 				In: &secp256k1fx.TransferInput{

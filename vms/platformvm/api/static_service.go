@@ -14,7 +14,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/formatting/address"
 	"github.com/VidarSolutions/avalanchego/utils/json"
 	"github.com/VidarSolutions/avalanchego/utils/math"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/genesis"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/signer"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
@@ -168,7 +168,7 @@ type Chain struct {
 // [Chains] are the chains that exist at genesis.
 // [Time] is the Platform Chain's time at network genesis.
 type BuildGenesisArgs struct {
-	AvaxAssetID   ids.ID                    `json:"avaxAssetID"`
+	VidarAssetID   ids.ID                    `json:"VidarAssetID"`
 	NetworkID     json.Uint32               `json:"networkID"`
 	UTXOs         []UTXO                    `json:"utxos"`
 	Validators    []PermissionlessValidator `json:"validators"`
@@ -207,12 +207,12 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 			return err
 		}
 
-		utxo := avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxo := Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty,
 				OutputIndex: uint32(i),
 			},
-			Asset: avax.Asset{ID: args.AvaxAssetID},
+			Asset: Vidar.Asset{ID: args.VidarAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: uint64(apiUTXO.Amount),
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -225,7 +225,7 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 		if apiUTXO.Locktime > args.Time {
 			utxo.Out = &stakeable.LockOut{
 				Locktime:        uint64(apiUTXO.Locktime),
-				TransferableOut: utxo.Out.(avax.TransferableOut),
+				TransferableOut: utxo.Out.(Vidar.TransferableOut),
 			}
 		}
 		messageBytes, err := formatting.Decode(args.Encoding, apiUTXO.Message)
@@ -242,7 +242,7 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 	vdrs := txheap.NewByEndTime()
 	for _, vdr := range args.Validators {
 		weight := uint64(0)
-		stake := make([]*avax.TransferableOutput, len(vdr.Staked))
+		stake := make([]*Vidar.TransferableOutput, len(vdr.Staked))
 		utils.Sort(vdr.Staked)
 		for i, apiUTXO := range vdr.Staked {
 			addrID, err := bech32ToID(apiUTXO.Address)
@@ -250,8 +250,8 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 				return err
 			}
 
-			utxo := &avax.TransferableOutput{
-				Asset: avax.Asset{ID: args.AvaxAssetID},
+			utxo := &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: args.VidarAssetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: uint64(apiUTXO.Amount),
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -302,7 +302,7 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 		}
 
 		tx := &txs.Tx{Unsigned: &txs.AddValidatorTx{
-			BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+			BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 				NetworkID:    uint32(args.NetworkID),
 				BlockchainID: ids.Empty,
 			}},
@@ -331,7 +331,7 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 			return fmt.Errorf("problem decoding chain genesis data: %w", err)
 		}
 		tx := &txs.Tx{Unsigned: &txs.CreateChainTx{
-			BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+			BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 				NetworkID:    uint32(args.NetworkID),
 				BlockchainID: ids.Empty,
 			}},

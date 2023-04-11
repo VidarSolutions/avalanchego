@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/pubsub"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -28,8 +28,8 @@ func TestFilter(t *testing.T) {
 	require := require.New(t)
 
 	addrID := ids.ShortID{1}
-	tx := txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
-		Outs: []*avax.TransferableOutput{
+	tx := txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
+		Outs: []*Vidar.TransferableOutput{
 			{
 				Out: &secp256k1fx.TransferOutput{
 					OutputOwners: secp256k1fx.OutputOwners{

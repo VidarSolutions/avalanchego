@@ -18,7 +18,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/logging"
 	"github.com/VidarSolutions/avalanchego/utils/math"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -49,8 +49,8 @@ func (w *WalletService) issue(txBytes []byte) (ids.ID, error) {
 	return txID, nil
 }
 
-func (w *WalletService) update(utxos []*avax.UTXO) ([]*avax.UTXO, error) {
-	utxoMap := make(map[ids.ID]*avax.UTXO, len(utxos))
+func (w *WalletService) update(utxos []*Vidar.UTXO) ([]*Vidar.UTXO, error) {
+	utxoMap := make(map[ids.ID]*Vidar.UTXO, len(utxos))
 	for _, utxo := range utxos {
 		utxoMap[utxo.InputID()] = utxo
 	}
@@ -114,16 +114,16 @@ func (w *WalletService) SendMultiple(_ *http.Request, args *SendMultipleArgs, re
 
 	// Validate the memo field
 	memoBytes := []byte(args.Memo)
-	if l := len(memoBytes); l > avax.MaxMemoSize {
+	if l := len(memoBytes); l > Vidar.MaxMemoSize {
 		return fmt.Errorf("max memo length is %d but provided memo field is length %d",
-			avax.MaxMemoSize,
+			Vidar.MaxMemoSize,
 			l)
 	} else if len(args.Outputs) == 0 {
 		return errNoOutputs
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(w.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(w.vm, args.From)
 	if err != nil {
 		return fmt.Errorf("couldn't parse 'From' addresses: %w", err)
 	}
@@ -154,7 +154,7 @@ func (w *WalletService) SendMultiple(_ *http.Request, args *SendMultipleArgs, re
 	// Asset ID --> amount of that asset being sent
 	amounts := make(map[ids.ID]uint64)
 	// Outputs of our tx
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	for _, output := range args.Outputs {
 		if output.Amount == 0 {
 			return errZeroAmount
@@ -175,14 +175,14 @@ func (w *WalletService) SendMultiple(_ *http.Request, args *SendMultipleArgs, re
 		amounts[assetID] = newAmount
 
 		// Parse the to address
-		to, err := avax.ParseServiceAddress(w.vm, output.To)
+		to, err := Vidar.ParseServiceAddress(w.vm, output.To)
 		if err != nil {
 			return fmt.Errorf("problem parsing to address %q: %w", output.To, err)
 		}
 
 		// Create the Output
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: assetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: assetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: uint64(output.Amount),
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -216,8 +216,8 @@ func (w *WalletService) SendMultiple(_ *http.Request, args *SendMultipleArgs, re
 		amountSpent := amountsSpent[assetID]
 
 		if amountSpent > amountWithFee {
-			outs = append(outs, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: assetID},
+			outs = append(outs, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: amountSpent - amountWithFee,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -231,9 +231,9 @@ func (w *WalletService) SendMultiple(_ *http.Request, args *SendMultipleArgs, re
 	}
 
 	codec := w.vm.parser.Codec()
-	avax.SortTransferableOutputs(outs, codec)
+	Vidar.SortTransferableOutputs(outs, codec)
 
-	tx := txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+	tx := txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 		NetworkID:    w.vm.ctx.NetworkID,
 		BlockchainID: w.vm.ctx.ChainID,
 		Outs:         outs,

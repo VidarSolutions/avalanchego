@@ -27,7 +27,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/version"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/metrics"
@@ -538,12 +538,12 @@ func TestRejectedStateRegressionInvalidValidatorTimestamp(t *testing.T) {
 	}
 
 	// Create the UTXO that will be added to shared memory
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		},
-		Asset: avax.Asset{
-			ID: vm.ctx.AVAXAssetID,
+		Asset: Vidar.Asset{
+			ID: vm.ctx.VidarAssetID,
 		},
 		Out: &secp256k1fx.TransferOutput{
 			Amt:          vm.TxFee,
@@ -553,12 +553,12 @@ func TestRejectedStateRegressionInvalidValidatorTimestamp(t *testing.T) {
 
 	// Create the import tx that will fail verification
 	unsignedImportTx := &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    vm.ctx.NetworkID,
 			BlockchainID: vm.ctx.ChainID,
 		}},
 		SourceChain: vm.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{
+		ImportedInputs: []*Vidar.TransferableInput{
 			{
 				UTXOID: utxo.UTXOID,
 				Asset:  utxo.Asset,
@@ -795,12 +795,12 @@ func TestRejectedStateRegressionInvalidValidatorReward(t *testing.T) {
 	}
 
 	// Create the UTXO that will be added to shared memory
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		},
-		Asset: avax.Asset{
-			ID: vm.ctx.AVAXAssetID,
+		Asset: Vidar.Asset{
+			ID: vm.ctx.VidarAssetID,
 		},
 		Out: &secp256k1fx.TransferOutput{
 			Amt:          vm.TxFee,
@@ -810,12 +810,12 @@ func TestRejectedStateRegressionInvalidValidatorReward(t *testing.T) {
 
 	// Create the import tx that will fail verification
 	unsignedImportTx := &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    vm.ctx.NetworkID,
 			BlockchainID: vm.ctx.ChainID,
 		}},
 		SourceChain: vm.ctx.XChainID,
-		ImportedInputs: []*avax.TransferableInput{
+		ImportedInputs: []*Vidar.TransferableInput{
 			{
 				UTXOID: utxo.UTXOID,
 				Asset:  utxo.Asset,

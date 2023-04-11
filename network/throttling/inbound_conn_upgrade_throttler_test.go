@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	host1      = ips.IPPort{IP: net.IPv4(1, 2, 3, 4), Port: 9651}
-	host2      = ips.IPPort{IP: net.IPv4(1, 2, 3, 5), Port: 9653}
-	host3      = ips.IPPort{IP: net.IPv4(1, 2, 3, 6), Port: 9655}
-	host4      = ips.IPPort{IP: net.IPv4(1, 2, 3, 7), Port: 9657}
-	loopbackIP = ips.IPPort{IP: net.IPv4(127, 0, 0, 1), Port: 9657}
+	host1      = ips.IPPort{IP: net.IPv4(1, 2, 3, 4), Port: 9696}
+	host2      = ips.IPPort{IP: net.IPv4(1, 2, 3, 5), Port: 9697}
+	host3      = ips.IPPort{IP: net.IPv4(1, 2, 3, 6), Port: 9698}
+	host4      = ips.IPPort{IP: net.IPv4(1, 2, 3, 7), Port: 9699}
+	loopbackIP = ips.IPPort{IP: net.IPv4(127, 0, 0, 1), Port: 9699}
 )
 
 func TestNoInboundConnUpgradeThrottler(t *testing.T) {

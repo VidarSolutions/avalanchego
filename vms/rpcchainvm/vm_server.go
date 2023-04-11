@@ -121,7 +121,7 @@ func (vm *VMServer) Initialize(ctx context.Context, req *vmpb.InitializeRequest)
 	if err != nil {
 		return nil, err
 	}
-	avaxAssetID, err := ids.ToID(req.AvaxAssetId)
+	VidarAssetID, err := ids.ToID(req.VidarAssetId)
 	if err != nil {
 		return nil, err
 	}
@@ -231,7 +231,7 @@ func (vm *VMServer) Initialize(ctx context.Context, req *vmpb.InitializeRequest)
 
 		XChainID:    xChainID,
 		CChainID:    cChainID,
-		AVAXAssetID: avaxAssetID,
+		VidarAssetID: VidarAssetID,
 
 		// TODO: Allow the logger to be configured by the client
 		Log: logging.NewLogger(

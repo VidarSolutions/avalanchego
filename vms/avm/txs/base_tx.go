@@ -7,7 +7,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -18,7 +18,7 @@ var (
 
 // BaseTx is the basis of all transactions.
 type BaseTx struct {
-	avax.BaseTx `serialize:"true"`
+	Vidar.BaseTx `serialize:"true"`
 
 	bytes []byte
 }

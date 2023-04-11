@@ -189,7 +189,7 @@ type ManagerConfig struct {
 	Server                      server.Server              // Handles HTTP API calls
 	Keystore                    keystore.Keystore
 	AtomicMemory                *atomic.Memory
-	AVAXAssetID                 ids.ID
+	VidarAssetID                 ids.ID
 	XChainID                    ids.ID          // ID of the X-Chain,
 	CChainID                    ids.ID          // ID of the C-Chain,
 	CriticalChains              set.Set[ids.ID] // Chains that can't exit gracefully
@@ -466,7 +466,7 @@ func (m *manager) buildChain(chainParams ChainParameters, sb subnets.Subnet) (*c
 
 			XChainID:    m.XChainID,
 			CChainID:    m.CChainID,
-			AVAXAssetID: m.AVAXAssetID,
+			VidarAssetID: m.VidarAssetID,
 
 			Log:          chainLog,
 			Keystore:     m.Keystore.NewBlockchainKeyStore(chainParams.ID),

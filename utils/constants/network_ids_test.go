@@ -17,6 +17,10 @@ func TestGetHRP(t *testing.T) {
 			hrp: MainnetHRP,
 		},
 		{
+			id:  VidarID,
+			hrp:VidarHRP,
+		},
+		{
 			id:  TestnetID,
 			hrp: FujiHRP,
 		},
@@ -51,6 +55,10 @@ func TestNetworkName(t *testing.T) {
 		{
 			id:   MainnetID,
 			name: MainnetName,
+		},
+		{
+			id:  VidarID,
+			name:VidarName,
 		},
 		{
 			id:   TestnetID,
@@ -88,6 +96,9 @@ func TestNetworkID(t *testing.T) {
 		{
 			name: MainnetName,
 			id:   MainnetID,
+		},{
+			name: VidarName,
+			id:   VidarID,
 		},
 		{
 			name: "MaInNeT",

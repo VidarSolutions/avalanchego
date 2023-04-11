@@ -15,7 +15,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
@@ -392,8 +392,8 @@ func TestDiffRewardUTXO(t *testing.T) {
 
 	// Put a reward UTXO
 	txID := ids.GenerateTestID()
-	rewardUTXO := &avax.UTXO{
-		UTXOID: avax.UTXOID{TxID: txID},
+	rewardUTXO := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{TxID: txID},
 	}
 	d.AddRewardUTXO(txID, rewardUTXO)
 
@@ -409,10 +409,10 @@ func TestDiffRewardUTXO(t *testing.T) {
 		// Assert that we can get a UTXO from the parent state
 		// [state] returns 1 UTXO.
 		txID2 := ids.GenerateTestID()
-		parentRewardUTXO := &avax.UTXO{
-			UTXOID: avax.UTXOID{TxID: txID2},
+		parentRewardUTXO := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{TxID: txID2},
 		}
-		state.EXPECT().GetRewardUTXOs(txID2).Return([]*avax.UTXO{parentRewardUTXO}, nil).Times(1)
+		state.EXPECT().GetRewardUTXOs(txID2).Return([]*Vidar.UTXO{parentRewardUTXO}, nil).Times(1)
 		gotParentRewardUTXOs, err := d.GetRewardUTXOs(txID2)
 		require.NoError(err)
 		require.Len(gotParentRewardUTXOs, 1)
@@ -437,8 +437,8 @@ func TestDiffUTXO(t *testing.T) {
 	require.NoError(err)
 
 	// Put a UTXO
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{TxID: ids.GenerateTestID()},
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{TxID: ids.GenerateTestID()},
 	}
 	d.AddUTXO(utxo)
 
@@ -452,8 +452,8 @@ func TestDiffUTXO(t *testing.T) {
 	{
 		// Assert that we can get a UTXO from the parent state
 		// [state] returns 1 UTXO.
-		parentUTXO := &avax.UTXO{
-			UTXOID: avax.UTXOID{TxID: ids.GenerateTestID()},
+		parentUTXO := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{TxID: ids.GenerateTestID()},
 		}
 		state.EXPECT().GetUTXO(parentUTXO.InputID()).Return(parentUTXO, nil).Times(1)
 		gotParentUTXO, err := d.GetUTXO(parentUTXO.InputID())

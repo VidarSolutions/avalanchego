@@ -15,7 +15,7 @@ var _ Context = (*context)(nil)
 
 type Context interface {
 	NetworkID() uint32
-	AVAXAssetID() ids.ID
+	VidarAssetID() ids.ID
 	BaseTxFee() uint64
 	CreateSubnetTxFee() uint64
 	TransformSubnetTxFee() uint64
@@ -28,7 +28,7 @@ type Context interface {
 
 type context struct {
 	networkID                     uint32
-	avaxAssetID                   ids.ID
+	VidarAssetID                   ids.ID
 	baseTxFee                     uint64
 	createSubnetTxFee             uint64
 	transformSubnetTxFee          uint64
@@ -55,7 +55,7 @@ func NewContextFromClients(
 		return nil, err
 	}
 
-	asset, err := xChainClient.GetAssetDescription(ctx, "AVAX")
+	asset, err := xChainClient.GetAssetDescription(ctx, "Vidar")
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func NewContextFromClients(
 
 func NewContext(
 	networkID uint32,
-	avaxAssetID ids.ID,
+	VidarAssetID ids.ID,
 	baseTxFee uint64,
 	createSubnetTxFee uint64,
 	transformSubnetTxFee uint64,
@@ -93,7 +93,7 @@ func NewContext(
 ) Context {
 	return &context{
 		networkID:                     networkID,
-		avaxAssetID:                   avaxAssetID,
+		VidarAssetID:                   VidarAssetID,
 		baseTxFee:                     baseTxFee,
 		createSubnetTxFee:             createSubnetTxFee,
 		transformSubnetTxFee:          transformSubnetTxFee,
@@ -109,8 +109,8 @@ func (c *context) NetworkID() uint32 {
 	return c.networkID
 }
 
-func (c *context) AVAXAssetID() ids.ID {
-	return c.avaxAssetID
+func (c *context) VidarAssetID() ids.ID {
+	return c.VidarAssetID
 }
 
 func (c *context) BaseTxFee() uint64 {

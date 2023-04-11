@@ -7,7 +7,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/api"
 	"github.com/VidarSolutions/avalanchego/pubsub"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var _ pubsub.Filterer = (*connector)(nil)
@@ -24,7 +24,7 @@ func NewPubSubFilterer(tx *txs.Tx) pubsub.Filterer {
 func (f *connector) Filter(filters []pubsub.Filter) ([]bool, interface{}) {
 	resp := make([]bool, len(filters))
 	for _, utxo := range f.tx.UTXOs() {
-		addressable, ok := utxo.Out.(avax.Addressable)
+		addressable, ok := utxo.Out.(Vidar.Addressable)
 		if !ok {
 			continue
 		}

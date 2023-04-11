@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/vms/avm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var (
@@ -32,7 +32,7 @@ type diff struct {
 	stateVersions Versions
 
 	// map of modified UTXOID -> *UTXO if the UTXO is nil, it has been removed
-	modifiedUTXOs map[ids.ID]*avax.UTXO
+	modifiedUTXOs map[ids.ID]*Vidar.UTXO
 	addedTxs      map[ids.ID]*txs.Tx      // map of txID -> tx
 	addedBlockIDs map[uint64]ids.ID       // map of height -> blockID
 	addedBlocks   map[ids.ID]blocks.Block // map of blockID -> block
@@ -52,7 +52,7 @@ func NewDiff(
 	return &diff{
 		parentID:      parentID,
 		stateVersions: stateVersions,
-		modifiedUTXOs: make(map[ids.ID]*avax.UTXO),
+		modifiedUTXOs: make(map[ids.ID]*Vidar.UTXO),
 		addedTxs:      make(map[ids.ID]*txs.Tx),
 		addedBlockIDs: make(map[uint64]ids.ID),
 		addedBlocks:   make(map[ids.ID]blocks.Block),
@@ -61,7 +61,7 @@ func NewDiff(
 	}, nil
 }
 
-func (d *diff) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
+func (d *diff) GetUTXO(utxoID ids.ID) (*Vidar.UTXO, error) {
 	if utxo, modified := d.modifiedUTXOs[utxoID]; modified {
 		if utxo == nil {
 			return nil, database.ErrNotFound
@@ -76,11 +76,11 @@ func (d *diff) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
 	return parentState.GetUTXO(utxoID)
 }
 
-func (d *diff) GetUTXOFromID(utxoID *avax.UTXOID) (*avax.UTXO, error) {
+func (d *diff) GetUTXOFromID(utxoID *Vidar.UTXOID) (*Vidar.UTXO, error) {
 	return d.GetUTXO(utxoID.InputID())
 }
 
-func (d *diff) AddUTXO(utxo *avax.UTXO) {
+func (d *diff) AddUTXO(utxo *Vidar.UTXO) {
 	d.modifiedUTXOs[utxo.InputID()] = utxo
 }
 

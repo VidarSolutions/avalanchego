@@ -4,13 +4,13 @@
 package genesis
 
 import (
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
 
 // UTXO adds messages to UTXOs
 type UTXO struct {
-	avax.UTXO `serialize:"true"`
+	Vidar.UTXO `serialize:"true"`
 	Message   []byte `serialize:"true" json:"message"`
 }
 
@@ -44,7 +44,7 @@ func Parse(genesisBytes []byte) (*Genesis, error) {
 
 // State represents the genesis state of the platform chain
 type State struct {
-	UTXOs         []*avax.UTXO
+	UTXOs         []*Vidar.UTXO
 	Validators    []*txs.Tx
 	Chains        []*txs.Tx
 	Timestamp     uint64
@@ -57,7 +57,7 @@ func ParseState(genesisBytes []byte) (*State, error) {
 		return nil, err
 	}
 
-	utxos := make([]*avax.UTXO, 0, len(genesis.UTXOs))
+	utxos := make([]*Vidar.UTXO, 0, len(genesis.UTXOs))
 	for _, utxo := range genesis.UTXOs {
 		utxos = append(utxos, &utxo.UTXO)
 	}

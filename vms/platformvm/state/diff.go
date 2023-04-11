@@ -10,7 +10,7 @@ import (
 
 	"github.com/VidarSolutions/avalanchego/database"
 	"github.com/VidarSolutions/avalanchego/ids"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
@@ -47,12 +47,12 @@ type diff struct {
 	addedChains  map[ids.ID][]*txs.Tx
 	cachedChains map[ids.ID][]*txs.Tx
 
-	addedRewardUTXOs map[ids.ID][]*avax.UTXO
+	addedRewardUTXOs map[ids.ID][]*Vidar.UTXO
 
 	addedTxs map[ids.ID]*txAndStatus
 
 	// map of modified UTXOID -> *UTXO if the UTXO is nil, it has been removed
-	modifiedUTXOs map[ids.ID]*avax.UTXO
+	modifiedUTXOs map[ids.ID]*Vidar.UTXO
 }
 
 func NewDiff(
@@ -376,7 +376,7 @@ func (d *diff) AddTx(tx *txs.Tx, status status.Status) {
 	}
 }
 
-func (d *diff) GetRewardUTXOs(txID ids.ID) ([]*avax.UTXO, error) {
+func (d *diff) GetRewardUTXOs(txID ids.ID) ([]*Vidar.UTXO, error) {
 	if utxos, exists := d.addedRewardUTXOs[txID]; exists {
 		return utxos, nil
 	}
@@ -388,14 +388,14 @@ func (d *diff) GetRewardUTXOs(txID ids.ID) ([]*avax.UTXO, error) {
 	return parentState.GetRewardUTXOs(txID)
 }
 
-func (d *diff) AddRewardUTXO(txID ids.ID, utxo *avax.UTXO) {
+func (d *diff) AddRewardUTXO(txID ids.ID, utxo *Vidar.UTXO) {
 	if d.addedRewardUTXOs == nil {
-		d.addedRewardUTXOs = make(map[ids.ID][]*avax.UTXO)
+		d.addedRewardUTXOs = make(map[ids.ID][]*Vidar.UTXO)
 	}
 	d.addedRewardUTXOs[txID] = append(d.addedRewardUTXOs[txID], utxo)
 }
 
-func (d *diff) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
+func (d *diff) GetUTXO(utxoID ids.ID) (*Vidar.UTXO, error) {
 	utxo, modified := d.modifiedUTXOs[utxoID]
 	if !modified {
 		parentState, ok := d.stateVersions.GetState(d.parentID)
@@ -410,9 +410,9 @@ func (d *diff) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
 	return utxo, nil
 }
 
-func (d *diff) AddUTXO(utxo *avax.UTXO) {
+func (d *diff) AddUTXO(utxo *Vidar.UTXO) {
 	if d.modifiedUTXOs == nil {
-		d.modifiedUTXOs = map[ids.ID]*avax.UTXO{
+		d.modifiedUTXOs = map[ids.ID]*Vidar.UTXO{
 			utxo.InputID(): utxo,
 		}
 	} else {
@@ -422,7 +422,7 @@ func (d *diff) AddUTXO(utxo *avax.UTXO) {
 
 func (d *diff) DeleteUTXO(utxoID ids.ID) {
 	if d.modifiedUTXOs == nil {
-		d.modifiedUTXOs = map[ids.ID]*avax.UTXO{
+		d.modifiedUTXOs = map[ids.ID]*Vidar.UTXO{
 			utxoID: nil,
 		}
 	} else {

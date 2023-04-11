@@ -13,7 +13,7 @@ import (
 	ids "github.com/VidarSolutions/avalanchego/ids"
 	snow "github.com/VidarSolutions/avalanchego/snow"
 	set "github.com/VidarSolutions/avalanchego/utils/set"
-	avax "github.com/VidarSolutions/avalanchego/vms/components/avax"
+	Vidar "github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -109,10 +109,10 @@ func (mr *MockUnsignedTxMockRecorder) InputIDs() *gomock.Call {
 }
 
 // InputUTXOs mocks base method.
-func (m *MockUnsignedTx) InputUTXOs() []*avax.UTXOID {
+func (m *MockUnsignedTx) InputUTXOs() []*Vidar.UTXOID {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "InputUTXOs")
-	ret0, _ := ret[0].([]*avax.UTXOID)
+	ret0, _ := ret[0].([]*Vidar.UTXOID)
 	return ret0
 }
 

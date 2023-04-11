@@ -22,7 +22,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/logging"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/keystore"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/nftfx"
@@ -195,7 +195,7 @@ type GetAddressTxsArgs struct {
 	Cursor json.Uint64 `json:"cursor"`
 	// PageSize num of items per page
 	PageSize json.Uint64 `json:"pageSize"`
-	// AssetID defaulted to AVAX if omitted or left blank
+	// AssetID defaulted to Vidar if omitted or left blank
 	AssetID string `json:"assetID"`
 }
 
@@ -224,7 +224,7 @@ func (s *Service) GetAddressTxs(_ *http.Request, args *GetAddressTxsArgs, reply 
 	}
 
 	// Parse to address
-	address, err := avax.ParseServiceAddress(s.vm, args.Address)
+	address, err := Vidar.ParseServiceAddress(s.vm, args.Address)
 	if err != nil {
 		return fmt.Errorf("couldn't parse argument 'address' to address: %w", err)
 	}
@@ -354,7 +354,7 @@ func (s *Service) GetUTXOs(_ *http.Request, args *api.GetUTXOsArgs, reply *api.G
 		sourceChain = chainID
 	}
 
-	addrSet, err := avax.ParseServiceAddresses(s.vm, args.Addresses)
+	addrSet, err := Vidar.ParseServiceAddresses(s.vm, args.Addresses)
 	if err != nil {
 		return err
 	}
@@ -362,7 +362,7 @@ func (s *Service) GetUTXOs(_ *http.Request, args *api.GetUTXOsArgs, reply *api.G
 	startAddr := ids.ShortEmpty
 	startUTXO := ids.Empty
 	if args.StartIndex.Address != "" || args.StartIndex.UTXO != "" {
-		startAddr, err = avax.ParseServiceAddress(s.vm, args.StartIndex.Address)
+		startAddr, err = Vidar.ParseServiceAddress(s.vm, args.StartIndex.Address)
 		if err != nil {
 			return fmt.Errorf("couldn't parse start index address %q: %w", args.StartIndex.Address, err)
 		}
@@ -373,7 +373,7 @@ func (s *Service) GetUTXOs(_ *http.Request, args *api.GetUTXOsArgs, reply *api.G
 	}
 
 	var (
-		utxos     []*avax.UTXO
+		utxos     []*Vidar.UTXO
 		endAddr   ids.ShortID
 		endUTXOID ids.ID
 	)
@@ -382,7 +382,7 @@ func (s *Service) GetUTXOs(_ *http.Request, args *api.GetUTXOsArgs, reply *api.G
 		limit = int(maxPageSize)
 	}
 	if sourceChain == s.vm.ctx.ChainID {
-		utxos, endAddr, endUTXOID, err = avax.GetPaginatedUTXOs(
+		utxos, endAddr, endUTXOID, err = Vidar.GetPaginatedUTXOs(
 			s.vm.state,
 			addrSet,
 			startAddr,
@@ -483,7 +483,7 @@ type GetBalanceArgs struct {
 // GetBalanceReply defines the GetBalance replies returned from the API
 type GetBalanceReply struct {
 	Balance json.Uint64   `json:"balance"`
-	UTXOIDs []avax.UTXOID `json:"utxoIDs"`
+	UTXOIDs []Vidar.UTXOID `json:"utxoIDs"`
 }
 
 // GetBalance returns the balance of an asset held by an address.
@@ -499,7 +499,7 @@ func (s *Service) GetBalance(_ *http.Request, args *GetBalanceArgs, reply *GetBa
 		logging.UserString("assetID", args.AssetID),
 	)
 
-	addr, err := avax.ParseServiceAddress(s.vm, args.Address)
+	addr, err := Vidar.ParseServiceAddress(s.vm, args.Address)
 	if err != nil {
 		return fmt.Errorf("problem parsing address '%s': %w", args.Address, err)
 	}
@@ -512,13 +512,13 @@ func (s *Service) GetBalance(_ *http.Request, args *GetBalanceArgs, reply *GetBa
 	addrSet := set.Set[ids.ShortID]{}
 	addrSet.Add(addr)
 
-	utxos, err := avax.GetAllUTXOs(s.vm.state, addrSet)
+	utxos, err := Vidar.GetAllUTXOs(s.vm.state, addrSet)
 	if err != nil {
 		return fmt.Errorf("problem retrieving UTXOs: %w", err)
 	}
 
 	now := s.vm.clock.Unix()
-	reply.UTXOIDs = make([]avax.UTXOID, 0, len(utxos))
+	reply.UTXOIDs = make([]Vidar.UTXOID, 0, len(utxos))
 	for _, utxo := range utxos {
 		if utxo.AssetID() != assetID {
 			continue
@@ -573,14 +573,14 @@ func (s *Service) GetAllBalances(_ *http.Request, args *GetAllBalancesArgs, repl
 		logging.UserString("address", args.Address),
 	)
 
-	address, err := avax.ParseServiceAddress(s.vm, args.Address)
+	address, err := Vidar.ParseServiceAddress(s.vm, args.Address)
 	if err != nil {
 		return fmt.Errorf("problem parsing address '%s': %w", args.Address, err)
 	}
 	addrSet := set.Set[ids.ShortID]{}
 	addrSet.Add(address)
 
-	utxos, err := avax.GetAllUTXOs(s.vm.state, addrSet)
+	utxos, err := Vidar.GetAllUTXOs(s.vm.state, addrSet)
 	if err != nil {
 		return fmt.Errorf("couldn't get address's UTXOs: %w", err)
 	}
@@ -667,7 +667,7 @@ func (s *Service) CreateAsset(_ *http.Request, args *CreateAssetArgs, reply *Ass
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -698,10 +698,10 @@ func (s *Service) CreateAsset(_ *http.Request, args *CreateAssetArgs, reply *Ass
 		return err
 	}
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	if amountSpent := amountsSpent[s.vm.feeAssetID]; amountSpent > s.vm.CreateAssetTxFee {
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: s.vm.feeAssetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: s.vm.feeAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: amountSpent - s.vm.CreateAssetTxFee,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -718,7 +718,7 @@ func (s *Service) CreateAsset(_ *http.Request, args *CreateAssetArgs, reply *Ass
 		Outs:    make([]verify.State, 0, len(args.InitialHolders)+len(args.MinterSets)),
 	}
 	for _, holder := range args.InitialHolders {
-		addr, err := avax.ParseServiceAddress(s.vm, holder.Address)
+		addr, err := Vidar.ParseServiceAddress(s.vm, holder.Address)
 		if err != nil {
 			return err
 		}
@@ -737,7 +737,7 @@ func (s *Service) CreateAsset(_ *http.Request, args *CreateAssetArgs, reply *Ass
 				Addrs:     make([]ids.ShortID, 0, len(owner.Minters)),
 			},
 		}
-		minterAddrsSet, err := avax.ParseServiceAddresses(s.vm, owner.Minters)
+		minterAddrsSet, err := Vidar.ParseServiceAddresses(s.vm, owner.Minters)
 		if err != nil {
 			return err
 		}
@@ -748,7 +748,7 @@ func (s *Service) CreateAsset(_ *http.Request, args *CreateAssetArgs, reply *Ass
 	initialState.Sort(s.vm.parser.Codec())
 
 	tx := txs.Tx{Unsigned: &txs.CreateAssetTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,
@@ -822,7 +822,7 @@ func (s *Service) CreateNFTAsset(_ *http.Request, args *CreateNFTAssetArgs, repl
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -853,10 +853,10 @@ func (s *Service) CreateNFTAsset(_ *http.Request, args *CreateNFTAssetArgs, repl
 		return err
 	}
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	if amountSpent := amountsSpent[s.vm.feeAssetID]; amountSpent > s.vm.CreateAssetTxFee {
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: s.vm.feeAssetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: s.vm.feeAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: amountSpent - s.vm.CreateAssetTxFee,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -879,7 +879,7 @@ func (s *Service) CreateNFTAsset(_ *http.Request, args *CreateNFTAssetArgs, repl
 				Threshold: uint32(owner.Threshold),
 			},
 		}
-		minterAddrsSet, err := avax.ParseServiceAddresses(s.vm, owner.Minters)
+		minterAddrsSet, err := Vidar.ParseServiceAddresses(s.vm, owner.Minters)
 		if err != nil {
 			return err
 		}
@@ -890,7 +890,7 @@ func (s *Service) CreateNFTAsset(_ *http.Request, args *CreateNFTAssetArgs, repl
 	initialState.Sort(s.vm.parser.Codec())
 
 	tx := txs.Tx{Unsigned: &txs.CreateAssetTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,
@@ -999,7 +999,7 @@ func (s *Service) ExportKey(_ *http.Request, args *ExportKeyArgs, reply *ExportK
 		logging.UserString("username", args.Username),
 	)
 
-	addr, err := avax.ParseServiceAddress(s.vm, args.Address)
+	addr, err := Vidar.ParseServiceAddress(s.vm, args.Address)
 	if err != nil {
 		return fmt.Errorf("problem parsing address %q: %w", args.Address, err)
 	}
@@ -1117,14 +1117,14 @@ func (s *Service) SendMultiple(_ *http.Request, args *SendMultipleArgs, reply *a
 
 	// Validate the memo field
 	memoBytes := []byte(args.Memo)
-	if l := len(memoBytes); l > avax.MaxMemoSize {
-		return fmt.Errorf("max memo length is %d but provided memo field is length %d", avax.MaxMemoSize, l)
+	if l := len(memoBytes); l > Vidar.MaxMemoSize {
+		return fmt.Errorf("max memo length is %d but provided memo field is length %d", Vidar.MaxMemoSize, l)
 	} else if len(args.Outputs) == 0 {
 		return errNoOutputs
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -1150,7 +1150,7 @@ func (s *Service) SendMultiple(_ *http.Request, args *SendMultipleArgs, reply *a
 	// Asset ID --> amount of that asset being sent
 	amounts := make(map[ids.ID]uint64)
 	// Outputs of our tx
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	for _, output := range args.Outputs {
 		if output.Amount == 0 {
 			return errZeroAmount
@@ -1171,14 +1171,14 @@ func (s *Service) SendMultiple(_ *http.Request, args *SendMultipleArgs, reply *a
 		amounts[assetID] = newAmount
 
 		// Parse the to address
-		to, err := avax.ParseServiceAddress(s.vm, output.To)
+		to, err := Vidar.ParseServiceAddress(s.vm, output.To)
 		if err != nil {
 			return fmt.Errorf("problem parsing to address %q: %w", output.To, err)
 		}
 
 		// Create the Output
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: assetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: assetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: uint64(output.Amount),
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1215,8 +1215,8 @@ func (s *Service) SendMultiple(_ *http.Request, args *SendMultipleArgs, reply *a
 		amountSpent := amountsSpent[assetID]
 
 		if amountSpent > amountWithFee {
-			outs = append(outs, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: assetID},
+			outs = append(outs, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: amountSpent - amountWithFee,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -1228,9 +1228,9 @@ func (s *Service) SendMultiple(_ *http.Request, args *SendMultipleArgs, reply *a
 			})
 		}
 	}
-	avax.SortTransferableOutputs(outs, s.vm.parser.Codec())
+	Vidar.SortTransferableOutputs(outs, s.vm.parser.Codec())
 
-	tx := txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+	tx := txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 		NetworkID:    s.vm.ctx.NetworkID,
 		BlockchainID: s.vm.ctx.ChainID,
 		Outs:         outs,
@@ -1276,13 +1276,13 @@ func (s *Service) Mint(_ *http.Request, args *MintArgs, reply *api.JSONTxIDChang
 		return err
 	}
 
-	to, err := avax.ParseServiceAddress(s.vm, args.To)
+	to, err := Vidar.ParseServiceAddress(s.vm, args.To)
 	if err != nil {
 		return fmt.Errorf("problem parsing to address %q: %w", args.To, err)
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -1313,10 +1313,10 @@ func (s *Service) Mint(_ *http.Request, args *MintArgs, reply *api.JSONTxIDChang
 		return err
 	}
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	if amountSpent := amountsSpent[s.vm.feeAssetID]; amountSpent > s.vm.TxFee {
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: s.vm.feeAssetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: s.vm.feeAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: amountSpent - s.vm.TxFee,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1348,7 +1348,7 @@ func (s *Service) Mint(_ *http.Request, args *MintArgs, reply *api.JSONTxIDChang
 	keys = append(keys, opKeys...)
 
 	tx := txs.Tx{Unsigned: &txs.OperationTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,
@@ -1393,13 +1393,13 @@ func (s *Service) SendNFT(_ *http.Request, args *SendNFTArgs, reply *api.JSONTxI
 	}
 
 	// Parse the to address
-	to, err := avax.ParseServiceAddress(s.vm, args.To)
+	to, err := Vidar.ParseServiceAddress(s.vm, args.To)
 	if err != nil {
 		return fmt.Errorf("problem parsing to address %q: %w", args.To, err)
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -1430,10 +1430,10 @@ func (s *Service) SendNFT(_ *http.Request, args *SendNFTArgs, reply *api.JSONTxI
 		return err
 	}
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	if amountSpent := amountsSpent[s.vm.feeAssetID]; amountSpent > s.vm.TxFee {
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: s.vm.feeAssetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: s.vm.feeAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: amountSpent - s.vm.TxFee,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1457,7 +1457,7 @@ func (s *Service) SendNFT(_ *http.Request, args *SendNFTArgs, reply *api.JSONTxI
 	}
 
 	tx := txs.Tx{Unsigned: &txs.OperationTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,
@@ -1504,7 +1504,7 @@ func (s *Service) MintNFT(_ *http.Request, args *MintNFTArgs, reply *api.JSONTxI
 		return err
 	}
 
-	to, err := avax.ParseServiceAddress(s.vm, args.To)
+	to, err := Vidar.ParseServiceAddress(s.vm, args.To)
 	if err != nil {
 		return fmt.Errorf("problem parsing to address %q: %w", args.To, err)
 	}
@@ -1515,7 +1515,7 @@ func (s *Service) MintNFT(_ *http.Request, args *MintNFTArgs, reply *api.JSONTxI
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -1546,10 +1546,10 @@ func (s *Service) MintNFT(_ *http.Request, args *MintNFTArgs, reply *api.JSONTxI
 		return err
 	}
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	if amountSpent := amountsSpent[s.vm.feeAssetID]; amountSpent > s.vm.TxFee {
-		outs = append(outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: s.vm.feeAssetID},
+		outs = append(outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: s.vm.feeAssetID},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: amountSpent - s.vm.TxFee,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -1579,7 +1579,7 @@ func (s *Service) MintNFT(_ *http.Request, args *MintNFTArgs, reply *api.JSONTxI
 	}
 
 	tx := txs.Tx{Unsigned: &txs.OperationTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,
@@ -1612,12 +1612,12 @@ type ImportArgs struct {
 	// Chain the funds are coming from
 	SourceChain string `json:"sourceChain"`
 
-	// Address receiving the imported AVAX
+	// Address receiving the imported Vidar
 	To string `json:"to"`
 }
 
 // Import imports an asset to this chain from the P/C-Chain.
-// The AVAX must have already been exported from the P/C-Chain.
+// The Vidar must have already been exported from the P/C-Chain.
 // Returns the ID of the newly created atomic transaction
 func (s *Service) Import(_ *http.Request, args *ImportArgs, reply *api.JSONTxID) error {
 	s.vm.ctx.Log.Warn("deprecated API called",
@@ -1631,7 +1631,7 @@ func (s *Service) Import(_ *http.Request, args *ImportArgs, reply *api.JSONTxID)
 		return fmt.Errorf("problem parsing chainID %q: %w", args.SourceChain, err)
 	}
 
-	to, err := avax.ParseServiceAddress(s.vm, args.To)
+	to, err := Vidar.ParseServiceAddress(s.vm, args.To)
 	if err != nil {
 		return fmt.Errorf("problem parsing to address %q: %w", args.To, err)
 	}
@@ -1651,7 +1651,7 @@ func (s *Service) Import(_ *http.Request, args *ImportArgs, reply *api.JSONTxID)
 		return err
 	}
 
-	ins := []*avax.TransferableInput{}
+	ins := []*Vidar.TransferableInput{}
 	keys := [][]*secp256k1.PrivateKey{}
 
 	if amountSpent := amountsSpent[s.vm.feeAssetID]; amountSpent < s.vm.TxFee {
@@ -1681,11 +1681,11 @@ func (s *Service) Import(_ *http.Request, args *ImportArgs, reply *api.JSONTxID)
 
 	keys = append(keys, importKeys...)
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	for assetID, amount := range amountsSpent {
 		if amount > 0 {
-			outs = append(outs, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: assetID},
+			outs = append(outs, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: amount,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -1697,10 +1697,10 @@ func (s *Service) Import(_ *http.Request, args *ImportArgs, reply *api.JSONTxID)
 			})
 		}
 	}
-	avax.SortTransferableOutputs(outs, s.vm.parser.Codec())
+	Vidar.SortTransferableOutputs(outs, s.vm.parser.Codec())
 
 	tx := txs.Tx{Unsigned: &txs.ImportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,
@@ -1726,13 +1726,13 @@ func (s *Service) Import(_ *http.Request, args *ImportArgs, reply *api.JSONTxID)
 type ExportArgs struct {
 	// User, password, from addrs, change addr
 	api.JSONSpendHeader
-	// Amount of nAVAX to send
+	// Amount of nVidar to send
 	Amount json.Uint64 `json:"amount"`
 
 	// Chain the funds are going to. Optional. Used if To address does not include the chainID.
 	TargetChain string `json:"targetChain"`
 
-	// ID of the address that will receive the AVAX. This address may include the
+	// ID of the address that will receive the Vidar. This address may include the
 	// chainID, which is used to determine what the destination chain is.
 	To string `json:"to"`
 
@@ -1740,7 +1740,7 @@ type ExportArgs struct {
 }
 
 // Export sends an asset from this chain to the P/C-Chain.
-// After this tx is accepted, the AVAX must be imported to the P/C-chain with an importTx.
+// After this tx is accepted, the Vidar must be imported to the P/C-chain with an importTx.
 // Returns the ID of the newly created atomic transaction
 func (s *Service) Export(_ *http.Request, args *ExportArgs, reply *api.JSONTxIDChangeAddr) error {
 	s.vm.ctx.Log.Warn("deprecated API called",
@@ -1773,7 +1773,7 @@ func (s *Service) Export(_ *http.Request, args *ExportArgs, reply *api.JSONTxIDC
 	}
 
 	// Parse the from addresses
-	fromAddrs, err := avax.ParseServiceAddresses(s.vm, args.From)
+	fromAddrs, err := Vidar.ParseServiceAddresses(s.vm, args.From)
 	if err != nil {
 		return err
 	}
@@ -1810,8 +1810,8 @@ func (s *Service) Export(_ *http.Request, args *ExportArgs, reply *api.JSONTxIDC
 		return err
 	}
 
-	exportOuts := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: assetID},
+	exportOuts := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: uint64(args.Amount),
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -1822,12 +1822,12 @@ func (s *Service) Export(_ *http.Request, args *ExportArgs, reply *api.JSONTxIDC
 		},
 	}}
 
-	outs := []*avax.TransferableOutput{}
+	outs := []*Vidar.TransferableOutput{}
 	for assetID, amountSpent := range amountsSpent {
 		amountToSend := amounts[assetID]
 		if amountSpent > amountToSend {
-			outs = append(outs, &avax.TransferableOutput{
-				Asset: avax.Asset{ID: assetID},
+			outs = append(outs, &Vidar.TransferableOutput{
+				Asset: Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: amountSpent - amountToSend,
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -1839,10 +1839,10 @@ func (s *Service) Export(_ *http.Request, args *ExportArgs, reply *api.JSONTxIDC
 			})
 		}
 	}
-	avax.SortTransferableOutputs(outs, s.vm.parser.Codec())
+	Vidar.SortTransferableOutputs(outs, s.vm.parser.Codec())
 
 	tx := txs.Tx{Unsigned: &txs.ExportTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    s.vm.ctx.NetworkID,
 			BlockchainID: s.vm.ctx.ChainID,
 			Outs:         outs,

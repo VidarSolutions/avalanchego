@@ -29,7 +29,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/hashing"
 	"github.com/VidarSolutions/avalanchego/utils/math"
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/genesis"
@@ -85,9 +85,9 @@ var (
 // execution.
 type Chain interface {
 	Stakers
-	avax.UTXOAdder
-	avax.UTXOGetter
-	avax.UTXODeleter
+	Vidar.UTXOAdder
+	Vidar.UTXOGetter
+	Vidar.UTXODeleter
 
 	GetTimestamp() time.Time
 	SetTimestamp(tm time.Time)
@@ -95,8 +95,8 @@ type Chain interface {
 	GetCurrentSupply(subnetID ids.ID) (uint64, error)
 	SetCurrentSupply(subnetID ids.ID, cs uint64)
 
-	GetRewardUTXOs(txID ids.ID) ([]*avax.UTXO, error)
-	AddRewardUTXO(txID ids.ID, utxo *avax.UTXO)
+	GetRewardUTXOs(txID ids.ID) ([]*Vidar.UTXO, error)
+	AddRewardUTXO(txID ids.ID, utxo *Vidar.UTXO)
 
 	GetSubnets() ([]*txs.Tx, error)
 	AddSubnet(createSubnetTx *txs.Tx)
@@ -114,7 +114,7 @@ type Chain interface {
 type State interface {
 	Chain
 	uptime.State
-	avax.UTXOReader
+	Vidar.UTXOReader
 
 	GetLastAccepted() ids.ID
 	SetLastAccepted(blkID ids.ID)
@@ -265,13 +265,13 @@ type state struct {
 	txCache  cache.Cacher[ids.ID, *txAndStatus] // txID -> {*txs.Tx, Status}. If the entry is nil, it isn't in the database
 	txDB     database.Database
 
-	addedRewardUTXOs map[ids.ID][]*avax.UTXO            // map of txID -> []*UTXO
-	rewardUTXOsCache cache.Cacher[ids.ID, []*avax.UTXO] // txID -> []*UTXO
+	addedRewardUTXOs map[ids.ID][]*Vidar.UTXO            // map of txID -> []*UTXO
+	rewardUTXOsCache cache.Cacher[ids.ID, []*Vidar.UTXO] // txID -> []*UTXO
 	rewardUTXODB     database.Database
 
-	modifiedUTXOs map[ids.ID]*avax.UTXO // map of modified UTXOID -> *UTXO if the UTXO is nil, it has been removed
+	modifiedUTXOs map[ids.ID]*Vidar.UTXO // map of modified UTXOID -> *UTXO if the UTXO is nil, it has been removed
 	utxoDB        database.Database
-	utxoState     avax.UTXOState
+	utxoState     Vidar.UTXOState
 
 	cachedSubnets []*txs.Tx // nil if the subnets haven't been loaded
 	addedSubnets  []*txs.Tx
@@ -432,17 +432,17 @@ func new(
 	}
 
 	rewardUTXODB := prefixdb.New(rewardUTXOsPrefix, baseDB)
-	rewardUTXOsCache, err := metercacher.New[ids.ID, []*avax.UTXO](
+	rewardUTXOsCache, err := metercacher.New[ids.ID, []*Vidar.UTXO](
 		"reward_utxos_cache",
 		metricsReg,
-		&cache.LRU[ids.ID, []*avax.UTXO]{Size: rewardUTXOsCacheSize},
+		&cache.LRU[ids.ID, []*Vidar.UTXO]{Size: rewardUTXOsCacheSize},
 	)
 	if err != nil {
 		return nil, err
 	}
 
 	utxoDB := prefixdb.New(utxoPrefix, baseDB)
-	utxoState, err := avax.NewMeteredUTXOState(utxoDB, txs.GenesisCodec, metricsReg)
+	utxoState, err := Vidar.NewMeteredUTXOState(utxoDB, txs.GenesisCodec, metricsReg)
 	if err != nil {
 		return nil, err
 	}
@@ -530,11 +530,11 @@ func new(
 		txDB:     prefixdb.New(txPrefix, baseDB),
 		txCache:  txCache,
 
-		addedRewardUTXOs: make(map[ids.ID][]*avax.UTXO),
+		addedRewardUTXOs: make(map[ids.ID][]*Vidar.UTXO),
 		rewardUTXODB:     rewardUTXODB,
 		rewardUTXOsCache: rewardUTXOsCache,
 
-		modifiedUTXOs: make(map[ids.ID]*avax.UTXO),
+		modifiedUTXOs: make(map[ids.ID]*Vidar.UTXO),
 		utxoDB:        utxoDB,
 		utxoState:     utxoState,
 
@@ -786,7 +786,7 @@ func (s *state) AddTx(tx *txs.Tx, status status.Status) {
 	}
 }
 
-func (s *state) GetRewardUTXOs(txID ids.ID) ([]*avax.UTXO, error) {
+func (s *state) GetRewardUTXOs(txID ids.ID) ([]*Vidar.UTXO, error) {
 	if utxos, exists := s.addedRewardUTXOs[txID]; exists {
 		return utxos, nil
 	}
@@ -799,9 +799,9 @@ func (s *state) GetRewardUTXOs(txID ids.ID) ([]*avax.UTXO, error) {
 	it := txDB.NewIterator()
 	defer it.Release()
 
-	utxos := []*avax.UTXO(nil)
+	utxos := []*Vidar.UTXO(nil)
 	for it.Next() {
-		utxo := &avax.UTXO{}
+		utxo := &Vidar.UTXO{}
 		if _, err := txs.Codec.Unmarshal(it.Value(), utxo); err != nil {
 			return nil, err
 		}
@@ -815,11 +815,11 @@ func (s *state) GetRewardUTXOs(txID ids.ID) ([]*avax.UTXO, error) {
 	return utxos, nil
 }
 
-func (s *state) AddRewardUTXO(txID ids.ID, utxo *avax.UTXO) {
+func (s *state) AddRewardUTXO(txID ids.ID, utxo *Vidar.UTXO) {
 	s.addedRewardUTXOs[txID] = append(s.addedRewardUTXOs[txID], utxo)
 }
 
-func (s *state) GetUTXO(utxoID ids.ID) (*avax.UTXO, error) {
+func (s *state) GetUTXO(utxoID ids.ID) (*Vidar.UTXO, error) {
 	if utxo, exists := s.modifiedUTXOs[utxoID]; exists {
 		if utxo == nil {
 			return nil, database.ErrNotFound
@@ -833,7 +833,7 @@ func (s *state) UTXOIDs(addr []byte, start ids.ID, limit int) ([]ids.ID, error) 
 	return s.utxoState.UTXOIDs(addr, start, limit)
 }
 
-func (s *state) AddUTXO(utxo *avax.UTXO) {
+func (s *state) AddUTXO(utxo *Vidar.UTXO) {
 	s.modifiedUTXOs[utxo.InputID()] = utxo
 }
 
@@ -1049,7 +1049,7 @@ func (s *state) syncGenesis(genesisBlk blocks.Block, genesis *genesis.State) err
 		// Ensure all chains that the genesis bytes say to create have the right
 		// network ID
 		if unsignedChain.NetworkID != s.ctx.NetworkID {
-			return avax.ErrWrongNetworkID
+			return Vidar.ErrWrongNetworkID
 		}
 
 		s.AddChain(chain)

@@ -17,7 +17,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
@@ -55,11 +55,11 @@ func TestVerifyAddPermissionlessValidatorTx(t *testing.T) {
 		verifiedTx = txs.AddPermissionlessValidatorTx{
 			BaseTx: txs.BaseTx{
 				SyntacticallyVerified: true,
-				BaseTx: avax.BaseTx{
+				BaseTx: Vidar.BaseTx{
 					NetworkID:    1,
 					BlockchainID: ids.GenerateTestID(),
-					Outs:         []*avax.TransferableOutput{},
-					Ins:          []*avax.TransferableInput{},
+					Outs:         []*Vidar.TransferableOutput{},
+					Ins:          []*Vidar.TransferableInput{},
 				},
 			},
 			Validator: txs.Validator{
@@ -69,9 +69,9 @@ func TestVerifyAddPermissionlessValidatorTx(t *testing.T) {
 				Wght:   unsignedTransformTx.MinValidatorStake,
 			},
 			Subnet: subnetID,
-			StakeOuts: []*avax.TransferableOutput{
+			StakeOuts: []*Vidar.TransferableOutput{
 				{
-					Asset: avax.Asset{
+					Asset: Vidar.Asset{
 						ID: customAssetID,
 					},
 				},
@@ -314,9 +314,9 @@ func TestVerifyAddPermissionlessValidatorTx(t *testing.T) {
 			},
 			txF: func() *txs.AddPermissionlessValidatorTx {
 				tx := verifiedTx // Note that this copies [verifiedTx]
-				tx.StakeOuts = []*avax.TransferableOutput{
+				tx.StakeOuts = []*Vidar.TransferableOutput{
 					{
-						Asset: avax.Asset{
+						Asset: Vidar.Asset{
 							ID: ids.GenerateTestID(),
 						},
 					},
@@ -563,7 +563,7 @@ func TestGetValidatorRules(t *testing.T) {
 			MaxStakeDuration:  2 * time.Second,
 			MinDelegationFee:  1337,
 		}
-		avaxAssetID   = ids.GenerateTestID()
+		VidarAssetID   = ids.GenerateTestID()
 		customAssetID = ids.GenerateTestID()
 		subnetID      = ids.GenerateTestID()
 	)
@@ -575,14 +575,14 @@ func TestGetValidatorRules(t *testing.T) {
 			backend: &Backend{
 				Config: config,
 				Ctx: &snow.Context{
-					AVAXAssetID: avaxAssetID,
+					VidarAssetID: VidarAssetID,
 				},
 			},
 			chainStateF: func(*gomock.Controller) state.Chain {
 				return nil
 			},
 			expectedRules: &addValidatorRules{
-				assetID:           avaxAssetID,
+				assetID:           VidarAssetID,
 				minValidatorStake: config.MinValidatorStake,
 				maxValidatorStake: config.MaxValidatorStake,
 				minStakeDuration:  config.MinStakeDuration,
@@ -682,7 +682,7 @@ func TestGetDelegatorRules(t *testing.T) {
 			MinStakeDuration:  time.Second,
 			MaxStakeDuration:  2 * time.Second,
 		}
-		avaxAssetID   = ids.GenerateTestID()
+		VidarAssetID   = ids.GenerateTestID()
 		customAssetID = ids.GenerateTestID()
 		subnetID      = ids.GenerateTestID()
 	)
@@ -693,14 +693,14 @@ func TestGetDelegatorRules(t *testing.T) {
 			backend: &Backend{
 				Config: config,
 				Ctx: &snow.Context{
-					AVAXAssetID: avaxAssetID,
+					VidarAssetID: VidarAssetID,
 				},
 			},
 			chainStateF: func(*gomock.Controller) state.Chain {
 				return nil
 			},
 			expectedRules: &addDelegatorRules{
-				assetID:                  avaxAssetID,
+				assetID:                  VidarAssetID,
 				minDelegatorStake:        config.MinDelegatorStake,
 				maxValidatorStake:        config.MaxValidatorStake,
 				minStakeDuration:         config.MinStakeDuration,

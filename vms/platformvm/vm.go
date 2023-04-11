@@ -36,7 +36,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/window"
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 	"github.com/VidarSolutions/avalanchego/version"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/api"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/blocks"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/config"
@@ -76,7 +76,7 @@ type VM struct {
 	blockbuilder.Builder
 
 	metrics            metrics.Metrics
-	atomicUtxosManager avax.AtomicUTXOManager
+	atomicUtxosManager Vidar.AtomicUTXOManager
 
 	// Used to get time. Useful for faking time during tests.
 	clock mockable.Clock
@@ -167,7 +167,7 @@ func (vm *VM) Initialize(
 		return err
 	}
 
-	vm.atomicUtxosManager = avax.NewAtomicUTXOManager(chainCtx.SharedMemory, txs.Codec)
+	vm.atomicUtxosManager = Vidar.NewAtomicUTXOManager(chainCtx.SharedMemory, txs.Codec)
 	utxoHandler := utxo.NewHandler(vm.ctx, &vm.clock, vm.fx)
 	vm.uptimeManager = uptime.NewManager(vm.state)
 	vm.UptimeLockedCalculator.SetCalculator(&vm.bootstrapped, &chainCtx.Lock, vm.uptimeManager)
@@ -424,7 +424,7 @@ func (vm *VM) CreateHandlers(context.Context) (map[string]*common.HTTPHandler, e
 	if err := server.RegisterService(
 		&Service{
 			vm:          vm,
-			addrManager: avax.NewAddressManager(vm.ctx),
+			addrManager: Vidar.NewAddressManager(vm.ctx),
 			stakerAttributesCache: &cache.LRU[ids.ID, *stakerAttributes]{
 				Size: stakerAttributesCacheSize,
 			},

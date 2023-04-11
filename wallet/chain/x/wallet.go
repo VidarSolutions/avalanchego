@@ -10,7 +10,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow/choices"
 	"github.com/VidarSolutions/avalanchego/vms/avm"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary/common"
@@ -36,7 +36,7 @@ type Wallet interface {
 	// - [outputs] specifies all the recipients and amounts that should be sent
 	//   from this transaction.
 	IssueBaseTx(
-		outputs []*avax.TransferableOutput,
+		outputs []*Vidar.TransferableOutput,
 		options ...common.Option,
 	) (ids.ID, error)
 
@@ -127,7 +127,7 @@ type Wallet interface {
 	// - [outputs] specifies the outputs to send to the [chainID].
 	IssueExportTx(
 		chainID ids.ID,
-		outputs []*avax.TransferableOutput,
+		outputs []*Vidar.TransferableOutput,
 		options ...common.Option,
 	) (ids.ID, error)
 
@@ -174,7 +174,7 @@ func (w *wallet) Signer() Signer {
 }
 
 func (w *wallet) IssueBaseTx(
-	outputs []*avax.TransferableOutput,
+	outputs []*Vidar.TransferableOutput,
 	options ...common.Option,
 ) (ids.ID, error) {
 	utx, err := w.builder.NewBaseTx(outputs, options...)
@@ -270,7 +270,7 @@ func (w *wallet) IssueImportTx(
 
 func (w *wallet) IssueExportTx(
 	chainID ids.ID,
-	outputs []*avax.TransferableOutput,
+	outputs []*Vidar.TransferableOutput,
 	options ...common.Option,
 ) (ids.ID, error) {
 	utx, err := w.builder.NewExportTx(chainID, outputs, options...)

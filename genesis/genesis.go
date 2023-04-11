@@ -57,13 +57,13 @@ func validateInitialStakedFunds(config *Config) error {
 	initialStakedFundsSet := set.Set[ids.ShortID]{}
 	for _, allocation := range config.Allocations {
 		// It is ok to have duplicates as different
-		// ethAddrs could claim to the same avaxAddr.
-		allocationSet.Add(allocation.AVAXAddr)
+		// ethAddrs could claim to the same VidarAddr.
+		allocationSet.Add(allocation.VidarAddr)
 	}
 
 	for _, staker := range config.InitialStakedFunds {
 		if initialStakedFundsSet.Contains(staker) {
-			avaxAddr, err := address.Format(
+			VidarAddr, err := address.Format(
 				configChainIDAlias,
 				constants.GetHRP(config.NetworkID),
 				staker.Bytes(),
@@ -77,13 +77,13 @@ func validateInitialStakedFunds(config *Config) error {
 
 			return fmt.Errorf(
 				"address %s is duplicated in initial staked funds",
-				avaxAddr,
+				VidarAddr,
 			)
 		}
 		initialStakedFundsSet.Add(staker)
 
 		if !allocationSet.Contains(staker) {
-			avaxAddr, err := address.Format(
+			VidarAddr, err := address.Format(
 				configChainIDAlias,
 				constants.GetHRP(config.NetworkID),
 				staker.Bytes(),
@@ -97,7 +97,7 @@ func validateInitialStakedFunds(config *Config) error {
 
 			return fmt.Errorf(
 				"address %s does not have an allocation to stake",
-				avaxAddr,
+				VidarAddr,
 			)
 		}
 	}
@@ -190,7 +190,7 @@ func validateConfig(networkID uint32, config *Config, stakingCfg *StakingConfig)
 //
 //  1. The byte representation of the genesis state of the platform chain
 //     (ie the genesis state of the network)
-//  2. The asset ID of AVAX
+//  2. The asset ID of Vidar
 func FromFile(networkID uint32, filepath string, stakingCfg *StakingConfig) ([]byte, ids.ID, error) {
 	switch networkID {
 	case constants.MainnetID, constants.TestnetID, constants.LocalID:
@@ -232,7 +232,7 @@ func FromFile(networkID uint32, filepath string, stakingCfg *StakingConfig) ([]b
 //
 //  1. The byte representation of the genesis state of the platform chain
 //     (ie the genesis state of the network)
-//  2. The asset ID of AVAX
+//  2. The asset ID of Vidar
 func FromFlag(networkID uint32, genesisContent string, stakingCfg *StakingConfig) ([]byte, ids.ID, error) {
 	switch networkID {
 	case constants.MainnetID, constants.TestnetID, constants.LocalID:
@@ -259,7 +259,7 @@ func FromFlag(networkID uint32, genesisContent string, stakingCfg *StakingConfig
 //
 //  1. The byte representation of the genesis state of the platform chain
 //     (ie the genesis state of the network)
-//  2. The asset ID of AVAX
+//  2. The asset ID of Vidar
 func FromConfig(config *Config) ([]byte, ids.ID, error) {
 	hrp := constants.GetHRP(config.NetworkID)
 
@@ -271,9 +271,9 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 		Encoding:  defaultEncoding,
 	}
 	{
-		avax := avm.AssetDefinition{
+		Vidar := avm.AssetDefinition{
 			Name:         "Avalanche",
-			Symbol:       "AVAX",
+			Symbol:       "VIDAR",
 			Denomination: 9,
 			InitialState: map[string][]interface{}{},
 		}
@@ -287,12 +287,12 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 		utils.Sort(xAllocations)
 
 		for _, allocation := range xAllocations {
-			addr, err := address.FormatBech32(hrp, allocation.AVAXAddr.Bytes())
+			addr, err := address.FormatBech32(hrp, allocation.VidarAddr.Bytes())
 			if err != nil {
 				return nil, ids.ID{}, err
 			}
 
-			avax.InitialState["fixedCap"] = append(avax.InitialState["fixedCap"], avm.Holder{
+			Vidar.InitialState["fixedCap"] = append(Vidar.InitialState["fixedCap"], avm.Holder{
 				Amount:  json.Uint64(allocation.InitialAmount),
 				Address: addr,
 			})
@@ -301,12 +301,12 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 		}
 
 		var err error
-		avax.Memo, err = formatting.Encode(defaultEncoding, memoBytes)
+		Vidar.Memo, err = formatting.Encode(defaultEncoding, memoBytes)
 		if err != nil {
 			return nil, ids.Empty, fmt.Errorf("couldn't parse memo bytes to string: %w", err)
 		}
 		avmArgs.GenesisData = map[string]avm.AssetDefinition{
-			"AVAX": avax, // The AVM starts out with one asset: AVAX
+			"Vidar": Vidar, // The AVM starts out with one asset: VIDAR
 		}
 	}
 	avmReply := avm.BuildGenesisReply{}
@@ -321,9 +321,9 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 	if err != nil {
 		return nil, ids.ID{}, fmt.Errorf("couldn't parse avm genesis reply: %w", err)
 	}
-	avaxAssetID, err := AVAXAssetID(bytes)
+	VidarAssetID, err := VidarAssetID(bytes)
 	if err != nil {
-		return nil, ids.ID{}, fmt.Errorf("couldn't generate AVAX asset ID: %w", err)
+		return nil, ids.ID{}, fmt.Errorf("couldn't generate Vidar asset ID: %w", err)
 	}
 
 	genesisTime := time.Unix(int64(config.StartTime), 0)
@@ -338,7 +338,7 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 
 	// Specify the initial state of the Platform Chain
 	platformvmArgs := api.BuildGenesisArgs{
-		AvaxAssetID:   avaxAssetID,
+		VidarAssetID:   VidarAssetID,
 		NetworkID:     json.Uint32(config.NetworkID),
 		Time:          json.Uint64(config.StartTime),
 		InitialSupply: json.Uint64(initialSupply),
@@ -346,11 +346,11 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 		Encoding:      defaultEncoding,
 	}
 	for _, allocation := range config.Allocations {
-		if initiallyStaked.Contains(allocation.AVAXAddr) {
+		if initiallyStaked.Contains(allocation.VidarAddr) {
 			skippedAllocations = append(skippedAllocations, allocation)
 			continue
 		}
-		addr, err := address.FormatBech32(hrp, allocation.AVAXAddr.Bytes())
+		addr, err := address.FormatBech32(hrp, allocation.VidarAddr.Bytes())
 		if err != nil {
 			return nil, ids.ID{}, err
 		}
@@ -388,7 +388,7 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 
 		utxos := []api.UTXO(nil)
 		for _, allocation := range nodeAllocations {
-			addr, err := address.FormatBech32(hrp, allocation.AVAXAddr.Bytes())
+			addr, err := address.FormatBech32(hrp, allocation.VidarAddr.Bytes())
 			if err != nil {
 				return nil, ids.ID{}, err
 			}
@@ -462,7 +462,7 @@ func FromConfig(config *Config) ([]byte, ids.ID, error) {
 		return nil, ids.ID{}, fmt.Errorf("problem parsing platformvm genesis bytes: %w", err)
 	}
 
-	return genesisBytes, avaxAssetID, nil
+	return genesisBytes, VidarAssetID, nil
 }
 
 func splitAllocations(allocations []Allocation, numSplits int) [][]Allocation {
@@ -542,7 +542,7 @@ func VMGenesis(genesisBytes []byte, vmID ids.ID) (*pchaintxs.Tx, error) {
 	return nil, fmt.Errorf("couldn't find blockchain with VM ID %s", vmID)
 }
 
-func AVAXAssetID(avmGenesisBytes []byte) (ids.ID, error) {
+func VidarAssetID(avmGenesisBytes []byte) (ids.ID, error) {
 	parser, err := xchaintxs.NewParser([]fxs.Fx{
 		&secp256k1fx.Fx{},
 	})

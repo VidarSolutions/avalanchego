@@ -13,7 +13,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 )
 
@@ -24,8 +24,8 @@ var (
 )
 
 type Operation struct {
-	avax.Asset `serialize:"true"`
-	UTXOIDs    []*avax.UTXOID  `serialize:"true" json:"inputIDs"`
+	Vidar.Asset `serialize:"true"`
+	UTXOIDs    []*Vidar.UTXOID  `serialize:"true" json:"inputIDs"`
 	FxID       ids.ID          `serialize:"false" json:"fxID"`
 	Op         fxs.FxOperation `serialize:"true" json:"operation"`
 }

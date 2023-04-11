@@ -7,7 +7,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -22,7 +22,7 @@ type UnsignedTx interface {
 	// InputIDs returns the set of inputs this transaction consumes
 	InputIDs() set.Set[ids.ID]
 
-	Outputs() []*avax.TransferableOutput
+	Outputs() []*Vidar.TransferableOutput
 
 	// Attempts to verify this transaction without any provided state.
 	SyntacticVerify(ctx *snow.Context) error

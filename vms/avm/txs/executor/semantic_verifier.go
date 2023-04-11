@@ -11,7 +11,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/vms/avm/states"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 )
 
@@ -106,7 +106,7 @@ func (v *SemanticVerifier) ImportTx(tx *txs.ImportTx) error {
 
 	offset := len(tx.Ins)
 	for i, in := range tx.ImportedIns {
-		utxo := avax.UTXO{}
+		utxo := Vidar.UTXO{}
 		if _, err := v.Codec.Unmarshal(allUTXOBytes[i], &utxo); err != nil {
 			return err
 		}
@@ -148,7 +148,7 @@ func (v *SemanticVerifier) ExportTx(tx *txs.ExportTx) error {
 
 func (v *SemanticVerifier) verifyTransfer(
 	tx txs.UnsignedTx,
-	in *avax.TransferableInput,
+	in *Vidar.TransferableInput,
 	cred verify.Verifiable,
 ) error {
 	utxo, err := v.State.GetUTXOFromID(&in.UTXOID)
@@ -160,9 +160,9 @@ func (v *SemanticVerifier) verifyTransfer(
 
 func (v *SemanticVerifier) verifyTransferOfUTXO(
 	tx txs.UnsignedTx,
-	in *avax.TransferableInput,
+	in *Vidar.TransferableInput,
 	cred verify.Verifiable,
-	utxo *avax.UTXO,
+	utxo *Vidar.UTXO,
 ) error {
 	utxoAssetID := utxo.AssetID()
 	inAssetID := in.AssetID()

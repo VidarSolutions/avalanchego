@@ -20,7 +20,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/states"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -42,11 +42,11 @@ func TestSemanticVerifierBaseTx(t *testing.T) {
 
 	codec := parser.Codec()
 	txID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        txID,
 		OutputIndex: 2,
 	}
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: ids.GenerateTestID(),
 	}
 	inputSigner := secp256k1fx.Input{
@@ -58,14 +58,14 @@ func TestSemanticVerifierBaseTx(t *testing.T) {
 		Amt:   12345,
 		Input: inputSigner,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
 	baseTx := txs.BaseTx{
-		BaseTx: avax.BaseTx{
-			Ins: []*avax.TransferableInput{
+		BaseTx: Vidar.BaseTx{
+			Ins: []*Vidar.TransferableInput{
 				&input,
 			},
 		},
@@ -97,7 +97,7 @@ func TestSemanticVerifierBaseTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	utxo := avax.UTXO{
+	utxo := Vidar.UTXO{
 		UTXOID: utxoID,
 		Asset:  asset,
 		Out:    &output,
@@ -300,7 +300,7 @@ func TestSemanticVerifierBaseTx(t *testing.T) {
 			txFunc: func(require *require.Assertions) *txs.Tx {
 				baseTx := baseTx
 				baseTx.Ins = nil
-				baseTx.Outs = []*avax.TransferableOutput{
+				baseTx.Outs = []*Vidar.TransferableOutput{
 					{
 						Asset: asset,
 						Out:   &output,
@@ -416,11 +416,11 @@ func TestSemanticVerifierExportTx(t *testing.T) {
 
 	codec := parser.Codec()
 	txID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        txID,
 		OutputIndex: 2,
 	}
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: ids.GenerateTestID(),
 	}
 	inputSigner := secp256k1fx.Input{
@@ -432,14 +432,14 @@ func TestSemanticVerifierExportTx(t *testing.T) {
 		Amt:   12345,
 		Input: inputSigner,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
 	baseTx := txs.BaseTx{
-		BaseTx: avax.BaseTx{
-			Ins: []*avax.TransferableInput{
+		BaseTx: Vidar.BaseTx{
+			Ins: []*Vidar.TransferableInput{
 				&input,
 			},
 		},
@@ -475,7 +475,7 @@ func TestSemanticVerifierExportTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	utxo := avax.UTXO{
+	utxo := Vidar.UTXO{
 		UTXOID: utxoID,
 		Asset:  asset,
 		Out:    &output,
@@ -678,7 +678,7 @@ func TestSemanticVerifierExportTx(t *testing.T) {
 			txFunc: func(require *require.Assertions) *txs.Tx {
 				exportTx := exportTx
 				exportTx.Ins = nil
-				exportTx.ExportedOuts = []*avax.TransferableOutput{
+				exportTx.ExportedOuts = []*Vidar.TransferableOutput{
 					{
 						Asset: asset,
 						Out:   &output,
@@ -796,11 +796,11 @@ func TestSemanticVerifierExportTxDifferentSubnet(t *testing.T) {
 
 	codec := parser.Codec()
 	txID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        txID,
 		OutputIndex: 2,
 	}
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: ids.GenerateTestID(),
 	}
 	inputSigner := secp256k1fx.Input{
@@ -812,14 +812,14 @@ func TestSemanticVerifierExportTxDifferentSubnet(t *testing.T) {
 		Amt:   12345,
 		Input: inputSigner,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
 	baseTx := txs.BaseTx{
-		BaseTx: avax.BaseTx{
-			Ins: []*avax.TransferableInput{
+		BaseTx: Vidar.BaseTx{
+			Ins: []*Vidar.TransferableInput{
 				&input,
 			},
 		},
@@ -855,7 +855,7 @@ func TestSemanticVerifierExportTxDifferentSubnet(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	utxo := avax.UTXO{
+	utxo := Vidar.UTXO{
 		UTXOID: utxoID,
 		Asset:  asset,
 		Out:    &output,

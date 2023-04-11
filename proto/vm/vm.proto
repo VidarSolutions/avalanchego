@@ -123,7 +123,7 @@ message InitializeRequest {
   bytes public_key = 5;
   bytes x_chain_id = 6;
   bytes c_chain_id = 7;
-  bytes avax_asset_id = 8;
+  bytes Vidar_asset_id = 8;
   string chain_data_dir = 9;
   bytes genesis_bytes = 10;
   bytes upgrade_bytes = 11;

@@ -17,7 +17,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs/executor"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var (
@@ -47,8 +47,8 @@ type TxCachedState struct {
 	validity                          error
 
 	inputs     []ids.ID
-	inputUTXOs []*avax.UTXOID
-	utxos      []*avax.UTXO
+	inputUTXOs []*Vidar.UTXOID
+	utxos      []*Vidar.UTXO
 	deps       []snowstorm.Tx
 
 	status choices.Status
@@ -254,7 +254,7 @@ func (*UniqueTx) Whitelist(context.Context) (set.Set[ids.ID], error) {
 }
 
 // InputUTXOs returns the utxos that will be consumed on tx acceptance
-func (tx *UniqueTx) InputUTXOs() []*avax.UTXOID {
+func (tx *UniqueTx) InputUTXOs() []*Vidar.UTXOID {
 	tx.refresh()
 	if tx.Tx == nil || len(tx.inputUTXOs) != 0 {
 		return tx.inputUTXOs
@@ -264,7 +264,7 @@ func (tx *UniqueTx) InputUTXOs() []*avax.UTXOID {
 }
 
 // UTXOs returns the utxos that will be added to the UTXO set on tx acceptance
-func (tx *UniqueTx) UTXOs() []*avax.UTXO {
+func (tx *UniqueTx) UTXOs() []*Vidar.UTXO {
 	tx.refresh()
 	if tx.Tx == nil || len(tx.utxos) != 0 {
 		return tx.utxos

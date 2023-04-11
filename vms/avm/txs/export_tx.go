@@ -6,7 +6,7 @@ package txs
 import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -23,7 +23,7 @@ type ExportTx struct {
 	DestinationChain ids.ID `serialize:"true" json:"destinationChain"`
 
 	// The outputs this transaction is sending to the other chain
-	ExportedOuts []*avax.TransferableOutput `serialize:"true" json:"exportedOutputs"`
+	ExportedOuts []*Vidar.TransferableOutput `serialize:"true" json:"exportedOutputs"`
 }
 
 func (t *ExportTx) InitCtx(ctx *snow.Context) {

@@ -6,7 +6,7 @@ package fxs
 import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/nftfx"
 	"github.com/VidarSolutions/avalanchego/vms/propertyfx"
@@ -52,7 +52,7 @@ type Fx interface {
 type FxOperation interface {
 	verify.Verifiable
 	snow.ContextInitializable
-	avax.Coster
+	Vidar.Coster
 
 	Outs() []verify.State
 }

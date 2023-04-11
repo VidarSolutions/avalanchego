@@ -28,7 +28,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
 	"github.com/VidarSolutions/avalanchego/version"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/index"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -42,8 +42,8 @@ func TestIndexTransaction_Ordered(t *testing.T) {
 	issuer := make(chan common.Message, 1)
 	baseDBManager := manager.NewMemDB(version.Semantic1_0_0)
 	ctx := NewContext(t)
-	genesisTx := GetAVAXTxFromGenesisTest(genesisBytes, t)
-	avaxID := genesisTx.ID()
+	genesisTx := GetVidarTxFromGenesisTest(genesisBytes, t)
+	VidarID := genesisTx.ID()
 	vm := setupTestVM(t, ctx, baseDBManager, genesisBytes, issuer, indexEnabledAvmConfig)
 	defer func() {
 		if err := vm.Shutdown(context.Background()); err != nil {
@@ -56,12 +56,12 @@ func TestIndexTransaction_Ordered(t *testing.T) {
 	addr := key.PublicKey().Address()
 
 	var uniqueTxs []*UniqueTx
-	txAssetID := avax.Asset{ID: avaxID}
+	txAssetID := Vidar.Asset{ID: VidarID}
 
 	ctx.Lock.Lock()
 	for i := 0; i < 5; i++ {
 		// create utxoID and assetIDs
-		utxoID := avax.UTXOID{
+		utxoID := Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		}
 
@@ -103,7 +103,7 @@ func TestIndexTransaction_Ordered(t *testing.T) {
 		uniqueParsedTX := parsedTx.(*UniqueTx)
 		uniqueTxs = append(uniqueTxs, uniqueParsedTX)
 
-		var inputUTXOs []*avax.UTXO
+		var inputUTXOs []*Vidar.UTXO
 		for _, utxoID := range uniqueParsedTX.InputUTXOs() {
 			utxo, err := vm.dagState.GetUTXOFromID(utxoID)
 			if err != nil {
@@ -133,9 +133,9 @@ func TestIndexTransaction_MultipleTransactions(t *testing.T) {
 	issuer := make(chan common.Message, 1)
 	baseDBManager := manager.NewMemDB(version.Semantic1_0_0)
 	ctx := NewContext(t)
-	genesisTx := GetAVAXTxFromGenesisTest(genesisBytes, t)
+	genesisTx := GetVidarTxFromGenesisTest(genesisBytes, t)
 
-	avaxID := genesisTx.ID()
+	VidarID := genesisTx.ID()
 	vm := setupTestVM(t, ctx, baseDBManager, genesisBytes, issuer, indexEnabledAvmConfig)
 	defer func() {
 		if err := vm.Shutdown(context.Background()); err != nil {
@@ -145,13 +145,13 @@ func TestIndexTransaction_MultipleTransactions(t *testing.T) {
 	}()
 
 	addressTxMap := map[ids.ShortID]*UniqueTx{}
-	txAssetID := avax.Asset{ID: avaxID}
+	txAssetID := Vidar.Asset{ID: VidarID}
 
 	ctx.Lock.Lock()
 	for _, key := range keys {
 		addr := key.PublicKey().Address()
 		// create utxoID and assetIDs
-		utxoID := avax.UTXOID{
+		utxoID := Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		}
 
@@ -193,7 +193,7 @@ func TestIndexTransaction_MultipleTransactions(t *testing.T) {
 		uniqueParsedTX := parsedTx.(*UniqueTx)
 		addressTxMap[addr] = uniqueParsedTX
 
-		var inputUTXOs []*avax.UTXO
+		var inputUTXOs []*Vidar.UTXO
 		for _, utxoID := range uniqueParsedTX.InputUTXOs() {
 			utxo, err := vm.dagState.GetUTXOFromID(utxoID)
 			if err != nil {
@@ -223,9 +223,9 @@ func TestIndexTransaction_MultipleAddresses(t *testing.T) {
 	issuer := make(chan common.Message, 1)
 	baseDBManager := manager.NewMemDB(version.Semantic1_0_0)
 	ctx := NewContext(t)
-	genesisTx := GetAVAXTxFromGenesisTest(genesisBytes, t)
+	genesisTx := GetVidarTxFromGenesisTest(genesisBytes, t)
 
-	avaxID := genesisTx.ID()
+	VidarID := genesisTx.ID()
 	vm := setupTestVM(t, ctx, baseDBManager, genesisBytes, issuer, indexEnabledAvmConfig)
 	defer func() {
 		if err := vm.Shutdown(context.Background()); err != nil {
@@ -234,7 +234,7 @@ func TestIndexTransaction_MultipleAddresses(t *testing.T) {
 		ctx.Lock.Unlock()
 	}()
 
-	txAssetID := avax.Asset{ID: avaxID}
+	txAssetID := Vidar.Asset{ID: VidarID}
 	addrs := make([]ids.ShortID, len(keys))
 	for _, key := range keys {
 		addrs = append(addrs, key.PublicKey().Address())
@@ -245,7 +245,7 @@ func TestIndexTransaction_MultipleAddresses(t *testing.T) {
 	key := keys[0]
 	addr := key.PublicKey().Address()
 	// create utxoID and assetIDs
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID: ids.GenerateTestID(),
 	}
 
@@ -263,7 +263,7 @@ func TestIndexTransaction_MultipleAddresses(t *testing.T) {
 	// save utxo to state
 	vm.state.AddUTXO(utxo)
 
-	var inputUTXOs []*avax.UTXO //nolint:prealloc
+	var inputUTXOs []*Vidar.UTXO //nolint:prealloc
 	for _, utxoID := range tx.Unsigned.InputUTXOs() {
 		utxo, err := vm.dagState.GetUTXOFromID(utxoID)
 		if err != nil {
@@ -287,8 +287,8 @@ func TestIndexTransaction_UnorderedWrites(t *testing.T) {
 	issuer := make(chan common.Message, 1)
 	baseDBManager := manager.NewMemDB(version.Semantic1_0_0)
 	ctx := NewContext(t)
-	genesisTx := GetAVAXTxFromGenesisTest(genesisBytes, t)
-	avaxID := genesisTx.ID()
+	genesisTx := GetVidarTxFromGenesisTest(genesisBytes, t)
+	VidarID := genesisTx.ID()
 	vm := setupTestVM(t, ctx, baseDBManager, genesisBytes, issuer, indexEnabledAvmConfig)
 	defer func() {
 		if err := vm.Shutdown(context.Background()); err != nil {
@@ -298,13 +298,13 @@ func TestIndexTransaction_UnorderedWrites(t *testing.T) {
 	}()
 
 	addressTxMap := map[ids.ShortID]*UniqueTx{}
-	txAssetID := avax.Asset{ID: avaxID}
+	txAssetID := Vidar.Asset{ID: VidarID}
 
 	ctx.Lock.Lock()
 	for _, key := range keys {
 		addr := key.PublicKey().Address()
 		// create utxoID and assetIDs
-		utxoID := avax.UTXOID{
+		utxoID := Vidar.UTXOID{
 			TxID: ids.GenerateTestID(),
 		}
 
@@ -346,7 +346,7 @@ func TestIndexTransaction_UnorderedWrites(t *testing.T) {
 		uniqueParsedTX := parsedTx.(*UniqueTx)
 		addressTxMap[addr] = uniqueParsedTX
 
-		var inputUTXOs []*avax.UTXO
+		var inputUTXOs []*Vidar.UTXO
 		for _, utxoID := range uniqueParsedTX.InputUTXOs() {
 			utxo, err := vm.dagState.GetUTXOFromID(utxoID)
 			if err != nil {
@@ -465,8 +465,8 @@ func TestIndexingAllowIncomplete(t *testing.T) {
 	require.Error(t, err)
 }
 
-func buildPlatformUTXO(utxoID avax.UTXOID, txAssetID avax.Asset, addr ids.ShortID) *avax.UTXO {
-	return &avax.UTXO{
+func buildPlatformUTXO(utxoID Vidar.UTXOID, txAssetID Vidar.Asset, addr ids.ShortID) *Vidar.UTXO {
+	return &Vidar.UTXO{
 		UTXOID: utxoID,
 		Asset:  txAssetID,
 		Out: &secp256k1fx.TransferOutput{
@@ -483,12 +483,12 @@ func signTX(codec codec.Manager, tx *txs.Tx, key *secp256k1.PrivateKey) error {
 	return tx.SignSECP256K1Fx(codec, [][]*secp256k1.PrivateKey{{key}})
 }
 
-func buildTX(utxoID avax.UTXOID, txAssetID avax.Asset, address ...ids.ShortID) *txs.Tx {
+func buildTX(utxoID Vidar.UTXOID, txAssetID Vidar.Asset, address ...ids.ShortID) *txs.Tx {
 	return &txs.Tx{Unsigned: &txs.BaseTx{
-		BaseTx: avax.BaseTx{
+		BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
-			Ins: []*avax.TransferableInput{{
+			Ins: []*Vidar.TransferableInput{{
 				UTXOID: utxoID,
 				Asset:  txAssetID,
 				In: &secp256k1fx.TransferInput{
@@ -496,7 +496,7 @@ func buildTX(utxoID avax.UTXOID, txAssetID avax.Asset, address ...ids.ShortID) *
 					Input: secp256k1fx.Input{SigIndices: []uint32{0}},
 				},
 			}},
-			Outs: []*avax.TransferableOutput{{
+			Outs: []*Vidar.TransferableOutput{{
 				Asset: txAssetID,
 				Out: &secp256k1fx.TransferOutput{
 					Amt: 1000,

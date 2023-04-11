@@ -7,7 +7,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var _ UnsignedTx = (*RewardValidatorTx)(nil)
@@ -17,11 +17,11 @@ var _ UnsignedTx = (*RewardValidatorTx)(nil)
 //
 // If this transaction is accepted and the next block accepted is a Commit
 // block, the validator is removed and the address that the validator specified
-// receives the staked AVAX as well as a validating reward.
+// receives the staked Vidar as well as a validating reward.
 //
 // If this transaction is accepted and the next block accepted is an Abort
 // block, the validator is removed and the address that the validator specified
-// receives the staked AVAX but no reward.
+// receives the staked Vidar but no reward.
 type RewardValidatorTx struct {
 	// ID of the tx that created the delegator/validator being removed/rewarded
 	TxID ids.ID `serialize:"true" json:"txID"`
@@ -46,7 +46,7 @@ func (*RewardValidatorTx) InputIDs() set.Set[ids.ID] {
 	return nil
 }
 
-func (*RewardValidatorTx) Outputs() []*avax.TransferableOutput {
+func (*RewardValidatorTx) Outputs() []*Vidar.TransferableOutput {
 	return nil
 }
 

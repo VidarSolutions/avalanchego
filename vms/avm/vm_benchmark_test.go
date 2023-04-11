@@ -13,7 +13,7 @@ import (
 
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/keystore"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -82,12 +82,12 @@ func GetAllUTXOsBenchmark(b *testing.B, utxoCount int) {
 
 	// #nosec G404
 	for i := 0; i < utxoCount; i++ {
-		utxo := &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxo := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.GenerateTestID(),
 				OutputIndex: rand.Uint32(),
 			},
-			Asset: avax.Asset{ID: ids.ID{'y', 'e', 'e', 't'}},
+			Asset: Vidar.Asset{ID: ids.ID{'y', 'e', 'e', 't'}},
 			Out: &secp256k1fx.TransferOutput{
 				Amt: 100000,
 				OutputOwners: secp256k1fx.OutputOwners{
@@ -109,7 +109,7 @@ func GetAllUTXOsBenchmark(b *testing.B, utxoCount int) {
 
 	for i := 0; i < b.N; i++ {
 		// Fetch all UTXOs older version
-		notPaginatedUTXOs, err := avax.GetAllUTXOs(vm.state, addrsSet)
+		notPaginatedUTXOs, err := Vidar.GetAllUTXOs(vm.state, addrsSet)
 		require.NoError(b, err)
 		require.Len(b, notPaginatedUTXOs, utxoCount)
 	}

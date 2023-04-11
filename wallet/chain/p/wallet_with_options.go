@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/VidarSolutions/avalanchego/ids"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/signer"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -39,7 +39,7 @@ func (w *walletWithOptions) Builder() Builder {
 }
 
 func (w *walletWithOptions) IssueBaseTx(
-	outputs []*avax.TransferableOutput,
+	outputs []*Vidar.TransferableOutput,
 	options ...common.Option,
 ) (ids.ID, error) {
 	return w.Wallet.IssueBaseTx(
@@ -138,7 +138,7 @@ func (w *walletWithOptions) IssueImportTx(
 
 func (w *walletWithOptions) IssueExportTx(
 	chainID ids.ID,
-	outputs []*avax.TransferableOutput,
+	outputs []*Vidar.TransferableOutput,
 	options ...common.Option,
 ) (ids.ID, error) {
 	return w.Wallet.IssueExportTx(

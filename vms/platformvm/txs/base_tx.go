@@ -11,7 +11,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils"
 	"github.com/VidarSolutions/avalanchego/utils/set"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -25,7 +25,7 @@ var (
 // BaseTx contains fields common to many transaction types. It should be
 // embedded in transaction implementations.
 type BaseTx struct {
-	avax.BaseTx `serialize:"true"`
+	Vidar.BaseTx `serialize:"true"`
 
 	// true iff this transaction has already passed syntactic verification
 	SyntacticallyVerified bool `json:"-"`
@@ -49,7 +49,7 @@ func (tx *BaseTx) InputIDs() set.Set[ids.ID] {
 	return inputIDs
 }
 
-func (tx *BaseTx) Outputs() []*avax.TransferableOutput {
+func (tx *BaseTx) Outputs() []*Vidar.TransferableOutput {
 	return tx.Outs
 }
 
@@ -88,7 +88,7 @@ func (tx *BaseTx) SyntacticVerify(ctx *snow.Context) error {
 		}
 	}
 	switch {
-	case !avax.IsSortedTransferableOutputs(tx.Outs, Codec):
+	case !Vidar.IsSortedTransferableOutputs(tx.Outs, Codec):
 		return errOutputsNotSorted
 	case !utils.IsSortedAndUniqueSortable(tx.Ins):
 		return errInputsNotSortedUnique

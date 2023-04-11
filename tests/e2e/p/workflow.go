@@ -20,7 +20,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/vms/avm"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
@@ -31,8 +31,8 @@ import (
 
 // PChainWorkflow is an integration test for normal P-Chain operations
 // - Issues an Add Validator and an Add Delegator using the funding address
-// - Exports AVAX from the P-Chain funding address to the X-Chain created address
-// - Exports AVAX from the X-Chain created address to the P-Chain created address
+// - Exports Vidar from the P-Chain funding address to the X-Chain created address
+// - Exports Vidar from the X-Chain created address to the P-Chain created address
 // - Checks the expected value of the funding address
 
 var _ = e2e.DescribePChain("[Workflow]", func() {
@@ -60,7 +60,7 @@ var _ = e2e.DescribePChain("[Workflow]", func() {
 			gomega.Expect(err).Should(gomega.BeNil())
 
 			pWallet := baseWallet.P()
-			avaxAssetID := baseWallet.P().AVAXAssetID()
+			VidarAssetID := baseWallet.P().VidarAssetID()
 			xWallet := baseWallet.X()
 			pChainClient := platformvm.NewClient(nodeURI)
 			xChainClient := avm.NewClient(nodeURI, xWallet.BlockchainID().String())
@@ -83,13 +83,13 @@ var _ = e2e.DescribePChain("[Workflow]", func() {
 			tests.Outf("{{green}} txFee: %d {{/}}\n", txFees)
 
 			// amount to transfer from P to X chain
-			toTransfer := 1 * units.Avax
+			toTransfer := 1 * units.Vidar
 
 			pShortAddr := testKeyAddrs[0]
 			xTargetAddr := testKeyAddrs[1]
 			ginkgo.By("check selected keys have sufficient funds", func() {
 				pBalances, err := pWallet.Builder().GetBalance()
-				pBalance := pBalances[avaxAssetID]
+				pBalance := pBalances[VidarAssetID]
 				minBalance := minValStake + txFees + minDelStake + txFees + toTransfer + txFees
 				gomega.Expect(pBalance, err).To(gomega.BeNumerically(">=", minBalance))
 			})
@@ -145,12 +145,12 @@ var _ = e2e.DescribePChain("[Workflow]", func() {
 			// retrieve initial balances
 			pBalances, err := pWallet.Builder().GetBalance()
 			gomega.Expect(err).Should(gomega.BeNil())
-			pStartBalance := pBalances[avaxAssetID]
+			pStartBalance := pBalances[VidarAssetID]
 			tests.Outf("{{blue}} P-chain balance before P->X export: %d {{/}}\n", pStartBalance)
 
 			xBalances, err := xWallet.Builder().GetFTBalance()
 			gomega.Expect(err).Should(gomega.BeNil())
-			xStartBalance := xBalances[avaxAssetID]
+			xStartBalance := xBalances[VidarAssetID]
 			tests.Outf("{{blue}} X-chain balance before P->X export: %d {{/}}\n", xStartBalance)
 
 			outputOwner := secp256k1fx.OutputOwners{
@@ -164,14 +164,14 @@ var _ = e2e.DescribePChain("[Workflow]", func() {
 				OutputOwners: outputOwner,
 			}
 
-			ginkgo.By("export avax from P to X chain", func() {
+			ginkgo.By("export Vidar from P to X chain", func() {
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultConfirmTxTimeout)
 				exportTxID, err := pWallet.IssueExportTx(
 					xWallet.BlockchainID(),
-					[]*avax.TransferableOutput{
+					[]*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
-								ID: avaxAssetID,
+							Asset: Vidar.Asset{
+								ID: VidarAssetID,
 							},
 							Out: output,
 						},
@@ -190,18 +190,18 @@ var _ = e2e.DescribePChain("[Workflow]", func() {
 			// check balances post export
 			pBalances, err = pWallet.Builder().GetBalance()
 			gomega.Expect(err).Should(gomega.BeNil())
-			pPreImportBalance := pBalances[avaxAssetID]
+			pPreImportBalance := pBalances[VidarAssetID]
 			tests.Outf("{{blue}} P-chain balance after P->X export: %d {{/}}\n", pPreImportBalance)
 
 			xBalances, err = xWallet.Builder().GetFTBalance()
 			gomega.Expect(err).Should(gomega.BeNil())
-			xPreImportBalance := xBalances[avaxAssetID]
+			xPreImportBalance := xBalances[VidarAssetID]
 			tests.Outf("{{blue}} X-chain balance after P->X export: %d {{/}}\n", xPreImportBalance)
 
 			gomega.Expect(xPreImportBalance).To(gomega.Equal(xStartBalance)) // import not performed yet
 			gomega.Expect(pPreImportBalance).To(gomega.Equal(pStartBalance - toTransfer - txFees))
 
-			ginkgo.By("import avax from P into X chain", func() {
+			ginkgo.By("import Vidar from P into X chain", func() {
 				ctx, cancel := context.WithTimeout(context.Background(), e2e.DefaultConfirmTxTimeout)
 				importTxID, err := xWallet.IssueImportTx(
 					constants.PlatformChainID,
@@ -220,12 +220,12 @@ var _ = e2e.DescribePChain("[Workflow]", func() {
 			// check balances post import
 			pBalances, err = pWallet.Builder().GetBalance()
 			gomega.Expect(err).Should(gomega.BeNil())
-			pFinalBalance := pBalances[avaxAssetID]
+			pFinalBalance := pBalances[VidarAssetID]
 			tests.Outf("{{blue}} P-chain balance after P->X import: %d {{/}}\n", pFinalBalance)
 
 			xBalances, err = xWallet.Builder().GetFTBalance()
 			gomega.Expect(err).Should(gomega.BeNil())
-			xFinalBalance := xBalances[avaxAssetID]
+			xFinalBalance := xBalances[VidarAssetID]
 			tests.Outf("{{blue}} X-chain balance after P->X import: %d {{/}}\n", xFinalBalance)
 
 			gomega.Expect(xFinalBalance).To(gomega.Equal(xPreImportBalance + toTransfer - txFees)) // import not performed yet

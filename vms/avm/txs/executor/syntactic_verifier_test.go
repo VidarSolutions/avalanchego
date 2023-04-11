@@ -19,7 +19,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/vms/avm/config"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -59,7 +59,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 	require.NoError(t, err)
 
 	feeAssetID := ids.GenerateTestID()
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: feeAssetID,
 	}
 	outputOwners := secp256k1fx.OutputOwners{
@@ -70,12 +70,12 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	output := avax.TransferableOutput{
+	output := Vidar.TransferableOutput{
 		Asset: asset,
 		Out:   &fxOutput,
 	}
 	inputTxID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        inputTxID,
 		OutputIndex: 0,
 	}
@@ -86,18 +86,18 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 		Amt:   54321,
 		Input: inputSigners,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
-	baseTx := avax.BaseTx{
+	baseTx := Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: ctx.ChainID,
-		Outs: []*avax.TransferableOutput{
+		Outs: []*Vidar.TransferableOutput{
 			&output,
 		},
-		Ins: []*avax.TransferableInput{
+		Ins: []*Vidar.TransferableInput{
 			&input,
 		},
 	}
@@ -147,7 +147,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongNetworkID,
+			err: Vidar.ErrWrongNetworkID,
 		},
 		{
 			name: "wrong chainID",
@@ -159,19 +159,19 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongChainID,
+			err: Vidar.ErrWrongChainID,
 		},
 		{
 			name: "memo too large",
 			txFunc: func() *txs.Tx {
 				baseTx := baseTx
-				baseTx.Memo = make([]byte, avax.MaxMemoSize+1)
+				baseTx.Memo = make([]byte, Vidar.MaxMemoSize+1)
 				return &txs.Tx{
 					Unsigned: &txs.BaseTx{BaseTx: baseTx},
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrMemoTooLarge,
+			err: Vidar.ErrMemoTooLarge,
 		},
 		{
 			name: "invalid output",
@@ -183,7 +183,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 				}
 
 				baseTx := baseTx
-				baseTx.Outs = []*avax.TransferableOutput{
+				baseTx.Outs = []*Vidar.TransferableOutput{
 					&output,
 				}
 				return &txs.Tx{
@@ -208,11 +208,11 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 				outputs[0], outputs[1] = outputs[1], outputs[0]
 
 				baseTx := baseTx
@@ -222,7 +222,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrOutputsNotSorted,
+			err: Vidar.ErrOutputsNotSorted,
 		},
 		{
 			name: "invalid input",
@@ -234,7 +234,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 				}
 
 				baseTx := baseTx
-				baseTx.Ins = []*avax.TransferableInput{
+				baseTx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -248,7 +248,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 			name: "duplicate inputs",
 			txFunc: func() *txs.Tx {
 				baseTx := baseTx
-				baseTx.Ins = []*avax.TransferableInput{
+				baseTx.Ins = []*Vidar.TransferableInput{
 					&input,
 					&input,
 				}
@@ -260,7 +260,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					},
 				}
 			},
-			err: avax.ErrInputsNotSortedUnique,
+			err: Vidar.ErrInputsNotSortedUnique,
 		},
 		{
 			name: "input overflow",
@@ -279,11 +279,11 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 				}
 
 				baseTx := baseTx
-				baseTx.Ins = []*avax.TransferableInput{
+				baseTx.Ins = []*Vidar.TransferableInput{
 					&input0,
 					&input1,
 				}
-				avax.SortTransferableInputsWithSigners(baseTx.Ins, make([][]*secp256k1.PrivateKey, 2))
+				Vidar.SortTransferableInputsWithSigners(baseTx.Ins, make([][]*secp256k1.PrivateKey, 2))
 				return &txs.Tx{
 					Unsigned: &txs.BaseTx{BaseTx: baseTx},
 					Creds: []*fxs.FxCredential{
@@ -309,11 +309,11 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 
 				baseTx := baseTx
 				baseTx.Outs = outputs
@@ -334,7 +334,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 				}
 
 				baseTx := baseTx
-				baseTx.Ins = []*avax.TransferableInput{
+				baseTx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -342,7 +342,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 		{
 			name: "invalid credential",
@@ -375,7 +375,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 				}
 
 				baseTx := baseTx
-				baseTx.Ins = []*avax.TransferableInput{
+				baseTx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -395,7 +395,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 				}
 
 				baseTx := baseTx
-				baseTx.Ins = []*avax.TransferableInput{
+				baseTx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -403,7 +403,7 @@ func TestSyntacticVerifierBaseTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 	}
 	for _, test := range tests {
@@ -431,7 +431,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 	require.NoError(t, err)
 
 	feeAssetID := ids.GenerateTestID()
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: feeAssetID,
 	}
 	outputOwners := secp256k1fx.OutputOwners{
@@ -442,12 +442,12 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	output := avax.TransferableOutput{
+	output := Vidar.TransferableOutput{
 		Asset: asset,
 		Out:   &fxOutput,
 	}
 	inputTxID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        inputTxID,
 		OutputIndex: 0,
 	}
@@ -458,18 +458,18 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 		Amt:   54321,
 		Input: inputSigners,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
-	baseTx := avax.BaseTx{
+	baseTx := Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: ctx.ChainID,
-		Outs: []*avax.TransferableOutput{
+		Outs: []*Vidar.TransferableOutput{
 			&output,
 		},
-		Ins: []*avax.TransferableInput{
+		Ins: []*Vidar.TransferableInput{
 			&input,
 		},
 	}
@@ -600,7 +600,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 			name: "bounding whitespace in name",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Name = " AVAX"
+				tx.Name = " Vidar"
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds:    creds,
@@ -642,7 +642,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongNetworkID,
+			err: Vidar.ErrWrongNetworkID,
 		},
 		{
 			name: "wrong chainID",
@@ -654,19 +654,19 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongChainID,
+			err: Vidar.ErrWrongChainID,
 		},
 		{
 			name: "memo too large",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Memo = make([]byte, avax.MaxMemoSize+1)
+				tx.Memo = make([]byte, Vidar.MaxMemoSize+1)
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrMemoTooLarge,
+			err: Vidar.ErrMemoTooLarge,
 		},
 		{
 			name: "invalid output",
@@ -678,7 +678,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Outs = []*avax.TransferableOutput{
+				tx.Outs = []*Vidar.TransferableOutput{
 					&output,
 				}
 				return &txs.Tx{
@@ -703,11 +703,11 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 				outputs[0], outputs[1] = outputs[1], outputs[0]
 
 				tx := tx
@@ -717,7 +717,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrOutputsNotSorted,
+			err: Vidar.ErrOutputsNotSorted,
 		},
 		{
 			name: "invalid input",
@@ -729,7 +729,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -743,7 +743,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 			name: "duplicate inputs",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 					&input,
 				}
@@ -755,7 +755,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					},
 				}
 			},
-			err: avax.ErrInputsNotSortedUnique,
+			err: Vidar.ErrInputsNotSortedUnique,
 		},
 		{
 			name: "input overflow",
@@ -774,11 +774,11 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input0,
 					&input1,
 				}
-				avax.SortTransferableInputsWithSigners(baseTx.Ins, make([][]*secp256k1.PrivateKey, 2))
+				Vidar.SortTransferableInputsWithSigners(baseTx.Ins, make([][]*secp256k1.PrivateKey, 2))
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds: []*fxs.FxCredential{
@@ -804,11 +804,11 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 
 				tx := tx
 				tx.Outs = outputs
@@ -829,7 +829,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -837,7 +837,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 		{
 			name: "invalid nil state",
@@ -984,7 +984,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1004,7 +1004,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1012,7 +1012,7 @@ func TestSyntacticVerifierCreateAssetTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 	}
 	for _, test := range tests {
@@ -1040,7 +1040,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 	require.NoError(t, err)
 
 	feeAssetID := ids.GenerateTestID()
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: feeAssetID,
 	}
 	outputOwners := secp256k1fx.OutputOwners{
@@ -1051,12 +1051,12 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	output := avax.TransferableOutput{
+	output := Vidar.TransferableOutput{
 		Asset: asset,
 		Out:   &fxOutput,
 	}
 	inputTxID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        inputTxID,
 		OutputIndex: 0,
 	}
@@ -1067,18 +1067,18 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 		Amt:   54321,
 		Input: inputSigners,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
-	baseTx := avax.BaseTx{
+	baseTx := Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: ctx.ChainID,
-		Ins: []*avax.TransferableInput{
+		Ins: []*Vidar.TransferableInput{
 			&input,
 		},
-		Outs: []*avax.TransferableOutput{
+		Outs: []*Vidar.TransferableOutput{
 			&output,
 		},
 	}
@@ -1093,7 +1093,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 	}
 	op := txs.Operation{
 		Asset: asset,
-		UTXOIDs: []*avax.UTXOID{
+		UTXOIDs: []*Vidar.UTXOID{
 			&opUTXOID,
 		},
 		Op: &fxOp,
@@ -1163,7 +1163,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongNetworkID,
+			err: Vidar.ErrWrongNetworkID,
 		},
 		{
 			name: "wrong chainID",
@@ -1175,19 +1175,19 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongChainID,
+			err: Vidar.ErrWrongChainID,
 		},
 		{
 			name: "memo too large",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Memo = make([]byte, avax.MaxMemoSize+1)
+				tx.Memo = make([]byte, Vidar.MaxMemoSize+1)
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrMemoTooLarge,
+			err: Vidar.ErrMemoTooLarge,
 		},
 		{
 			name: "invalid output",
@@ -1199,7 +1199,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Outs = []*avax.TransferableOutput{
+				tx.Outs = []*Vidar.TransferableOutput{
 					&output,
 				}
 				return &txs.Tx{
@@ -1224,11 +1224,11 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 				outputs[0], outputs[1] = outputs[1], outputs[0]
 
 				tx := tx
@@ -1238,7 +1238,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrOutputsNotSorted,
+			err: Vidar.ErrOutputsNotSorted,
 		},
 		{
 			name: "invalid input",
@@ -1250,7 +1250,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1264,7 +1264,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 			name: "duplicate inputs",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 					&input,
 				}
@@ -1276,7 +1276,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					},
 				}
 			},
-			err: avax.ErrInputsNotSortedUnique,
+			err: Vidar.ErrInputsNotSortedUnique,
 		},
 		{
 			name: "input overflow",
@@ -1295,11 +1295,11 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input0,
 					&input1,
 				}
-				avax.SortTransferableInputsWithSigners(tx.Ins, make([][]*secp256k1.PrivateKey, 2))
+				Vidar.SortTransferableInputsWithSigners(tx.Ins, make([][]*secp256k1.PrivateKey, 2))
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds: []*fxs.FxCredential{
@@ -1319,10 +1319,10 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 
 				tx := tx
 				tx.Outs = outputs
@@ -1343,7 +1343,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1351,7 +1351,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 		{
 			name: "invalid nil op",
@@ -1388,7 +1388,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 			name: "invalid duplicated op UTXOs",
 			txFunc: func() *txs.Tx {
 				op := op
-				op.UTXOIDs = []*avax.UTXOID{
+				op.UTXOIDs = []*Vidar.UTXOID{
 					&opUTXOID,
 					&opUTXOID,
 				}
@@ -1473,7 +1473,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1493,7 +1493,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1501,7 +1501,7 @@ func TestSyntacticVerifierOperationTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 	}
 	for _, test := range tests {
@@ -1529,7 +1529,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 	require.NoError(t, err)
 
 	feeAssetID := ids.GenerateTestID()
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: feeAssetID,
 	}
 	outputOwners := secp256k1fx.OutputOwners{
@@ -1540,12 +1540,12 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	output := avax.TransferableOutput{
+	output := Vidar.TransferableOutput{
 		Asset: asset,
 		Out:   &fxOutput,
 	}
 	inputTxID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        inputTxID,
 		OutputIndex: 0,
 	}
@@ -1556,22 +1556,22 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 		Amt:   54321,
 		Input: inputSigners,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
-	baseTx := avax.BaseTx{
+	baseTx := Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: ctx.ChainID,
-		Outs: []*avax.TransferableOutput{
+		Outs: []*Vidar.TransferableOutput{
 			&output,
 		},
 	}
 	tx := txs.ImportTx{
 		BaseTx:      txs.BaseTx{BaseTx: baseTx},
 		SourceChain: ctx.CChainID,
-		ImportedIns: []*avax.TransferableInput{
+		ImportedIns: []*Vidar.TransferableInput{
 			&input,
 		},
 	}
@@ -1633,7 +1633,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongNetworkID,
+			err: Vidar.ErrWrongNetworkID,
 		},
 		{
 			name: "wrong chainID",
@@ -1645,19 +1645,19 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongChainID,
+			err: Vidar.ErrWrongChainID,
 		},
 		{
 			name: "memo too large",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Memo = make([]byte, avax.MaxMemoSize+1)
+				tx.Memo = make([]byte, Vidar.MaxMemoSize+1)
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrMemoTooLarge,
+			err: Vidar.ErrMemoTooLarge,
 		},
 		{
 			name: "invalid output",
@@ -1669,7 +1669,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Outs = []*avax.TransferableOutput{
+				tx.Outs = []*Vidar.TransferableOutput{
 					&output,
 				}
 				return &txs.Tx{
@@ -1694,11 +1694,11 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 				outputs[0], outputs[1] = outputs[1], outputs[0]
 
 				tx := tx
@@ -1708,7 +1708,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrOutputsNotSorted,
+			err: Vidar.ErrOutputsNotSorted,
 		},
 		{
 			name: "invalid input",
@@ -1720,7 +1720,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1734,7 +1734,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 			name: "duplicate inputs",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 					&input,
 				}
@@ -1747,13 +1747,13 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					},
 				}
 			},
-			err: avax.ErrInputsNotSortedUnique,
+			err: Vidar.ErrInputsNotSortedUnique,
 		},
 		{
 			name: "duplicate imported inputs",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.ImportedIns = []*avax.TransferableInput{
+				tx.ImportedIns = []*Vidar.TransferableInput{
 					&input,
 					&input,
 				}
@@ -1765,7 +1765,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					},
 				}
 			},
-			err: avax.ErrInputsNotSortedUnique,
+			err: Vidar.ErrInputsNotSortedUnique,
 		},
 		{
 			name: "input overflow",
@@ -1784,11 +1784,11 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input0,
 					&input1,
 				}
-				avax.SortTransferableInputsWithSigners(tx.Ins, make([][]*secp256k1.PrivateKey, 2))
+				Vidar.SortTransferableInputsWithSigners(tx.Ins, make([][]*secp256k1.PrivateKey, 2))
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds: []*fxs.FxCredential{
@@ -1808,10 +1808,10 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 
 				tx := tx
 				tx.Outs = outputs
@@ -1832,7 +1832,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.ImportedIns = []*avax.TransferableInput{
+				tx.ImportedIns = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1840,7 +1840,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 		{
 			name: "invalid credential",
@@ -1873,7 +1873,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.ImportedIns = []*avax.TransferableInput{
+				tx.ImportedIns = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1893,7 +1893,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.ImportedIns = []*avax.TransferableInput{
+				tx.ImportedIns = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -1901,7 +1901,7 @@ func TestSyntacticVerifierImportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 	}
 	for _, test := range tests {
@@ -1929,7 +1929,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 	require.NoError(t, err)
 
 	feeAssetID := ids.GenerateTestID()
-	asset := avax.Asset{
+	asset := Vidar.Asset{
 		ID: feeAssetID,
 	}
 	outputOwners := secp256k1fx.OutputOwners{
@@ -1940,12 +1940,12 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 		Amt:          12345,
 		OutputOwners: outputOwners,
 	}
-	output := avax.TransferableOutput{
+	output := Vidar.TransferableOutput{
 		Asset: asset,
 		Out:   &fxOutput,
 	}
 	inputTxID := ids.GenerateTestID()
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        inputTxID,
 		OutputIndex: 0,
 	}
@@ -1956,22 +1956,22 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 		Amt:   54321,
 		Input: inputSigners,
 	}
-	input := avax.TransferableInput{
+	input := Vidar.TransferableInput{
 		UTXOID: utxoID,
 		Asset:  asset,
 		In:     &fxInput,
 	}
-	baseTx := avax.BaseTx{
+	baseTx := Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: ctx.ChainID,
-		Ins: []*avax.TransferableInput{
+		Ins: []*Vidar.TransferableInput{
 			&input,
 		},
 	}
 	tx := txs.ExportTx{
 		BaseTx:           txs.BaseTx{BaseTx: baseTx},
 		DestinationChain: ctx.CChainID,
-		ExportedOuts: []*avax.TransferableOutput{
+		ExportedOuts: []*Vidar.TransferableOutput{
 			&output,
 		},
 	}
@@ -2033,7 +2033,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongNetworkID,
+			err: Vidar.ErrWrongNetworkID,
 		},
 		{
 			name: "wrong chainID",
@@ -2045,19 +2045,19 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrWrongChainID,
+			err: Vidar.ErrWrongChainID,
 		},
 		{
 			name: "memo too large",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Memo = make([]byte, avax.MaxMemoSize+1)
+				tx.Memo = make([]byte, Vidar.MaxMemoSize+1)
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrMemoTooLarge,
+			err: Vidar.ErrMemoTooLarge,
 		},
 		{
 			name: "invalid output",
@@ -2069,7 +2069,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Outs = []*avax.TransferableOutput{
+				tx.Outs = []*Vidar.TransferableOutput{
 					&output,
 				}
 				return &txs.Tx{
@@ -2094,11 +2094,11 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 				outputs[0], outputs[1] = outputs[1], outputs[0]
 
 				tx := tx
@@ -2108,7 +2108,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrOutputsNotSorted,
+			err: Vidar.ErrOutputsNotSorted,
 		},
 		{
 			name: "unsorted exported outputs",
@@ -2125,11 +2125,11 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output0,
 					&output1,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 				outputs[0], outputs[1] = outputs[1], outputs[0]
 
 				tx := tx
@@ -2139,7 +2139,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrOutputsNotSorted,
+			err: Vidar.ErrOutputsNotSorted,
 		},
 		{
 			name: "invalid input",
@@ -2151,7 +2151,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -2165,7 +2165,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 			name: "duplicate inputs",
 			txFunc: func() *txs.Tx {
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 					&input,
 				}
@@ -2177,7 +2177,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					},
 				}
 			},
-			err: avax.ErrInputsNotSortedUnique,
+			err: Vidar.ErrInputsNotSortedUnique,
 		},
 		{
 			name: "input overflow",
@@ -2196,11 +2196,11 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input0,
 					&input1,
 				}
-				avax.SortTransferableInputsWithSigners(tx.Ins, make([][]*secp256k1.PrivateKey, 2))
+				Vidar.SortTransferableInputsWithSigners(tx.Ins, make([][]*secp256k1.PrivateKey, 2))
 				return &txs.Tx{
 					Unsigned: &tx,
 					Creds: []*fxs.FxCredential{
@@ -2220,10 +2220,10 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					OutputOwners: outputOwners,
 				}
 
-				outputs := []*avax.TransferableOutput{
+				outputs := []*Vidar.TransferableOutput{
 					&output,
 				}
-				avax.SortTransferableOutputs(outputs, codec)
+				Vidar.SortTransferableOutputs(outputs, codec)
 
 				tx := tx
 				tx.Outs = outputs
@@ -2244,7 +2244,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -2252,7 +2252,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 		{
 			name: "invalid credential",
@@ -2285,7 +2285,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -2305,7 +2305,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 				}
 
 				tx := tx
-				tx.Ins = []*avax.TransferableInput{
+				tx.Ins = []*Vidar.TransferableInput{
 					&input,
 				}
 				return &txs.Tx{
@@ -2313,7 +2313,7 @@ func TestSyntacticVerifierExportTx(t *testing.T) {
 					Creds:    creds,
 				}
 			},
-			err: avax.ErrInsufficientFunds,
+			err: Vidar.ErrInsufficientFunds,
 		},
 	}
 	for _, test := range tests {

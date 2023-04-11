@@ -45,7 +45,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs/mempool"
 	"github.com/VidarSolutions/avalanchego/vms/avm/utxo"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/index"
 	"github.com/VidarSolutions/avalanchego/vms/components/keystore"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -79,8 +79,8 @@ type VM struct {
 
 	metrics metrics.Metrics
 
-	avax.AddressManager
-	avax.AtomicUTXOManager
+	Vidar.AddressManager
+	Vidar.AtomicUTXOManager
 	ids.Aliaser
 	utxo.Spender
 
@@ -193,7 +193,7 @@ func (vm *VM) Initialize(
 		return fmt.Errorf("failed to initialize metrics: %w", err)
 	}
 
-	vm.AddressManager = avax.NewAddressManager(ctx)
+	vm.AddressManager = Vidar.NewAddressManager(ctx)
 	vm.Aliaser = ids.NewAliaser()
 
 	db := dbManager.Current().Database
@@ -235,7 +235,7 @@ func (vm *VM) Initialize(
 	}
 
 	codec := vm.parser.Codec()
-	vm.AtomicUTXOManager = avax.NewAtomicUTXOManager(ctx.SharedMemory, codec)
+	vm.AtomicUTXOManager = Vidar.NewAtomicUTXOManager(ctx.SharedMemory, codec)
 	vm.Spender = utxo.NewSpender(&vm.clock, codec)
 
 	state, err := states.New(vm.db, vm.parser, vm.registerer)
@@ -319,7 +319,7 @@ func (vm *VM) onNormalOperationsStarted() error {
 	if err != nil {
 		return err
 	}
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        txID,
 		OutputIndex: 192,
 	}
@@ -602,8 +602,8 @@ func (vm *VM) initGenesis(genesisBytes []byte) error {
 		return err
 	}
 
-	// secure this by defaulting to avaxAsset
-	vm.feeAssetID = vm.ctx.AVAXAssetID
+	// secure this by defaulting to VidarAsset
+	vm.feeAssetID = vm.ctx.VidarAssetID
 
 	for index, genesisTx := range genesis.Txs {
 		if len(genesisTx.Outs) != 0 {
@@ -699,7 +699,7 @@ func (vm *VM) LoadUser(
 	password string,
 	addrsToUse set.Set[ids.ShortID],
 ) (
-	[]*avax.UTXO,
+	[]*Vidar.UTXO,
 	*secp256k1fx.Keychain,
 	error,
 ) {
@@ -716,7 +716,7 @@ func (vm *VM) LoadUser(
 		return nil, nil, err
 	}
 
-	utxos, err := avax.GetAllUTXOs(vm.state, kc.Addresses())
+	utxos, err := Vidar.GetAllUTXOs(vm.state, kc.Addresses())
 	if err != nil {
 		return nil, nil, fmt.Errorf("problem retrieving user's UTXOs: %w", err)
 	}
@@ -730,7 +730,7 @@ func (vm *VM) selectChangeAddr(defaultAddr ids.ShortID, changeAddr string) (ids.
 	if changeAddr == "" {
 		return defaultAddr, nil
 	}
-	addr, err := avax.ParseServiceAddress(vm, changeAddr)
+	addr, err := Vidar.ParseServiceAddress(vm, changeAddr)
 	if err != nil {
 		return ids.ShortID{}, fmt.Errorf("couldn't parse changeAddr: %w", err)
 	}
@@ -757,7 +757,7 @@ func (vm *VM) onAccept(tx *txs.Tx) error {
 	// Fetch the input UTXOs
 	txID := tx.ID()
 	inputUTXOIDs := tx.Unsigned.InputUTXOs()
-	inputUTXOs := make([]*avax.UTXO, 0, len(inputUTXOIDs))
+	inputUTXOs := make([]*Vidar.UTXO, 0, len(inputUTXOIDs))
 	for _, utxoID := range inputUTXOIDs {
 		// Don't bother fetching the input UTXO if its symbolic
 		if utxoID.Symbolic() {

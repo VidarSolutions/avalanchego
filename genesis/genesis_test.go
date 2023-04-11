@@ -458,7 +458,7 @@ func TestVMGenesis(t *testing.T) {
 	}
 }
 
-func TestAVAXAssetID(t *testing.T) {
+func TestVidarAssetID(t *testing.T) {
 	tests := []struct {
 		networkID  uint32
 		expectedID string
@@ -482,13 +482,13 @@ func TestAVAXAssetID(t *testing.T) {
 			require := require.New(t)
 
 			config := GetConfig(test.networkID)
-			_, avaxAssetID, err := FromConfig(config)
+			_, VidarAssetID, err := FromConfig(config)
 			require.NoError(err)
 
 			require.Equal(
 				test.expectedID,
-				avaxAssetID.String(),
-				"AVAX assetID with networkID %d mismatch",
+				VidarAssetID.String(),
+				"Vidar assetID with networkID %d mismatch",
 				test.networkID,
 			)
 		})

@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/VidarSolutions/avalanchego/ids"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 func TestBaseTxMarshalJSON(t *testing.T) {
@@ -18,22 +18,22 @@ func TestBaseTxMarshalJSON(t *testing.T) {
 	utxoTxID := ids.ID{2}
 	assetID := ids.ID{3}
 	fxID := ids.ID{4}
-	tx := &BaseTx{BaseTx: avax.BaseTx{
+	tx := &BaseTx{BaseTx: Vidar.BaseTx{
 		BlockchainID: blockchainID,
 		NetworkID:    4,
-		Ins: []*avax.TransferableInput{
+		Ins: []*Vidar.TransferableInput{
 			{
 				FxID:   fxID,
-				UTXOID: avax.UTXOID{TxID: utxoTxID, OutputIndex: 5},
-				Asset:  avax.Asset{ID: assetID},
-				In:     &avax.TestTransferable{Val: 100},
+				UTXOID: Vidar.UTXOID{TxID: utxoTxID, OutputIndex: 5},
+				Asset:  Vidar.Asset{ID: assetID},
+				In:     &Vidar.TestTransferable{Val: 100},
 			},
 		},
-		Outs: []*avax.TransferableOutput{
+		Outs: []*Vidar.TransferableOutput{
 			{
 				FxID:  fxID,
-				Asset: avax.Asset{ID: assetID},
-				Out:   &avax.TestTransferable{Val: 100},
+				Asset: Vidar.Asset{ID: assetID},
+				Out:   &Vidar.TestTransferable{Val: 100},
 			},
 		},
 		Memo: []byte{1, 2, 3},

@@ -6,7 +6,7 @@ package stakeable
 import (
 	"errors"
 
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var (
@@ -16,11 +16,11 @@ var (
 
 type LockOut struct {
 	Locktime             uint64 `serialize:"true" json:"locktime"`
-	avax.TransferableOut `serialize:"true" json:"output"`
+	Vidar.TransferableOut `serialize:"true" json:"output"`
 }
 
 func (s *LockOut) Addresses() [][]byte {
-	if addressable, ok := s.TransferableOut.(avax.Addressable); ok {
+	if addressable, ok := s.TransferableOut.(Vidar.Addressable); ok {
 		return addressable.Addresses()
 	}
 	return nil
@@ -38,7 +38,7 @@ func (s *LockOut) Verify() error {
 
 type LockIn struct {
 	Locktime            uint64 `serialize:"true" json:"locktime"`
-	avax.TransferableIn `serialize:"true" json:"input"`
+	Vidar.TransferableIn `serialize:"true" json:"input"`
 }
 
 func (s *LockIn) Verify() error {

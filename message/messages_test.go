@@ -110,7 +110,7 @@ func TestMessage(t *testing.T) {
 						NetworkId:      uint32(1337),
 						MyTime:         uint64(nowUnix),
 						IpAddr:         []byte(net.IPv6zero),
-						IpPort:         9651,
+						IpPort:         9696,
 						MyVersion:      "v1.2.3",
 						MyVersionTime:  uint64(nowUnix),
 						Sig:            []byte{'y', 'e', 'e', 't'},
@@ -154,7 +154,7 @@ func TestMessage(t *testing.T) {
 							{
 								X509Certificate: testTLSCert.Certificate[0],
 								IpAddr:          []byte(net.IPv6zero),
-								IpPort:          9651,
+								IpPort:          9696,
 								Timestamp:       uint64(nowUnix),
 								Signature:       compressibleContainers[0],
 							},

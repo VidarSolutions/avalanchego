@@ -17,7 +17,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/version"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/nftfx"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -62,7 +62,7 @@ func TestVerifyFxUsage(t *testing.T) {
 	require.NoError(vm.SetState(context.Background(), snow.NormalOp))
 
 	createAssetTx := &txs.Tx{Unsigned: &txs.CreateAssetTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
 		}},
@@ -102,13 +102,13 @@ func TestVerifyFxUsage(t *testing.T) {
 	require.NoError(err)
 
 	mintNFTTx := &txs.Tx{Unsigned: &txs.OperationTx{
-		BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
 		}},
 		Ops: []*txs.Operation{{
-			Asset: avax.Asset{ID: createAssetTx.ID()},
-			UTXOIDs: []*avax.UTXOID{{
+			Asset: Vidar.Asset{ID: createAssetTx.ID()},
+			UTXOIDs: []*Vidar.UTXOID{{
 				TxID:        createAssetTx.ID(),
 				OutputIndex: 1,
 			}},
@@ -127,15 +127,15 @@ func TestVerifyFxUsage(t *testing.T) {
 	_, err = vm.IssueTx(mintNFTTx.Bytes())
 	require.NoError(err)
 
-	spendTx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+	spendTx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: chainID,
-		Ins: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		Ins: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        createAssetTx.ID(),
 				OutputIndex: 0,
 			},
-			Asset: avax.Asset{ID: createAssetTx.ID()},
+			Asset: Vidar.Asset{ID: createAssetTx.ID()},
 			In: &secp256k1fx.TransferInput{
 				Amt: 1,
 				Input: secp256k1fx.Input{

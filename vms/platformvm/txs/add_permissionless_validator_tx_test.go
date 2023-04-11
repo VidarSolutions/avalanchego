@@ -15,7 +15,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/signer"
@@ -46,7 +46,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 
 	// A BaseTx that passes syntactic verification.
 	validBaseTx := BaseTx{
-		BaseTx: avax.BaseTx{
+		BaseTx: Vidar.BaseTx{
 			NetworkID:    networkID,
 			BlockchainID: chainID,
 		},
@@ -110,9 +110,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					Validator: Validator{
 						NodeID: ids.GenerateTestNodeID(),
 					},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: ids.GenerateTestID(),
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -138,9 +138,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: ids.GenerateTestID(),
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: ids.GenerateTestID(),
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -168,9 +168,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: constants.PrimaryNetworkID,
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: ids.GenerateTestID(),
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -191,7 +191,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 				rewardsOwner := fx.NewMockOwner(ctrl)
 				rewardsOwner.EXPECT().Verify().Return(nil).AnyTimes()
 
-				stakeOut := avax.NewMockTransferableOut(ctrl)
+				stakeOut := Vidar.NewMockTransferableOut(ctrl)
 				stakeOut.EXPECT().Verify().Return(errCustom)
 				return &AddPermissionlessValidatorTx{
 					BaseTx: validBaseTx,
@@ -201,9 +201,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: ids.GenerateTestID(),
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: ids.GenerateTestID(),
 							},
 							Out: stakeOut,
@@ -229,9 +229,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: ids.GenerateTestID(),
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: ids.GenerateTestID(),
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -239,7 +239,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 							},
 						},
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: ids.GenerateTestID(),
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -268,9 +268,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: ids.GenerateTestID(),
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -278,7 +278,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 							},
 						},
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -307,9 +307,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: ids.GenerateTestID(),
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -317,7 +317,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 							},
 						},
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -346,9 +346,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: ids.GenerateTestID(),
 					Signer: &signer.Empty{},
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -356,7 +356,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 							},
 						},
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -385,9 +385,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 					Subnet: constants.PrimaryNetworkID,
 					Signer: blsPOP,
-					StakeOuts: []*avax.TransferableOutput{
+					StakeOuts: []*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -395,7 +395,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 							},
 						},
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -429,9 +429,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 			Validator: Validator{
 				NodeID: ids.GenerateTestNodeID(),
 			},
-			StakeOuts: []*avax.TransferableOutput{
+			StakeOuts: []*Vidar.TransferableOutput{
 				{
-					Asset: avax.Asset{
+					Asset: Vidar.Asset{
 						ID: ids.GenerateTestID(),
 					},
 					Out: &secp256k1fx.TransferOutput{
@@ -460,9 +460,9 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 			},
 			Subnet: ids.GenerateTestID(),
 			Signer: &signer.Empty{},
-			StakeOuts: []*avax.TransferableOutput{
+			StakeOuts: []*Vidar.TransferableOutput{
 				{
-					Asset: avax.Asset{
+					Asset: Vidar.Asset{
 						ID: assetID,
 					},
 					Out: &secp256k1fx.TransferOutput{
@@ -470,7 +470,7 @@ func TestAddPermissionlessValidatorTxSyntacticVerify(t *testing.T) {
 					},
 				},
 				{
-					Asset: avax.Asset{
+					Asset: Vidar.Asset{
 						ID: assetID,
 					},
 					Out: &secp256k1fx.TransferOutput{

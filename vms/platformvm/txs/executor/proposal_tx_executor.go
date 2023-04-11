@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/math"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/state"
@@ -122,9 +122,9 @@ func (e *ProposalTxExecutor) AddValidatorTx(tx *txs.AddValidatorTx) error {
 
 	// Set up the state if this tx is committed
 	// Consume the UTXOs
-	avax.Consume(e.OnCommitState, tx.Ins)
+	Vidar.Consume(e.OnCommitState, tx.Ins)
 	// Produce the UTXOs
-	avax.Produce(e.OnCommitState, txID, tx.Outs)
+	Vidar.Produce(e.OnCommitState, txID, tx.Outs)
 
 	newStaker, err := state.NewPendingStaker(txID, tx)
 	if err != nil {
@@ -135,9 +135,9 @@ func (e *ProposalTxExecutor) AddValidatorTx(tx *txs.AddValidatorTx) error {
 
 	// Set up the state if this tx is aborted
 	// Consume the UTXOs
-	avax.Consume(e.OnAbortState, tx.Ins)
+	Vidar.Consume(e.OnAbortState, tx.Ins)
 	// Produce the UTXOs
-	avax.Produce(e.OnAbortState, txID, onAbortOuts)
+	Vidar.Produce(e.OnAbortState, txID, onAbortOuts)
 
 	e.PrefersCommit = tx.StartTime().After(e.Clk.Time())
 	return nil
@@ -170,9 +170,9 @@ func (e *ProposalTxExecutor) AddSubnetValidatorTx(tx *txs.AddSubnetValidatorTx) 
 
 	// Set up the state if this tx is committed
 	// Consume the UTXOs
-	avax.Consume(e.OnCommitState, tx.Ins)
+	Vidar.Consume(e.OnCommitState, tx.Ins)
 	// Produce the UTXOs
-	avax.Produce(e.OnCommitState, txID, tx.Outs)
+	Vidar.Produce(e.OnCommitState, txID, tx.Outs)
 
 	newStaker, err := state.NewPendingStaker(txID, tx)
 	if err != nil {
@@ -183,9 +183,9 @@ func (e *ProposalTxExecutor) AddSubnetValidatorTx(tx *txs.AddSubnetValidatorTx) 
 
 	// Set up the state if this tx is aborted
 	// Consume the UTXOs
-	avax.Consume(e.OnAbortState, tx.Ins)
+	Vidar.Consume(e.OnAbortState, tx.Ins)
 	// Produce the UTXOs
-	avax.Produce(e.OnAbortState, txID, tx.Outs)
+	Vidar.Produce(e.OnAbortState, txID, tx.Outs)
 
 	e.PrefersCommit = tx.StartTime().After(e.Clk.Time())
 	return nil
@@ -219,9 +219,9 @@ func (e *ProposalTxExecutor) AddDelegatorTx(tx *txs.AddDelegatorTx) error {
 
 	// Set up the state if this tx is committed
 	// Consume the UTXOs
-	avax.Consume(e.OnCommitState, tx.Ins)
+	Vidar.Consume(e.OnCommitState, tx.Ins)
 	// Produce the UTXOs
-	avax.Produce(e.OnCommitState, txID, tx.Outs)
+	Vidar.Produce(e.OnCommitState, txID, tx.Outs)
 
 	newStaker, err := state.NewPendingStaker(txID, tx)
 	if err != nil {
@@ -232,9 +232,9 @@ func (e *ProposalTxExecutor) AddDelegatorTx(tx *txs.AddDelegatorTx) error {
 
 	// Set up the state if this tx is aborted
 	// Consume the UTXOs
-	avax.Consume(e.OnAbortState, tx.Ins)
+	Vidar.Consume(e.OnAbortState, tx.Ins)
 	// Produce the UTXOs
-	avax.Produce(e.OnAbortState, txID, onAbortOuts)
+	Vidar.Produce(e.OnAbortState, txID, onAbortOuts)
 
 	e.PrefersCommit = tx.StartTime().After(e.Clk.Time())
 	return nil
@@ -365,8 +365,8 @@ func (e *ProposalTxExecutor) RewardValidatorTx(tx *txs.RewardValidatorTx) error 
 
 		// Refund the stake here
 		for i, out := range stake {
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        tx.TxID,
 					OutputIndex: uint32(len(outputs) + i),
 				},
@@ -389,8 +389,8 @@ func (e *ProposalTxExecutor) RewardValidatorTx(tx *txs.RewardValidatorTx) error 
 				return errInvalidState
 			}
 
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        tx.TxID,
 					OutputIndex: uint32(len(outputs) + len(stake)),
 				},
@@ -414,8 +414,8 @@ func (e *ProposalTxExecutor) RewardValidatorTx(tx *txs.RewardValidatorTx) error 
 
 		// Refund the stake here
 		for i, out := range stake {
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        tx.TxID,
 					OutputIndex: uint32(len(outputs) + i),
 				},
@@ -482,8 +482,8 @@ func (e *ProposalTxExecutor) RewardValidatorTx(tx *txs.RewardValidatorTx) error 
 			if !ok {
 				return errInvalidState
 			}
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        tx.TxID,
 					OutputIndex: uint32(len(outputs) + len(stake)),
 				},
@@ -508,8 +508,8 @@ func (e *ProposalTxExecutor) RewardValidatorTx(tx *txs.RewardValidatorTx) error 
 			if !ok {
 				return errInvalidState
 			}
-			utxo := &avax.UTXO{
-				UTXOID: avax.UTXOID{
+			utxo := &Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        tx.TxID,
 					OutputIndex: uint32(len(outputs) + len(stake) + offset),
 				},

@@ -213,7 +213,7 @@ func TestBuildGenesisReturnsSortedValidators(t *testing.T) {
 	}
 
 	args := BuildGenesisArgs{
-		AvaxAssetID: ids.ID{'d', 'u', 'm', 'm', 'y', ' ', 'I', 'D'},
+		VidarAssetID: ids.ID{'d', 'u', 'm', 'm', 'y', ' ', 'I', 'D'},
 		UTXOs: []UTXO{
 			utxo,
 		},
@@ -245,11 +245,11 @@ func TestUTXOLess(t *testing.T) {
 		smallerAddr = ids.ShortID{}
 		largerAddr  = ids.ShortID{1}
 	)
-	smallerAddrStr, err := address.FormatBech32("avax", smallerAddr[:])
+	smallerAddrStr, err := address.FormatBech32("Vidar", smallerAddr[:])
 	if err != nil {
 		panic(err)
 	}
-	largerAddrStr, err := address.FormatBech32("avax", largerAddr[:])
+	largerAddrStr, err := address.FormatBech32("Vidar", largerAddr[:])
 	if err != nil {
 		panic(err)
 	}

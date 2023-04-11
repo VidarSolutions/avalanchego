@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -98,7 +98,7 @@ func TestCreateAssetTxSerialization(t *testing.T) {
 	}
 
 	tx := &Tx{Unsigned: &CreateAssetTx{
-		BaseTx: BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID: 2,
 			BlockchainID: ids.ID{
 				0xff, 0xff, 0xff, 0xff, 0xee, 0xee, 0xee, 0xee,
@@ -107,8 +107,8 @@ func TestCreateAssetTxSerialization(t *testing.T) {
 				0x99, 0x99, 0x99, 0x99, 0x88, 0x88, 0x88, 0x88,
 			},
 			Memo: []byte{0x00, 0x01, 0x02, 0x03},
-			Outs: []*avax.TransferableOutput{{
-				Asset: avax.Asset{
+			Outs: []*Vidar.TransferableOutput{{
+				Asset: Vidar.Asset{
 					ID: ids.ID{
 						0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 						0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
@@ -136,8 +136,8 @@ func TestCreateAssetTxSerialization(t *testing.T) {
 					},
 				},
 			}},
-			Ins: []*avax.TransferableInput{{
-				UTXOID: avax.UTXOID{
+			Ins: []*Vidar.TransferableInput{{
+				UTXOID: Vidar.UTXOID{
 					TxID: ids.ID{
 						0xf1, 0xe1, 0xd1, 0xc1, 0xb1, 0xa1, 0x91, 0x81,
 						0x71, 0x61, 0x51, 0x41, 0x31, 0x21, 0x11, 0x01,
@@ -146,7 +146,7 @@ func TestCreateAssetTxSerialization(t *testing.T) {
 					},
 					OutputIndex: 5,
 				},
-				Asset: avax.Asset{
+				Asset: Vidar.Asset{
 					ID: ids.ID{
 						0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 						0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
@@ -324,7 +324,7 @@ func TestCreateAssetTxSerializationAgain(t *testing.T) {
 	}
 
 	unsignedTx := &CreateAssetTx{
-		BaseTx: BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
 			Memo:         []byte{0x00, 0x01, 0x02, 0x03},
@@ -350,10 +350,10 @@ func TestCreateAssetTxSerializationAgain(t *testing.T) {
 	for _, key := range keys[:3] {
 		addr := key.PublicKey().Address()
 
-		unsignedTx.Outs = append(unsignedTx.Outs, &avax.TransferableOutput{
-			Asset: avax.Asset{ID: assetID},
+		unsignedTx.Outs = append(unsignedTx.Outs, &Vidar.TransferableOutput{
+			Asset: Vidar.Asset{ID: assetID},
 			Out: &secp256k1fx.TransferOutput{
-				Amt: 20 * units.KiloAvax,
+				Amt: 20 * units.KiloVidar,
 				OutputOwners: secp256k1fx.OutputOwners{
 					Threshold: 1,
 					Addrs:     []ids.ShortID{addr},

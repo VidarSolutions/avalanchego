@@ -13,7 +13,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/snow"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/timer/mockable"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -24,7 +24,7 @@ func TestAddDelegatorTxSyntacticVerify(t *testing.T) {
 	require := require.New(t)
 	clk := mockable.Clock{}
 	ctx := snow.DefaultContextTest()
-	ctx.AVAXAssetID = ids.GenerateTestID()
+	ctx.VidarAssetID = ids.GenerateTestID()
 	signers := [][]*secp256k1.PrivateKey{preFundedKeys}
 
 	var (
@@ -40,19 +40,19 @@ func TestAddDelegatorTxSyntacticVerify(t *testing.T) {
 	require.ErrorIs(addDelegatorTx.SyntacticVerify(ctx), ErrNilTx)
 
 	validatorWeight := uint64(2022)
-	inputs := []*avax.TransferableInput{{
-		UTXOID: avax.UTXOID{
+	inputs := []*Vidar.TransferableInput{{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.ID{'t', 'x', 'I', 'D'},
 			OutputIndex: 2,
 		},
-		Asset: avax.Asset{ID: ctx.AVAXAssetID},
+		Asset: Vidar.Asset{ID: ctx.VidarAssetID},
 		In: &secp256k1fx.TransferInput{
 			Amt:   uint64(5678),
 			Input: secp256k1fx.Input{SigIndices: []uint32{0}},
 		},
 	}}
-	outputs := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: ctx.AVAXAssetID},
+	outputs := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: ctx.VidarAssetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: uint64(1234),
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -61,8 +61,8 @@ func TestAddDelegatorTxSyntacticVerify(t *testing.T) {
 			},
 		},
 	}}
-	stakes := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: ctx.AVAXAssetID},
+	stakes := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: ctx.VidarAssetID},
 		Out: &stakeable.LockOut{
 			Locktime: uint64(clk.Time().Add(time.Second).Unix()),
 			TransferableOut: &secp256k1fx.TransferOutput{
@@ -75,7 +75,7 @@ func TestAddDelegatorTxSyntacticVerify(t *testing.T) {
 		},
 	}}
 	addDelegatorTx = &AddDelegatorTx{
-		BaseTx: BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    ctx.NetworkID,
 			BlockchainID: ctx.ChainID,
 			Outs:         outputs,
@@ -123,11 +123,11 @@ func TestAddDelegatorTxSyntacticVerify(t *testing.T) {
 	addDelegatorTx.Wght = validatorWeight
 }
 
-func TestAddDelegatorTxSyntacticVerifyNotAVAX(t *testing.T) {
+func TestAddDelegatorTxSyntacticVerifyNotVidar(t *testing.T) {
 	require := require.New(t)
 	clk := mockable.Clock{}
 	ctx := snow.DefaultContextTest()
-	ctx.AVAXAssetID = ids.GenerateTestID()
+	ctx.VidarAssetID = ids.GenerateTestID()
 	signers := [][]*secp256k1.PrivateKey{preFundedKeys}
 
 	var (
@@ -138,19 +138,19 @@ func TestAddDelegatorTxSyntacticVerifyNotAVAX(t *testing.T) {
 
 	assetID := ids.GenerateTestID()
 	validatorWeight := uint64(2022)
-	inputs := []*avax.TransferableInput{{
-		UTXOID: avax.UTXOID{
+	inputs := []*Vidar.TransferableInput{{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.ID{'t', 'x', 'I', 'D'},
 			OutputIndex: 2,
 		},
-		Asset: avax.Asset{ID: assetID},
+		Asset: Vidar.Asset{ID: assetID},
 		In: &secp256k1fx.TransferInput{
 			Amt:   uint64(5678),
 			Input: secp256k1fx.Input{SigIndices: []uint32{0}},
 		},
 	}}
-	outputs := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: assetID},
+	outputs := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: uint64(1234),
 			OutputOwners: secp256k1fx.OutputOwners{
@@ -159,8 +159,8 @@ func TestAddDelegatorTxSyntacticVerifyNotAVAX(t *testing.T) {
 			},
 		},
 	}}
-	stakes := []*avax.TransferableOutput{{
-		Asset: avax.Asset{ID: assetID},
+	stakes := []*Vidar.TransferableOutput{{
+		Asset: Vidar.Asset{ID: assetID},
 		Out: &stakeable.LockOut{
 			Locktime: uint64(clk.Time().Add(time.Second).Unix()),
 			TransferableOut: &secp256k1fx.TransferOutput{
@@ -173,7 +173,7 @@ func TestAddDelegatorTxSyntacticVerifyNotAVAX(t *testing.T) {
 		},
 	}}
 	addDelegatorTx = &AddDelegatorTx{
-		BaseTx: BaseTx{BaseTx: avax.BaseTx{
+		BaseTx: BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    ctx.NetworkID,
 			BlockchainID: ctx.ChainID,
 			Outs:         outputs,

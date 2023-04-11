@@ -17,7 +17,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/tests/e2e"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/units"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 	"github.com/VidarSolutions/avalanchego/wallet/subnet/primary"
@@ -93,9 +93,9 @@ var _ = ginkgo.Describe("[Banff]", func() {
 			ginkgo.By("export new X-chain asset to P-chain", func() {
 				txID, err := xWallet.IssueExportTx(
 					constants.PlatformChainID,
-					[]*avax.TransferableOutput{
+					[]*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{
@@ -120,9 +120,9 @@ var _ = ginkgo.Describe("[Banff]", func() {
 			ginkgo.By("export asset from P-chain to the X-chain", func() {
 				txID, err := pWallet.IssueExportTx(
 					xChainID,
-					[]*avax.TransferableOutput{
+					[]*Vidar.TransferableOutput{
 						{
-							Asset: avax.Asset{
+							Asset: Vidar.Asset{
 								ID: assetID,
 							},
 							Out: &secp256k1fx.TransferOutput{

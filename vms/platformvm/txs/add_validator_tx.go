@@ -11,7 +11,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/constants"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/bls"
 	"github.com/VidarSolutions/avalanchego/utils/math"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/fx"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/reward"
@@ -31,7 +31,7 @@ type AddValidatorTx struct {
 	// Describes the delegatee
 	Validator `serialize:"true" json:"validator"`
 	// Where to send staked tokens when done validating
-	StakeOuts []*avax.TransferableOutput `serialize:"true" json:"stake"`
+	StakeOuts []*Vidar.TransferableOutput `serialize:"true" json:"stake"`
 	// Where to send staking rewards when done validating
 	RewardsOwner fx.Owner `serialize:"true" json:"rewardsOwner"`
 	// Fee this validator charges delegators as a percentage, times 10,000
@@ -72,7 +72,7 @@ func (*AddValidatorTx) CurrentPriority() Priority {
 	return PrimaryNetworkValidatorCurrentPriority
 }
 
-func (tx *AddValidatorTx) Stake() []*avax.TransferableOutput {
+func (tx *AddValidatorTx) Stake() []*Vidar.TransferableOutput {
 	return tx.StakeOuts
 }
 
@@ -118,13 +118,13 @@ func (tx *AddValidatorTx) SyntacticVerify(ctx *snow.Context) error {
 		totalStakeWeight = newWeight
 
 		assetID := out.AssetID()
-		if assetID != ctx.AVAXAssetID {
-			return fmt.Errorf("stake output must be AVAX but is %q", assetID)
+		if assetID != ctx.VidarAssetID {
+			return fmt.Errorf("stake output must be Vidar but is %q", assetID)
 		}
 	}
 
 	switch {
-	case !avax.IsSortedTransferableOutputs(tx.StakeOuts, Codec):
+	case !Vidar.IsSortedTransferableOutputs(tx.StakeOuts, Codec):
 		return errOutputsNotSorted
 	case totalStakeWeight != tx.Wght:
 		return fmt.Errorf("%w: weight %d != stake %d", errValidatorWeightMismatch, tx.Wght, totalStakeWeight)

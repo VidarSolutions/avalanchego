@@ -15,7 +15,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -67,11 +67,11 @@ func createTestTxs(cm codec.Manager) ([]*txs.Tx, error) {
 	testTxs := make([]*txs.Tx, 0, countTxs)
 	for i := 0; i < countTxs; i++ {
 		// Create the tx
-		tx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+		tx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 			NetworkID:    constants.UnitTestID,
 			BlockchainID: chainID,
-			Outs: []*avax.TransferableOutput{{
-				Asset: avax.Asset{ID: assetID},
+			Outs: []*Vidar.TransferableOutput{{
+				Asset: Vidar.Asset{ID: assetID},
 				Out: &secp256k1fx.TransferOutput{
 					Amt: uint64(12345),
 					OutputOwners: secp256k1fx.OutputOwners{
@@ -80,12 +80,12 @@ func createTestTxs(cm codec.Manager) ([]*txs.Tx, error) {
 					},
 				},
 			}},
-			Ins: []*avax.TransferableInput{{
-				UTXOID: avax.UTXOID{
+			Ins: []*Vidar.TransferableInput{{
+				UTXOID: Vidar.UTXOID{
 					TxID:        ids.ID{'t', 'x', 'I', 'D'},
 					OutputIndex: 1,
 				},
-				Asset: avax.Asset{ID: assetID},
+				Asset: Vidar.Asset{ID: assetID},
 				In: &secp256k1fx.TransferInput{
 					Amt: uint64(54321),
 					Input: secp256k1fx.Input{

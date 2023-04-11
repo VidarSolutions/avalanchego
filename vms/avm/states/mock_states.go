@@ -16,7 +16,7 @@ import (
 	choices "github.com/VidarSolutions/avalanchego/snow/choices"
 	blocks "github.com/VidarSolutions/avalanchego/vms/avm/blocks"
 	txs "github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	avax "github.com/VidarSolutions/avalanchego/vms/components/avax"
+	Vidar "github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -68,7 +68,7 @@ func (mr *MockChainMockRecorder) AddTx(arg0 interface{}) *gomock.Call {
 }
 
 // AddUTXO mocks base method.
-func (m *MockChain) AddUTXO(arg0 *avax.UTXO) {
+func (m *MockChain) AddUTXO(arg0 *Vidar.UTXO) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "AddUTXO", arg0)
 }
@@ -165,10 +165,10 @@ func (mr *MockChainMockRecorder) GetTx(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXO mocks base method.
-func (m *MockChain) GetUTXO(arg0 ids.ID) (*avax.UTXO, error) {
+func (m *MockChain) GetUTXO(arg0 ids.ID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXO", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -180,10 +180,10 @@ func (mr *MockChainMockRecorder) GetUTXO(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXOFromID mocks base method.
-func (m *MockChain) GetUTXOFromID(arg0 *avax.UTXOID) (*avax.UTXO, error) {
+func (m *MockChain) GetUTXOFromID(arg0 *Vidar.UTXOID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXOFromID", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -290,7 +290,7 @@ func (mr *MockStateMockRecorder) AddTx(arg0 interface{}) *gomock.Call {
 }
 
 // AddUTXO mocks base method.
-func (m *MockState) AddUTXO(arg0 *avax.UTXO) {
+func (m *MockState) AddUTXO(arg0 *Vidar.UTXO) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "AddUTXO", arg0)
 }
@@ -445,10 +445,10 @@ func (mr *MockStateMockRecorder) GetTx(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXO mocks base method.
-func (m *MockState) GetUTXO(arg0 ids.ID) (*avax.UTXO, error) {
+func (m *MockState) GetUTXO(arg0 ids.ID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXO", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -460,10 +460,10 @@ func (mr *MockStateMockRecorder) GetUTXO(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXOFromID mocks base method.
-func (m *MockState) GetUTXOFromID(arg0 *avax.UTXOID) (*avax.UTXO, error) {
+func (m *MockState) GetUTXOFromID(arg0 *Vidar.UTXOID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXOFromID", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -604,7 +604,7 @@ func (mr *MockDiffMockRecorder) AddTx(arg0 interface{}) *gomock.Call {
 }
 
 // AddUTXO mocks base method.
-func (m *MockDiff) AddUTXO(arg0 *avax.UTXO) {
+func (m *MockDiff) AddUTXO(arg0 *Vidar.UTXO) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "AddUTXO", arg0)
 }
@@ -713,10 +713,10 @@ func (mr *MockDiffMockRecorder) GetTx(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXO mocks base method.
-func (m *MockDiff) GetUTXO(arg0 ids.ID) (*avax.UTXO, error) {
+func (m *MockDiff) GetUTXO(arg0 ids.ID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXO", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -728,10 +728,10 @@ func (mr *MockDiffMockRecorder) GetUTXO(arg0 interface{}) *gomock.Call {
 }
 
 // GetUTXOFromID mocks base method.
-func (m *MockDiff) GetUTXOFromID(arg0 *avax.UTXOID) (*avax.UTXO, error) {
+func (m *MockDiff) GetUTXOFromID(arg0 *Vidar.UTXOID) (*Vidar.UTXO, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUTXOFromID", arg0)
-	ret0, _ := ret[0].(*avax.UTXO)
+	ret0, _ := ret[0].(*Vidar.UTXO)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

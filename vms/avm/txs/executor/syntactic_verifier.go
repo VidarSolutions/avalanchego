@@ -13,7 +13,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 const (
@@ -55,11 +55,11 @@ func (v *SyntacticVerifier) BaseTx(tx *txs.BaseTx) error {
 		return err
 	}
 
-	err := avax.VerifyTx(
+	err := Vidar.VerifyTx(
 		v.Config.TxFee,
 		v.FeeAssetID,
-		[][]*avax.TransferableInput{tx.Ins},
-		[][]*avax.TransferableOutput{tx.Outs},
+		[][]*Vidar.TransferableInput{tx.Ins},
+		[][]*Vidar.TransferableOutput{tx.Outs},
 		v.Codec,
 	)
 	if err != nil {
@@ -118,11 +118,11 @@ func (v *SyntacticVerifier) CreateAssetTx(tx *txs.CreateAssetTx) error {
 		return err
 	}
 
-	err := avax.VerifyTx(
+	err := Vidar.VerifyTx(
 		v.Config.CreateAssetTxFee,
 		v.FeeAssetID,
-		[][]*avax.TransferableInput{tx.Ins},
-		[][]*avax.TransferableOutput{tx.Outs},
+		[][]*Vidar.TransferableInput{tx.Ins},
+		[][]*Vidar.TransferableOutput{tx.Outs},
 		v.Codec,
 	)
 	if err != nil {
@@ -166,11 +166,11 @@ func (v *SyntacticVerifier) OperationTx(tx *txs.OperationTx) error {
 		return err
 	}
 
-	err := avax.VerifyTx(
+	err := Vidar.VerifyTx(
 		v.Config.TxFee,
 		v.FeeAssetID,
-		[][]*avax.TransferableInput{tx.Ins},
-		[][]*avax.TransferableOutput{tx.Outs},
+		[][]*Vidar.TransferableInput{tx.Ins},
+		[][]*Vidar.TransferableOutput{tx.Outs},
 		v.Codec,
 	)
 	if err != nil {
@@ -226,14 +226,14 @@ func (v *SyntacticVerifier) ImportTx(tx *txs.ImportTx) error {
 		return err
 	}
 
-	err := avax.VerifyTx(
+	err := Vidar.VerifyTx(
 		v.Config.TxFee,
 		v.FeeAssetID,
-		[][]*avax.TransferableInput{
+		[][]*Vidar.TransferableInput{
 			tx.Ins,
 			tx.ImportedIns,
 		},
-		[][]*avax.TransferableOutput{tx.Outs},
+		[][]*Vidar.TransferableOutput{tx.Outs},
 		v.Codec,
 	)
 	if err != nil {
@@ -268,11 +268,11 @@ func (v *SyntacticVerifier) ExportTx(tx *txs.ExportTx) error {
 		return err
 	}
 
-	err := avax.VerifyTx(
+	err := Vidar.VerifyTx(
 		v.Config.TxFee,
 		v.FeeAssetID,
-		[][]*avax.TransferableInput{tx.Ins},
-		[][]*avax.TransferableOutput{
+		[][]*Vidar.TransferableInput{tx.Ins},
+		[][]*Vidar.TransferableOutput{
 			tx.Outs,
 			tx.ExportedOuts,
 		},

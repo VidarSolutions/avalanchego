@@ -13,7 +13,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/database/prefixdb"
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/status"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
@@ -28,7 +28,7 @@ func TestAtomicTxImports(t *testing.T) {
 		require.NoError(shutdownEnvironment(env))
 	}()
 
-	utxoID := avax.UTXOID{
+	utxoID := Vidar.UTXOID{
 		TxID:        ids.Empty.Prefix(1),
 		OutputIndex: 1,
 	}
@@ -39,9 +39,9 @@ func TestAtomicTxImports(t *testing.T) {
 
 	env.msm.SharedMemory = m.NewSharedMemory(env.ctx.ChainID)
 	peerSharedMemory := m.NewSharedMemory(env.ctx.XChainID)
-	utxo := &avax.UTXO{
+	utxo := &Vidar.UTXO{
 		UTXOID: utxoID,
-		Asset:  avax.Asset{ID: avaxAssetID},
+		Asset:  Vidar.Asset{ID: VidarAssetID},
 		Out: &secp256k1fx.TransferOutput{
 			Amt: amount,
 			OutputOwners: secp256k1fx.OutputOwners{

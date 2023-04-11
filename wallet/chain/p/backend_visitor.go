@@ -8,7 +8,7 @@ import (
 
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/utils/constants"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/txs"
 )
 
@@ -70,12 +70,12 @@ func (b *backendVisitor) ExportTx(tx *txs.ExportTx) error {
 		err := b.b.AddUTXO(
 			b.ctx,
 			tx.DestinationChain,
-			&avax.UTXO{
-				UTXOID: avax.UTXOID{
+			&Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        b.txID,
 					OutputIndex: uint32(len(tx.Outs) + i),
 				},
-				Asset: avax.Asset{ID: out.AssetID()},
+				Asset: Vidar.Asset{ID: out.AssetID()},
 				Out:   out.Out,
 			},
 		)

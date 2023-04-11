@@ -17,7 +17,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/json"
 	"github.com/VidarSolutions/avalanchego/vms/avm/fxs"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/components/verify"
 	"github.com/VidarSolutions/avalanchego/vms/nftfx"
 	"github.com/VidarSolutions/avalanchego/vms/propertyfx"
@@ -27,9 +27,9 @@ import (
 var (
 	errUnknownAssetType = errors.New("unknown asset type")
 
-	_ avax.TransferableIn  = (*secp256k1fx.TransferInput)(nil)
+	_ Vidar.TransferableIn  = (*secp256k1fx.TransferInput)(nil)
 	_ verify.State         = (*secp256k1fx.MintOutput)(nil)
-	_ avax.TransferableOut = (*secp256k1fx.TransferOutput)(nil)
+	_ Vidar.TransferableOut = (*secp256k1fx.TransferOutput)(nil)
 	_ fxs.FxOperation      = (*secp256k1fx.MintOperation)(nil)
 	_ verify.Verifiable    = (*secp256k1fx.Credential)(nil)
 
@@ -96,7 +96,7 @@ func (*StaticService) BuildGenesis(_ *http.Request, args *BuildGenesisArgs, repl
 		asset := GenesisAsset{
 			Alias: assetAlias,
 			CreateAssetTx: txs.CreateAssetTx{
-				BaseTx: txs.BaseTx{BaseTx: avax.BaseTx{
+				BaseTx: txs.BaseTx{BaseTx: Vidar.BaseTx{
 					NetworkID:    uint32(args.NetworkID),
 					BlockchainID: ids.Empty,
 					Memo:         assetMemo,

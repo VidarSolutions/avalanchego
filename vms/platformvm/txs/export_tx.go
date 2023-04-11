@@ -9,7 +9,7 @@ import (
 
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/snow"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/platformvm/stakeable"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
@@ -29,7 +29,7 @@ type ExportTx struct {
 	DestinationChain ids.ID `serialize:"true" json:"destinationChain"`
 
 	// Outputs that are exported to the chain
-	ExportedOutputs []*avax.TransferableOutput `serialize:"true" json:"exportedOutputs"`
+	ExportedOutputs []*Vidar.TransferableOutput `serialize:"true" json:"exportedOutputs"`
 }
 
 // InitCtx sets the FxID fields in the inputs and outputs of this
@@ -66,7 +66,7 @@ func (tx *ExportTx) SyntacticVerify(ctx *snow.Context) error {
 			return ErrWrongLocktime
 		}
 	}
-	if !avax.IsSortedTransferableOutputs(tx.ExportedOutputs, Codec) {
+	if !Vidar.IsSortedTransferableOutputs(tx.ExportedOutputs, Codec) {
 		return errOutputsNotSorted
 	}
 

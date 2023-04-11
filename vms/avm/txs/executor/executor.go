@@ -12,7 +12,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/vms/avm/states"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var _ txs.Visitor = (*Executor)(nil)
@@ -27,8 +27,8 @@ type Executor struct {
 
 func (e *Executor) BaseTx(tx *txs.BaseTx) error {
 	txID := e.Tx.ID()
-	avax.Consume(e.State, tx.Ins)
-	avax.Produce(e.State, txID, tx.Outs)
+	Vidar.Consume(e.State, tx.Ins)
+	Vidar.Produce(e.State, txID, tx.Outs)
 	return nil
 }
 
@@ -41,12 +41,12 @@ func (e *Executor) CreateAssetTx(tx *txs.CreateAssetTx) error {
 	index := len(tx.Outs)
 	for _, state := range tx.States {
 		for _, out := range state.Outs {
-			e.State.AddUTXO(&avax.UTXO{
-				UTXOID: avax.UTXOID{
+			e.State.AddUTXO(&Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        txID,
 					OutputIndex: uint32(index),
 				},
-				Asset: avax.Asset{
+				Asset: Vidar.Asset{
 					ID: txID,
 				},
 				Out: out,
@@ -70,12 +70,12 @@ func (e *Executor) OperationTx(tx *txs.OperationTx) error {
 		}
 		asset := op.AssetID()
 		for _, out := range op.Op.Outs() {
-			e.State.AddUTXO(&avax.UTXO{
-				UTXOID: avax.UTXOID{
+			e.State.AddUTXO(&Vidar.UTXO{
+				UTXOID: Vidar.UTXOID{
 					TxID:        txID,
 					OutputIndex: uint32(index),
 				},
-				Asset: avax.Asset{ID: asset},
+				Asset: Vidar.Asset{ID: asset},
 				Out:   out,
 			})
 			index++
@@ -113,12 +113,12 @@ func (e *Executor) ExportTx(tx *txs.ExportTx) error {
 	index := len(tx.Outs)
 	elems := make([]*atomic.Element, len(tx.ExportedOuts))
 	for i, out := range tx.ExportedOuts {
-		utxo := &avax.UTXO{
-			UTXOID: avax.UTXOID{
+		utxo := &Vidar.UTXO{
+			UTXOID: Vidar.UTXOID{
 				TxID:        txID,
 				OutputIndex: uint32(index),
 			},
-			Asset: avax.Asset{ID: out.AssetID()},
+			Asset: Vidar.Asset{ID: out.AssetID()},
 			Out:   out.Out,
 		}
 		index++
@@ -132,7 +132,7 @@ func (e *Executor) ExportTx(tx *txs.ExportTx) error {
 			Key:   utxoID[:],
 			Value: utxoBytes,
 		}
-		if out, ok := utxo.Out.(avax.Addressable); ok {
+		if out, ok := utxo.Out.(Vidar.Addressable); ok {
 			elem.Traits = out.Addresses()
 		}
 

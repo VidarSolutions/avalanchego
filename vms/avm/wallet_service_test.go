@@ -20,14 +20,14 @@ import (
 // 2) the VM
 // 3) The wallet service that wraps the VM
 // 4) atomic memory to use in tests
-func setupWS(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *WalletService, *atomic.Memory, *txs.Tx) {
+func setupWS(t *testing.T, isVidarAsset bool) ([]byte, *VM, *WalletService, *atomic.Memory, *txs.Tx) {
 	var genesisBytes []byte
 	var vm *VM
 	var m *atomic.Memory
 	var genesisTx *txs.Tx
-	if isAVAXAsset {
+	if isVidarAsset {
 		genesisBytes, _, vm, m = GenesisVM(t)
-		genesisTx = GetAVAXTxFromGenesisTest(genesisBytes, t)
+		genesisTx = GetVidarTxFromGenesisTest(genesisBytes, t)
 	} else {
 		genesisBytes, _, vm, m = setupTxFeeAssets(t)
 		genesisTx = GetCreateTxFromGenesisTest(t, genesisBytes, feeAssetName)
@@ -45,8 +45,8 @@ func setupWS(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *WalletService, *atom
 // 2) the VM
 // 3) The wallet service that wraps the VM
 // 4) atomic memory to use in tests
-func setupWSWithKeys(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *WalletService, *atomic.Memory, *txs.Tx) {
-	genesisBytes, vm, ws, m, tx := setupWS(t, isAVAXAsset)
+func setupWSWithKeys(t *testing.T, isVidarAsset bool) ([]byte, *VM, *WalletService, *atomic.Memory, *txs.Tx) {
+	genesisBytes, vm, ws, m, tx := setupWS(t, isVidarAsset)
 
 	// Import the initially funded private keys
 	user, err := keystore.NewUserFromKeystore(ws.vm.ctx.Keystore, username, password)
@@ -67,7 +67,7 @@ func setupWSWithKeys(t *testing.T, isAVAXAsset bool) ([]byte, *VM, *WalletServic
 func TestWalletService_SendMultiple(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, vm, ws, _, genesisTx := setupWSWithKeys(t, tc.avaxAsset)
+			_, vm, ws, _, genesisTx := setupWSWithKeys(t, tc.VidarAsset)
 			defer func() {
 				if err := vm.Shutdown(context.Background()); err != nil {
 					t.Fatal(err)

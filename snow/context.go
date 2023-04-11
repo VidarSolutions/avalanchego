@@ -39,7 +39,7 @@ type Context struct {
 
 	XChainID    ids.ID
 	CChainID    ids.ID
-	AVAXAssetID ids.ID
+	VidarAssetID ids.ID
 
 	Log          logging.Logger
 	Lock         sync.RWMutex

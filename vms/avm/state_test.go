@@ -17,7 +17,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/crypto/secp256k1"
 	"github.com/VidarSolutions/avalanchego/utils/units"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 	"github.com/VidarSolutions/avalanchego/vms/secp256k1fx"
 )
 
@@ -29,7 +29,7 @@ func TestSetsAndGets(t *testing.T) {
 			Fx: &FxTest{
 				InitializeF: func(vmIntf interface{}) error {
 					vm := vmIntf.(secp256k1fx.VM)
-					return vm.CodecRegistry().RegisterType(&avax.TestVerifiable{})
+					return vm.CodecRegistry().RegisterType(&Vidar.TestVerifiable{})
 				},
 			},
 		}},
@@ -45,27 +45,27 @@ func TestSetsAndGets(t *testing.T) {
 
 	state := vm.state
 
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.Empty,
 			OutputIndex: 1,
 		},
-		Asset: avax.Asset{ID: ids.Empty},
-		Out:   &avax.TestVerifiable{},
+		Asset: Vidar.Asset{ID: ids.Empty},
+		Out:   &Vidar.TestVerifiable{},
 	}
 	utxoID := utxo.InputID()
 
-	tx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: avax.BaseTx{
+	tx := &txs.Tx{Unsigned: &txs.BaseTx{BaseTx: Vidar.BaseTx{
 		NetworkID:    constants.UnitTestID,
 		BlockchainID: chainID,
-		Ins: []*avax.TransferableInput{{
-			UTXOID: avax.UTXOID{
+		Ins: []*Vidar.TransferableInput{{
+			UTXOID: Vidar.UTXOID{
 				TxID:        ids.Empty,
 				OutputIndex: 0,
 			},
-			Asset: avax.Asset{ID: assetID},
+			Asset: Vidar.Asset{ID: assetID},
 			In: &secp256k1fx.TransferInput{
-				Amt: 20 * units.KiloAvax,
+				Amt: 20 * units.KiloVidar,
 				Input: secp256k1fx.Input{
 					SigIndices: []uint32{
 						0,
@@ -116,7 +116,7 @@ func TestFundingNoAddresses(t *testing.T) {
 			Fx: &FxTest{
 				InitializeF: func(vmIntf interface{}) error {
 					vm := vmIntf.(secp256k1fx.VM)
-					return vm.CodecRegistry().RegisterType(&avax.TestVerifiable{})
+					return vm.CodecRegistry().RegisterType(&Vidar.TestVerifiable{})
 				},
 			},
 		}},
@@ -132,13 +132,13 @@ func TestFundingNoAddresses(t *testing.T) {
 
 	state := vm.state
 
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.Empty,
 			OutputIndex: 1,
 		},
-		Asset: avax.Asset{ID: ids.Empty},
-		Out:   &avax.TestVerifiable{},
+		Asset: Vidar.Asset{ID: ids.Empty},
+		Out:   &Vidar.TestVerifiable{},
 	}
 
 	state.AddUTXO(utxo)
@@ -153,7 +153,7 @@ func TestFundingAddresses(t *testing.T) {
 			Fx: &FxTest{
 				InitializeF: func(vmIntf interface{}) error {
 					vm := vmIntf.(secp256k1fx.VM)
-					return vm.CodecRegistry().RegisterType(&avax.TestAddressable{})
+					return vm.CodecRegistry().RegisterType(&Vidar.TestAddressable{})
 				},
 			},
 		}},
@@ -169,13 +169,13 @@ func TestFundingAddresses(t *testing.T) {
 
 	state := vm.state
 
-	utxo := &avax.UTXO{
-		UTXOID: avax.UTXOID{
+	utxo := &Vidar.UTXO{
+		UTXOID: Vidar.UTXOID{
 			TxID:        ids.Empty,
 			OutputIndex: 1,
 		},
-		Asset: avax.Asset{ID: ids.Empty},
-		Out: &avax.TestAddressable{
+		Asset: Vidar.Asset{ID: ids.Empty},
+		Out: &Vidar.TestAddressable{
 			Addrs: [][]byte{{0}},
 		},
 	}

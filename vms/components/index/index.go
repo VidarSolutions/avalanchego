@@ -19,7 +19,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/utils/logging"
 	"github.com/VidarSolutions/avalanchego/utils/set"
 	"github.com/VidarSolutions/avalanchego/utils/wrappers"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var (
@@ -46,8 +46,8 @@ type AddressTxsIndexer interface {
 	// If the error is non-nil, do not persist [txID] to disk as accepted in the VM
 	Accept(
 		txID ids.ID,
-		inputUTXOs []*avax.UTXO,
-		outputUTXOs []*avax.UTXO,
+		inputUTXOs []*Vidar.UTXO,
+		outputUTXOs []*Vidar.UTXO,
 	) error
 
 	// Read returns the IDs of transactions that changed [address]'s balance of [assetID].
@@ -97,7 +97,7 @@ func NewIndexer(
 // |  | "0"   => txID1
 // |  | "1"   => txID1
 // See interface documentation AddressTxsIndexer.Accept
-func (i *indexer) Accept(txID ids.ID, inputUTXOs []*avax.UTXO, outputUTXOs []*avax.UTXO) error {
+func (i *indexer) Accept(txID ids.ID, inputUTXOs []*Vidar.UTXO, outputUTXOs []*Vidar.UTXO) error {
 	utxos := inputUTXOs
 	// Fetch and add the output UTXOs
 	utxos = append(utxos, outputUTXOs...)
@@ -108,7 +108,7 @@ func (i *indexer) Accept(txID ids.ID, inputUTXOs []*avax.UTXO, outputUTXOs []*av
 	// we do this step separately to simplify the write process later
 	balanceChanges := map[string]set.Set[ids.ID]{}
 	for _, utxo := range utxos {
-		out, ok := utxo.Out.(avax.Addressable)
+		out, ok := utxo.Out.(Vidar.Addressable)
 		if !ok {
 			i.log.Verbo("skipping UTXO for indexing",
 				zap.Stringer("utxoID", utxo.InputID()),
@@ -252,7 +252,7 @@ func NewNoIndexer(db database.Database, allowIncomplete bool) (AddressTxsIndexer
 	return &noIndexer{}, checkIndexStatus(db, false, allowIncomplete)
 }
 
-func (*noIndexer) Accept(ids.ID, []*avax.UTXO, []*avax.UTXO) error {
+func (*noIndexer) Accept(ids.ID, []*Vidar.UTXO, []*Vidar.UTXO) error {
 	return nil
 }
 

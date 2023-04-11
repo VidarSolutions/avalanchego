@@ -10,7 +10,7 @@ import (
 	"github.com/VidarSolutions/avalanchego/ids"
 	"github.com/VidarSolutions/avalanchego/vms/avm/states"
 	"github.com/VidarSolutions/avalanchego/vms/avm/txs"
-	"github.com/VidarSolutions/avalanchego/vms/components/avax"
+	"github.com/VidarSolutions/avalanchego/vms/components/Vidar"
 )
 
 var _ states.Chain = (*dagState)(nil)
@@ -20,7 +20,7 @@ type dagState struct {
 	vm *VM
 }
 
-func (s *dagState) GetUTXOFromID(utxoID *avax.UTXOID) (*avax.UTXO, error) {
+func (s *dagState) GetUTXOFromID(utxoID *Vidar.UTXOID) (*Vidar.UTXO, error) {
 	inputID := utxoID.InputID()
 	utxo, err := s.GetUTXO(inputID)
 	if err == nil {
